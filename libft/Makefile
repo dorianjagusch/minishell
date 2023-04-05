@@ -6,7 +6,7 @@
 #    By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#              #
-#    Updated: 2023/04/04 10:31:24 by asarikha         ###   ########.fr        #
+#    Updated: 2023/04/05 13:45:26 by asarikha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,3 +43,5 @@ fclean: clean
 
 .PHONY: re
 re: fclean all
+
+.SILENT:
