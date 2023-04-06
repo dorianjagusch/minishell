@@ -3,45 +3,70 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+         #
+#    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#              #
-#    Updated: 2023/04/05 13:45:26 by asarikha         ###   ########.fr        #
+#    Created: 2022/10/24 15:27:30 by djagusch          #+#    #+#              #
+#    Updated: 2023/04/06 13:40:46 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a
-SRC = ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c ft_memcpy.c \
-		ft_memmove.c ft_memset.c ft_strlcpy.c ft_strlen.c ft_strlcat.c ft_tolower.c ft_toupper.c \
-		ft_strchr.c ft_strrchr.c ft_strncmp.c ft_memcmp.c ft_memchr.c ft_strnstr.c ft_atoi.c \
-		ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c \
-		ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_printf.c print_hex.c \
-		print_nbr.c print_utils.c print_unsigned.c print_ptr.c ft_lstmap.c \
-		ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
-		ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
-		
-OBJECTS = $(SRC:.c=.o)
-INCLUDE = libft.h
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
 
-.PHONY: all
+CFLAGS =-Wall -Wextra -Werror -I$I -std=c99 -O3
+
+NAME = libft.a
+
+I := ../includes
+HEADER = $I/libft.h
+
+FILES = ft_atoi ft_bzero ft_calloc ft_isalnum \
+	ft_isalpha ft_isascii ft_isdigit ft_isprint \
+	ft_isspace ft_itoa ft_memchr ft_memcmp ft_memcpy \
+	ft_memmove ft_memset ft_putchar_fd \
+	ft_putendl_fd ft_putnbr_fd ft_putstr_fd \
+	ft_split ft_strchr ft_strdup ft_striteri \
+	ft_strjoin ft_strlcat ft_strlcpy ft_strlen \
+	ft_strmapi ft_strncmp ft_strnstr ft_strrchr \
+	ft_strtrim ft_substr ft_strcmp ft_tolower ft_toupper \
+	ft_lstadd_back ft_lstadd_front ft_lstclear \
+	ft_lstdelone ft_lstiter ft_lstlast ft_lstmap \
+	ft_lstnew ft_lstsize ft_min ft_max ft_putchar \
+	ft_putendl ft_putnbr ft_putstr ft_printf \
+	ft_printf_char ft_printf_hex ft_printf_int ft_printf_pointer \
+	ft_printf_string ft_printf_udec ft_printf_util \
+	ft_printf_fd ft_printf_char_fd ft_printf_hex_fd ft_printf_int_fd \
+	ft_printf_pointer_fd ft_printf_string_fd ft_printf_udec_fd \
+	ft_printf_util_fd get_next_line ft_free ft_atof ft_atol ft_pow \
+	ft_lenbase get_next_line ft_free_array ft_print_array \
+	ft_count_elements ft_abs ft_bits ft_which_extr \
+	add_to_array create_array destroy_array get_elem_array \
+	resize_array
+
+S := srcs
+SRCS := $(foreach FILE,$(FILES),$(shell find $S -type f -name $(FILE).c))
+
+O := objs
+OBJS := $(patsubst $S/%,$O/%,$(SRCS:.c=.o))
+O_DIRS := $(dir $(OBJS))
+
 all: $(NAME)
 
-$(NAME): $(SRC)
-	@$(CC) -c $(CFLAGS) $(SRC) -I $(INCLUDE)
-	@ar rcs $(NAME) $(OBJECTS)
-	@ranlib $(NAME)
+$(NAME): $(OBJS) $(SRCS)
+	@ar rc $(NAME) $(OBJS)
 
-.PHONY: clean
+$O/%.o: $S/%.c $(HEADER)| $O
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$O:
+	@mkdir -p $(O_DIRS)
+
 clean:
-	@rm -f $(OBJECTS)
+	@rm -f $(OBJS)
+	@if [ -d $O ]; then $(RM) -rf $O $(O_DIRS); fi
 
-.PHONY: fclean
 fclean: clean
 	@rm -f $(NAME)
 
-.PHONY: re
 re: fclean all
 
-.SILENT:
+.PHONY: all clean fclean re

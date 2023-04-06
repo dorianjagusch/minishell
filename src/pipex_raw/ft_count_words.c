@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_count_words.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/06 15:54:36 by djagusch         ###   ########.fr       */
+/*   Created: 2023/03/10 15:25:26 by djagusch          #+#    #+#             */
+/*   Updated: 2023/03/10 15:29:50 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "pipex.h"
 
-# include "libft.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-typedef struct s_ev
+size_t	ft_count_words(char const *s)
 {
-	char *key;
-	char *value;
-	struct s_ev *next;
-}		t_ev;
+	size_t	i;
+	size_t	flag;
+	size_t	quote_flag;
 
-void		rl_replace_line(const char *text, int clear_undo);
-void		set_envp(char **envp, t_ev **env);
-
-#endif
+	i = 0;
+	flag = 0;
+	quote_flag = 0;
+	while (*s)
+	{
+		if (!ft_isspace(*s) && !flag && !quote_flag)
+		{
+			flag = 1;
+			i++;
+		}
+		else if (ft_isspace(*s))
+			flag = 0;
+		if (*s == '\'')
+			quote_flag = (quote_flag + 1) % 2;
+		s++;
+	}
+	return (i);
+}

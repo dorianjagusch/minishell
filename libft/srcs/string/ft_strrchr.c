@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/06 15:54:36 by djagusch         ###   ########.fr       */
+/*   Created: 2022/10/25 15:56:00 by djagusch          #+#    #+#             */
+/*   Updated: 2023/01/13 07:34:31 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-typedef struct s_ev
+char	*ft_strrchr(const char *s, int c)
 {
-	char *key;
-	char *value;
-	struct s_ev *next;
-}		t_ev;
+	int		i;
+	char	*s_cpy;
 
-void		rl_replace_line(const char *text, int clear_undo);
-void		set_envp(char **envp, t_ev **env);
-
-#endif
+	s_cpy = (char *) s;
+	i = ft_strlen(s);
+	while (i >= 0 && s[i] != (unsigned char) c)
+		i--;
+	if (i >= 0)
+		return (s_cpy + i);
+	return (NULL);
+}

@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/06 15:54:36 by djagusch         ###   ########.fr       */
+/*   Created: 2022/10/25 16:43:13 by djagusch          #+#    #+#             */
+/*   Updated: 2023/01/13 07:34:31 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-typedef struct s_ev
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	char *key;
-	char *value;
-	struct s_ev *next;
-}		t_ev;
+	unsigned char	*s1_cpy;
+	unsigned char	*s2_cpy;
+	size_t			i;
 
-void		rl_replace_line(const char *text, int clear_undo);
-void		set_envp(char **envp, t_ev **env);
-
-#endif
+	i = 0;
+	s1_cpy = (unsigned char *) s1;
+	s2_cpy = (unsigned char *) s2;
+	if (n == 0)
+		return (0);
+	while (i < n && s1_cpy[i] == s2_cpy[i])
+			i++;
+	if (i < n)
+		return (s1_cpy[i] - s2_cpy[i]);
+	return (0);
+}

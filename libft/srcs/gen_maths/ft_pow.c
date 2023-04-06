@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_pow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/06 15:54:36 by djagusch         ###   ########.fr       */
+/*   Created: 2022/10/25 18:26:59 by djagusch          #+#    #+#             */
+/*   Updated: 2023/01/26 13:42:45 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-# include "libft.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-typedef struct s_ev
+double	ft_powerf(double x, int exp)
 {
-	char *key;
-	char *value;
-	struct s_ev *next;
-}		t_ev;
+	double	temp;
 
-void		rl_replace_line(const char *text, int clear_undo);
-void		set_envp(char **envp, t_ev **env);
-
-#endif
+	if (exp == 0)
+		return (1);
+	temp = ft_powerf (x, exp / 2);
+	if ((exp % 2) == 0)
+		return (temp * temp);
+	else
+	{
+		if (exp > 0)
+			return (x * temp * temp);
+		else
+			return ((temp * temp) / x);
+	}
+}

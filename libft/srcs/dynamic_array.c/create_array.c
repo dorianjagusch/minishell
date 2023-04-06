@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   create_array.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/06 15:54:36 by djagusch         ###   ########.fr       */
+/*   Created: 2023/03/11 11:36:50 by djagusch          #+#    #+#             */
+/*   Updated: 2023/03/11 16:22:47 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-typedef struct s_ev
+int	init_arr(t_arr **arr, size_t len, size_t size)
 {
-	char *key;
-	char *value;
-	struct s_ev *next;
-}		t_ev;
-
-void		rl_replace_line(const char *text, int clear_undo);
-void		set_envp(char **envp, t_ev **env);
-
-#endif
+	if (!arr || !(*arr) || size <= 0)
+		return (-1);
+	(*arr)->n_alloc = len * size;
+	(*arr)->len = 0;
+	(*arr)->size = size;
+	if (len == 0)
+		(*arr)->start = NULL;
+	else
+	{
+		(*arr)->start = malloc((*arr)->n_alloc);
+		if (!(*arr)->start)
+			return (-1);
+	}
+	return (1);
+}

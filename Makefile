@@ -3,69 +3,88 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+         #
+#    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#              #
-#    Updated: 2023/04/04 10:41:31 by asarikha         ###   ########.fr        #
+#    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
+#    Updated: 2023/04/06 15:55:00 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Program name
-NAME = minishell
+### COLOURS ###
 
+COLOUR_GREEN=\033[0;32m
+COLOUR_RED=\033[0;31m
+COLOUR_BLUE=\033[0;34m
+COLOUR_END=\033[0m
 
-# Libft
-LIBFT_PATH	= ./libft/
-LIBFT_NAME	= Libft.a
-LIBFT		= -L ./libft -lft
+### SET UP ###
+CC = cc
+CFLAGS = -Wall -Werror -Wall -I$I
 
-# Includes
-INCLUDE = -I ./includes/\
-				-I ./libft/\
+RM = /bin/rm -f
+RMDIR = /bin/rmdir -p
 
-# MinishellSources				
-SRC_PATH	= src/
-SRC = main.c
-SRCS		= $(addprefix $(SRC_PATH),$(SRC))	
-			
-# Objects
-OBJ_PATH	= obj/
-OBJ = $(SRC:.c=.o)
-OBJS		= $(addprefix $(OBJ_PATH), $(OBJ))
+LIBFT = libft/libft.a
+
+S = src
+O = obj
+I = includes
+
+FILES = main \
+	env
+#	builtin
+#	pipex parse_input parse_command do_child utils
+#	#ft_split2 ft_count_words
+
+HEADER = libft.h minishell.h
+HEADER := $(addprefix $I/,$(HEADER))
+
+SRCS := $(foreach FILE,$(FILES),$(shell find $S -type f -name '$(FILE).c'))
+OBJS = $(patsubst $S/%,$O/%,$(SRCS:.c=.o))
+O_DIRS = $(dir $(OBJS))
 
 READLINE = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 
+NAME = minishell
 
-.PHONY: all  clean fclean re
-
+### RULES ###
 all: $(NAME)
 
 print:
 	@echo $(SRCS)
 
-$(OBJ_PATH):
-	@mkdir $(OBJ_PATH)
-	@mkdir $(OBJ_PATH)/ft_printf
+$(NAME): $(OBJS) $(LIBFT)
+	@$(CC) $(CFLAGS) $(OBJS) $(READLINE) -Llibft -lft -o $(NAME)
+	@echo "$(COLOUR_GREEN) $(NAME) created$(COLOUR_END)"
 
-$(OBJS): $(OBJ_PATH)%.o:$(SRC_PATH)%.c
-	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+$O:
+	@mkdir -p $@ $(O_DIRS)
 
-$(NAME): $(OBJ_PATH) $(OBJS)
-	@echo "Making libft"
-	@make -C $(LIBFT_PATH)
-	@echo "Compiling minishell"
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(READLINE) -o $(NAME) $(INCLUDE)
-	@echo "minishell ready."
+$O/%.o: $S/%.c $(HEADER) | $O
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+### LIBFT
+
+libft: $(LIBFT)
+
+$(LIBFT):
+	@$(MAKE) -C libft
+	@echo "$(COLOUR_GREEN) $(LIBFT) created$(COLOUR_END)"
+
+### CLEANING
 
 clean:
-	@rm -rf $(OBJ_PATH)
-	@make clean -C $(LIBFT_PATH)
-	@echo "Objects removed"
+	@cd libft && $(MAKE) clean
+	@echo "$(COLOUR_RED) $(LIBFT) removed$(COLOUR_END)"
+	@$(RM) $(OBJS) $(B_OBJS)
+	@if [ -d $O ]; then $(RM) -rf $(O_DIRS) $O; fi
+	@if [ -d $(BO) ]; then $(RM) -rf $(BO_DIRS) $(BO); fi
 
-fclean: clean
-	@rm -f $(NAME)
-	@rm -f $(LIBFT_PATH)$(LIBFT_NAME)
-	@echo "executable removed"
+fclean : clean
+	@cd libft && $(MAKE) fclean
+	@$(RM) $(NAME) pipex_bonus
+	@echo "$(COLOUR_RED) $(NAME) (bonus) removed$(COLOUR_END)"
 
-.PHONY: re
-re: fclean all
+re: fclean $(NAME) bonus
+
+.PHONY: all clean fclean re bonus

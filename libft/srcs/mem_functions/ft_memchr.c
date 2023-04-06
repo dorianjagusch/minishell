@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/06 15:54:36 by djagusch         ###   ########.fr       */
+/*   Created: 2022/10/25 16:25:44 by djagusch          #+#    #+#             */
+/*   Updated: 2023/01/13 07:34:31 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-typedef struct s_ev
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	char *key;
-	char *value;
-	struct s_ev *next;
-}		t_ev;
+	unsigned char	*cpy;
+	size_t			i;
 
-void		rl_replace_line(const char *text, int clear_undo);
-void		set_envp(char **envp, t_ev **env);
-
-#endif
+	i = 0;
+	cpy = (unsigned char *) s;
+	while (i < n && cpy[i] != (unsigned char) c && cpy[i] != '\0')
+		i++;
+	if ((cpy[i] != '\0' || cpy[i] == (unsigned char) c) && i < n)
+		return (cpy + i);
+	return (NULL);
+}

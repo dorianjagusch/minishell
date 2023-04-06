@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/06 15:54:36 by djagusch         ###   ########.fr       */
+/*   Created: 2022/10/24 16:04:15 by djagusch          #+#    #+#             */
+/*   Updated: 2023/01/13 07:34:31 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-typedef struct s_ev
+int	ft_tolower(int c)
 {
-	char *key;
-	char *value;
-	struct s_ev *next;
-}		t_ev;
+	if ('A' <= c && c <= 'Z')
+		return (c + 32);
+	return (c);
+}
 
-void		rl_replace_line(const char *text, int clear_undo);
-void		set_envp(char **envp, t_ev **env);
+void	ft_tolower2(char *c)
+{
+	if ('A' <= *c && *c <= 'Z')
+		*c = *c + 32;
+}
 
-#endif
+void	ft_strlower(char *s)
+{
+	if (!s)
+		return ;
+	while (*s)
+		ft_tolower2(s++);
+}
