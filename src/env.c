@@ -1,39 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/06 10:53:48 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:33:55 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+t_ev	*new_ev(char *key, char *value)
 {
-	char 	*line;
-	t_ev	*env;
+	t_ev	*new;
 
-	(void)argv;
-	if (argc > 1)
-		return (-1);
-	set_envp(envp, &env); //copy envp
-	//add a level to shell
-	while(1)
+	new = malloc(sizeof(t_ev));
+	new->key = ft_strdup(key);
+	new->value = ft_strdup(value);
+	new->next = NULL;
+	return (new);
+}
+
+void	add_ev(t_ev **env, t_ev *new)
+{
+	t_ev	*tmp;
+
+	tmp = *env;
+	if (*env == NULL)
+		*env = new;
+	else
 	{
-		//handle signals
-		line = readline("\e[34m""MiniShell$>""\x1b[m");
-		//syntax check, tokenize, parse expand,
-		//-> if redeiretion is needed redirect
-		//execute->if cmd is a buildtin execute builtin 
-		//handle history
-		printf("%s\n",line);
-		//if cmd == exit break
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = new;
 	}
-	//terminate: free, clear history
-	//for the purpose of checking for leaks : system("leaks -q minishell");
-	return (0);
+}
+
+void	set_envp(char **envp, t_ev **env)
+{
+	int		i;
+	char	**temp;
+
+	i = 0;
+	while (envp[i])
+	{
+		temp = ft_split(envp[i], '=');
+		add_ev(env, new_ev(temp[0], temp[1]));
+		free(temp[0]);
+		free(temp[1]);
+		free(temp);
+		i++;
+	}
 }
