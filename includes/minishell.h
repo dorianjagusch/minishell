@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/15 15:32:20 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/20 14:41:57 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,23 @@ typedef struct s_ev
 	char		*value;
 	struct s_ev	*next;
 }				t_ev;
+
+typedef struct s_lexer
+{
+	enum
+	{
+		STRING,
+		COMMAND,
+		greater_than,
+		GREATER_GREATER,
+		LESS_THAN,
+		LESS_LESS,
+		SEMICOLON,
+		PIPE,
+	}		e_token_type;
+	char				*content;
+	struct s_lexer		*next;
+}	t_lexer;
 
 void		rl_replace_line(const char *text, int clear_undo);
 void		set_envp(char **envp, t_ev **env);
