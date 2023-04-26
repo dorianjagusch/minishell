@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/15 15:32:20 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:55:47 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,38 @@ typedef struct s_ev
 	struct s_ev	*next;
 }				t_ev;
 
+typedef struct s_sytax_tree
+{
+	char	*command;
+	char	**params;
+	char	*infile;
+	char	*outfile;
+	int		in_fd[2];
+	int		out_fd[2];
+	t_syntax_tree	*next;
+}			t_syntax_tree;
+
+typedef struct s_builtin
+{
+	char *name;
+	char 
+}		t_builtin;
+
 void		rl_replace_line(const char *text, int clear_undo);
-void		set_envp(char **envp, t_ev **env);
+void		init_env(char **envp, t_ev **env);
+t_ev		*find_env(t_ev **env, char *variable);
+t_ev		*new_env(char *key, char *value);
+
+// BUILTINS
+/* their prototypes need to be made equal
+	We need to discuss the parser and abstract syntax tree, see comment abopve*/
+int		find_built_in(t_ev **env, t_syntax_tree *cmd);
+int		ft_echo(char **input);
+void	ft_env(t_ev **env);
+int		ft_pwd(t_ev *env);
+int		ft_cd(char *path, t_ev **env);
+int		ft_export(t_ev *env, char **args);
+int		ft_unset(t_ev **env, char *variable);
+
 
 #endif

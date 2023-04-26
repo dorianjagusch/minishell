@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/06 15:54:22 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:04:20 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (argc > 1)
 		return (-1);
-	set_envp(envp, &env); //copy envp
+	init_env(envp, &env); //copy envp
 	//add a level to shell
 	while(1)
 	{
