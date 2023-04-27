@@ -6,11 +6,26 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/21 13:03:57 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/27 10:19:57 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	run_line(char *line, t_env **env)
+{
+	t_token	*token;
+
+	if (init_lexer(line, &token))
+	{
+		if (retokenize(&token, env))
+		{
+			
+		}
+	}
+	
+}
+
 
 int	init_shell(t_env **env)
 {
@@ -32,18 +47,19 @@ int	init_shell(t_env **env)
 			{
 				write(2, "exit\n", 5);
 				exit_value = 0;
-				break ;
+				exit(0);
 			}
 			add_history(line);
-			init_lexer(line, env);
+			exit_value = run_line(line, env);
 		}
-		//syntax check, tokenize, parse expand,
+		//tokenize, parse expand,
 		//-> if redeiretion is needed redirect
 		//execute->if cmd is a buildtin execute builtin 
 		//handle history
 		printf("%s\n",line);
 		//if cmd == exit break
 	}
+	//free(line);
 	return (exit_value);
 }
 
@@ -59,6 +75,7 @@ int	main(int argc, char **argv, char **envp)
 	env = malloc(sizeof(t_env));
 	set_envp(envp, &env); //copy envp
 	//add a level to shell
+	//syntax check
 	exit_value = init_shell(&env);
 
 	//terminate: free, clear history

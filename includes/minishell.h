@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/20 14:41:57 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:57:49 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,20 @@
 
 # define BOOL int
 
-typedef struct s_ev
+typedef struct s_env
 {
-	char		*key;
-	char		*value;
-	struct s_ev	*next;
-}				t_ev;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}				t_env;
 
-typedef struct s_lexer
+typedef struct s_token
 {
 	enum
 	{
 		STRING,
 		COMMAND,
-		greater_than,
+		GREATER_THAN,
 		GREATER_GREATER,
 		LESS_THAN,
 		LESS_LESS,
@@ -46,10 +46,10 @@ typedef struct s_lexer
 		PIPE,
 	}		e_token_type;
 	char				*content;
-	struct s_lexer		*next;
-}	t_lexer;
+	struct s_token		*next;
+}	t_token;
 
 void		rl_replace_line(const char *text, int clear_undo);
-void		set_envp(char **envp, t_ev **env);
+void		set_envp(char **envp, t_env **env);
 
 #endif
