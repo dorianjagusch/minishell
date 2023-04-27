@@ -6,13 +6,13 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:19 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/26 13:28:34 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/27 11:20:30 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(t_ev *env)
+int	ft_pwd(t_ev **env, t_command *cmd)
 {
 	char	cur_dir[PATH_MAX];
 

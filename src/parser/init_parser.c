@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   init_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/15 14:53:05 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/27 11:37:36 by djagusch         ###   ########.fr       */
+/*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
+/*   Updated: 2023/04/27 13:16:17 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "parser.h"
 #include "minishell.h"
 
-int	ft_cd(t_ev **env, t_command *cmd)
+t_command	*new_command(t_token *token)
 {
-	t_ev	*oldpwd;
-	t_ev	*pwd;
+	t_command	*command;
+	int			i;
 
-	if (!cmd->params[1])
-		return (EXIT_FAILURE);
-	if (chdir(cmd->params[1]))
-	{
-		perror("MiniShell$: cd:");
-		return (errno);
-	}
-	oldpwd = find_env(env, "OLDPWD");
-	pwd = find_env(env, "PWD");
-	if (!oldpwd)
-		add_env(&env, new_env("OLDPWD", pwd->value));
-	else
-		oldpwd->value = pwd->value;
-	pwd->value = ft_strdup(cmd->params[1]);
-	return (EXIT_SUCCESS);
+	if (!token)
+		return (NULL);
+	i = 0;
+	command = ft_calloc(1, sizeof(t_command));
+	if (!command)
+		return (NULL);
+	if (token->token_type == COMMAND)
+		command->command = ft_strdup(token->content);
+	else if (token->token_type == STRING)
+		command->params[i] = ft_strdup(token->content);
+
 }

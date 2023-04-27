@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/26 17:42:54 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/27 11:38:43 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,36 +27,52 @@ int	invalid_env(char *arg)
 		eq_pos++;
 	if (i < eq_pos && (ft_isalnum(arg[i]) || arg[i] == '_'))
 		i++;
-	if (i != len - 1)
-		return (i);
-	return (-1);
+	return (i);
 }
 
-replace_env()
+int	replace_env(t_ev **env, char *key, char *value)
 {
-	
+	t_ev	*tmp;
+
+	if (!env || !*env
+		|| !key || !*key)
+		return (1);
+	tmp = find_env(env, key);
+	if (!tmp)
+	{
+		tmp = new_env(key, value);
+		if (!tmp)
+			return (1);
+		add_env(env, tmp);
+	}
+	else
+	{
+		free(tmp->value);
+		tmp->value = value;
+	}
+	return (0);
 }
 
-int	ft_export(t_ev *env, char **args)
+int	ft_export(t_ev **env, t_command *cmd)
 {
 	size_t	i;
+	size_t	elems;
 	size_t	eq_pos;
-	char	*key;
-	char	*value;
+	char	**env_str;
+	int		ret;
 
-	if (!args)
+	if (!cmd->params)
 		return (1);
 	i = 0;
-	eq_pos = invalid_env(args[i]);
+	elems = ft_count_elements(cmd->params);
+	while (i < elems)
+	env_str = ft_split(cmd->params[i], '=');
+	if (!env_str)
+		return (1);
+	eq_pos = invalid_env(env_str);
 	if (eq_pos < 0)
 		return (1);
-	key = ft_calloc(eq_pos + 1, sizeof(char));
-	if (!key)
-		return (1);
-	key = ft_strlcpy(key, args[i], eq_pos++);
-	value = ft_strdup(args[i] + eq_pos);
-	if (!value)
-		return (1);
-	if (find)
-	// add arg to list
+	ret = replace_env(env, env_str[0], env_str[1]);
+	ft_free_array(&env_str, 2);
+	return (ret);
 }

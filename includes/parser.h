@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/15 14:53:13 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/27 11:46:28 by djagusch         ###   ########.fr       */
+/*   Created: 2023/04/27 11:55:20 by djagusch          #+#    #+#             */
+/*   Updated: 2023/04/27 12:43:36 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef PARSER_H
+# define PARSER_H
 
-int	ft_env(t_ev **env, t_command *cmd)
+typedef struct s_command
 {
-	t_ev	*tmp;
+	char		*command;
+	char		**params;
+	int			in_redirect;
+	int			out_redirect;
+	char		*infile;
+	char		*outfile;
+	int			in_fd[2];
+	int			out_fd[2];
+	t_command	*next;
+}				t_command;
 
-	ft_error("env", EPATH);
-	tmp = *env;
-	while (tmp->next)
-	{
-		ft_printf_fd(cmd->out_fd[1], "%s=%s\n", tmp->key, tmp->value);
-		tmp = tmp->next;
-	}
-	return (0);
-}
+#endif

@@ -6,18 +6,18 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 13:20:20 by djagusch          #+#    #+#             */
-/*   Updated: 2023/03/11 15:14:26 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/27 07:58:59 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_free_array(char ***array, size_t index)
+void	*ft_free_array(char ***array, size_t elements)
 {
 	int	i;
 
 	i = 0;
-	while (i < (int) index)
+	while (i < (int) elements)
 	{
 		ft_free((*array)[i]);
 		(*array)[i++] = NULL;

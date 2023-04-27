@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/17 13:43:32 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/27 11:38:02 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@
 // Execve will give us the COMMAND as the first entry in the array.
 // That's why i starts at 1.
 
-int	ft_echo(char **input)
+int	ft_echo(t_ev **env, t_command *cmd)
 {
 	BOOL	n_flag;
 	int		i;
 
 	n_flag = 0;
 	i = 1;
-	if (input[i] && ft_strcmp(input[i], "-n"))
+	if (cmd->params[i] && ft_strcmp(cmd->params[i], "-n"))
 		n_flag = 1;
-	while (input[i] && ft_strcmp(input[i], "-n"))
+	while (cmd->params[i] && ft_strcmp(cmd->params[i], "-n"))
 		i++;
-	while (input[i])
+	while (cmd->params[i])
 	{
-		ft_putstr(input);
-		if (input[i + 1] && input[i][0])
+		ft_putstr(cmd->params);
+		if (cmd->params[i + 1] && cmd->params[i][0])
 			write(1, " ", 1);
 		i++;
 	}
