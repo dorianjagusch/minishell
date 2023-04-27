@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/27 10:19:57 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/27 12:39:08 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,23 @@
 
 int	run_line(char *line, t_env **env)
 {
-	t_token	*token;
+	t_token	*tokens;
 
-	if (init_lexer(line, &token))
+	tokens = (t_token *)ft_calloc(sizeof(t_token), 1);
+	if (!tokens)
+		retun (EXIT_FAILURE);
+	if (!init_lexer(line, &tokens))
 	{
-		if (retokenize(&token, env))
-		{
-			
-		}
+		free_tokens(&tokens);
+		return (EXIT_FAILURE);
 	}
-	
+	if (!retokenize(&tokens, env))
+	{
+		free_tokens(&tokens);
+		return (EXIT_FAILURE);
+	}
+	free_tokens(&tokens);
+
 }
 
 
@@ -50,8 +57,9 @@ int	init_shell(t_env **env)
 				exit(0);
 			}
 			add_history(line);
-			exit_value = run_line(line, env);
+			exit_value = run_line(line, env); //if run_line == fail -> free tokens and print
 		}
+		
 		//tokenize, parse expand,
 		//-> if redeiretion is needed redirect
 		//execute->if cmd is a buildtin execute builtin 
@@ -78,6 +86,7 @@ int	main(int argc, char **argv, char **envp)
 	//syntax check
 	exit_value = init_shell(&env);
 
+	
 	//terminate: free, clear history
 	//for the purpose of checking for leaks : system("leaks -q minishell");
 	return (exit_value);

@@ -6,37 +6,37 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/27 10:25:25 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/27 12:30:58 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//protect mallocs
-void	init_lexer(char *line, t_token	**token)
+int	init_lexer(char *line, t_token	**tokens)
 {
 	int		i;
+	int		indicator;
 
-	token = (t_token *)ft_calloc(sizeof(t_token), 1);
 	i = -1;
 	while (line[++i])
 	{
 		if (line[i] == ' ' || line[i] == '\t')
 			i++;
+		indicator = i;
 		else if (line[i] == '\"')
-			i += get_string(&token, &line[i], '\"');
-		if (line[i] == '\'')
-			i += get_string(&token, &line[i], '\'');
-		if (ft_isprint(line[i]) && line[i] != '|' && line[i] != ';')
-			i += get_command(&token, &line[i]);
-		if (line[i] == '|')
-			add_token(&token, new_token("|", PIPE));
-		if (line[i] == '>')
-			add_token(&token, new_token(">", GREATER_THAN));
-		if (line[i] == '<')
-			add_token(&token, new_token("<", LESS_THAN));
-		if (line[i] == ';')
-			add_token(&token, new_token(";", SEMICOLON));
+			i += get_string(&tokens, &line[i], '\"');
+		else if (line[i] == '\'')
+			i += get_string(&tokens, &line[i], '\'');
+		else if (line[i] == '|')
+			i += add_token(&tokens, new_token("|", PIPE));
+		else if (line[i] == '>')
+			i += add_token(&tokens, new_token(">", GREATER_THAN));
+		else if (line[i] == '<')
+			i += add_token(&tokens, new_token("<", LESS_THAN));
+		else if (ft_isprint(line[i]) && line[i] != '|' && line[i] != ';')
+			i += get_command(&tokens, &line[i]);
+		if (indicator > i)
+			return (EXIT_FAILURE);
 	}
-	//free_lexer(&lexer);
+	return (EXIT_SUCCESS);
 }
