@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/04/06 15:55:00 by djagusch         ###   ########.fr        #
+#    Updated: 2023/04/27 11:59:22 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ FILES = main \
 #	pipex parse_input parse_command do_child utils
 #	#ft_split2 ft_count_words
 
-HEADER = libft.h minishell.h
+HEADER = libft.h minishell.h parser.h
 HEADER := $(addprefix $I/,$(HEADER))
 
 SRCS := $(foreach FILE,$(FILES),$(shell find $S -type f -name '$(FILE).c'))

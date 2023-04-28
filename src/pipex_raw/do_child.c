@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/03/14 09:40:23 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/27 09:53:43 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	do_child(t_cmd *cmds, int current, char *envp[])
 	{
 		ft_error(NOCMMD, "");
 	}
+	ft_print_array(cmds->params[current]);
 	execve(cmds->cmd[current], cmds->params[current], envp);
 	ft_error(NOCMMD, cmds->cmd[current]);
 }
