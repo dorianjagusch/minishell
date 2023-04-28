@@ -6,16 +6,16 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/27 13:18:01 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/28 11:12:21 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_ev	*new_env(char *key, char *value)
+static t_env	*new_ev(char *key, char *value)
 {
-	t_ev	*new;
-
+	t_env	*new;
+  
 	if (!key)
 		return (-1);
 	new = malloc(sizeof(t_ev));
@@ -33,7 +33,7 @@ t_ev	*new_env(char *key, char *value)
 
 void	add_env(t_ev **env, t_ev *new)
 {
-	t_ev	*tmp;
+	t_env	*tmp;
 
 	if (!env)
 		return ;
