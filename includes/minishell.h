@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
 /*   Updated: 2023/04/28 17:57:48 by djagusch         ###   ########.fr       */
@@ -50,6 +50,7 @@ t_env		*new_env(char *key, char *value);
 void		add_env(t_env **env, t_env *new);
 int			print_export(t_env **env, t_command *cmd);
 t_env		*cpy_env(t_env **env);
+
 
 // BUILTINS
 /* their prototypes need to be made equal

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
 /*   Updated: 2023/04/28 17:16:19 by djagusch         ###   ########.fr       */
@@ -14,9 +14,10 @@
 
 static	int	run_line(char *line, t_env **env)
 {
-	t_token	*tokens;
+	t_token		*tokens;
+	t_command	*commands;
 
-	tokens = (t_token *)ft_calloc(1, sizeof(t_token));
+	tokens = (t_token *)ft_calloc(sizeof(t_token), 1);
 	if (!tokens)
 		retun (EXIT_FAILURE);
 	if (!init_lexer(line, &tokens))
@@ -29,11 +30,10 @@ static	int	run_line(char *line, t_env **env)
 		free_tokens(&tokens);
 		return (EXIT_FAILURE);
 	}
+	commands = init_parser(tokens); //maybe free tokens inside
 	free_tokens(&tokens);
-
-	//tokenize, parse expand,
-	//-> if redeiretion is needed redirect
-	//execute->if cmd is a buildtin execute builtin 
+	redirect(commands);
+	executer(env, commands);
 }
 
 

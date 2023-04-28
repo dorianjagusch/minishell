@@ -94,7 +94,7 @@ static	int	unpacker(t_token **tokens, t_env **env)
 	}
 	return (EXIT_SUCCESS);
 }
-}
+
 
 int	init_lexer(char *line, t_token	**tokens)
 {
@@ -129,7 +129,8 @@ int	retokenizer(t_token **tokens, t_env **env)
 {
 	if (!expander(tokens, env))
 		return (EXIT_FAILURE);
-	if (!unpacker(token, env))
+	if (!packer(token, env)) //concatinater
 		return (EXIT_FAILURE);
+	if (re_labler)
 	return (EXIT_SUCCESS);
 }
