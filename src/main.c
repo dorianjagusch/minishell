@@ -6,13 +6,13 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/27 12:39:08 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/28 11:22:08 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	run_line(char *line, t_env **env)
+static	int	run_line(char *line, t_env **env)
 {
 	t_token	*tokens;
 
@@ -31,10 +31,13 @@ int	run_line(char *line, t_env **env)
 	}
 	free_tokens(&tokens);
 
+	//tokenize, parse expand,
+	//-> if redeiretion is needed redirect
+	//execute->if cmd is a buildtin execute builtin 
 }
 
 
-int	init_shell(t_env **env)
+static	int	init_shell(t_env **env)
 {
 	char	*line;
 	int		exit_value;
@@ -50,24 +53,20 @@ int	init_shell(t_env **env)
 		}
 		if (ft_strlen(line) > 0)
 		{
-			if (ft_strcmp(line, "exit") == 0) //might need to trim white space first
+			if (ft_strcmp(line, "exit") == 0)
 			{
 				write(2, "exit\n", 5);
 				exit_value = 0;
 				exit(0);
 			}
-			add_history(line);
-			exit_value = run_line(line, env); //if run_line == fail -> free tokens and print
+			//add_history(line);
+			exit_value = run_line(line, env);
+			//if (exit_value == EXIT_FAILURE)
+				//inform the user that malloc failed?;
 		}
-		
-		//tokenize, parse expand,
-		//-> if redeiretion is needed redirect
-		//execute->if cmd is a buildtin execute builtin 
-		//handle history
 		printf("%s\n",line);
-		//if cmd == exit break
+		//free(line);
 	}
-	//free(line);
 	return (exit_value);
 }
 

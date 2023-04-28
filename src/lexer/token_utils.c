@@ -6,13 +6,13 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/27 16:47:24 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/28 11:27:26 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//strings include srounding single or double quotos
+
 void	replace_content(char *conent, int start, char **new, char *str)
 {
 	int		i;
@@ -34,6 +34,7 @@ void	replace_content(char *conent, int start, char **new, char *str)
 	new[i] = 0;
 }
 
+//strings include srounding single or double quotos
 int	get_string(t_token **tokens, char *line, int quote)
 {
 	char	*str;

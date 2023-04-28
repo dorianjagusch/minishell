@@ -6,13 +6,13 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/21 12:54:15 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/28 11:12:21 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*new_ev(char *key, char *value)
+static t_env	*new_ev(char *key, char *value)
 {
 	t_env	*new;
 
@@ -23,7 +23,7 @@ t_env	*new_ev(char *key, char *value)
 	return (new);
 }
 
-void	add_ev(t_env **env, t_env *new)
+static void	add_ev(t_env **env, t_env *new)
 {
 	t_env	*tmp;
 

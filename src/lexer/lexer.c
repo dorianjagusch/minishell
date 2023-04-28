@@ -6,13 +6,13 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/27 16:47:11 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/28 12:57:11 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*expand_content(t_token **token, int start, t_env **env)
+static	char	*expand_content(t_token **token, int start, t_env **env)
 {
 	int		end;
 	int		i;
@@ -40,7 +40,7 @@ char	*expand_content(t_token **token, int start, t_env **env)
 	return (content);
 }
 
-int	expander(t_token **tokens, t_env **env)
+static	int	expander(t_token **tokens, t_env **env)
 {
 	t_token	*temp;
 	int		i;
@@ -65,6 +65,35 @@ int	expander(t_token **tokens, t_env **env)
 		tmp = tmp->next;
 	}
 	return (EXIT_SUCCESS);
+}
+
+static	int	unpacker(t_token **tokens, t_env **env)
+{
+	t_token	*temp;
+	int		i;
+	char	quote;
+
+	temp = *tokens;
+	while (tmp != NULL)
+	{
+		i = 0;
+		while (tmp->content[i])
+		{
+			if (tmp->content[i] == '\'' || tmp->content[i] == '\"')
+			{
+				if (istmp->next->content[0] != '\'')
+				{
+					tmp->content = expand_content(&tmp, i, env);
+					if (tmp->content == NULL)
+						return (EXIT_FAILURE);
+				}
+			}
+			i++;
+		}
+		tmp = tmp->next;
+	}
+	return (EXIT_SUCCESS);
+}
 }
 
 int	init_lexer(char *line, t_token	**tokens)
@@ -98,7 +127,9 @@ int	init_lexer(char *line, t_token	**tokens)
 
 int	retokenizer(t_token **tokens, t_env **env)
 {
-	expander(tokens, envp);
-	//get rid of extra quotes
+	if (!expander(tokens, env))
+		return (EXIT_FAILURE);
+	if (!unpacker(token, env))
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
