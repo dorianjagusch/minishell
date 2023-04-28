@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 13:47:57 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/28 18:01:25 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ static	char	*expand_content(t_token **token, int start, t_env **env)
 		str[i] = token->content[end];
 		end++;
 	}
-	str = find_env(env, str);
+	str = find_env(env, str, 0); //return null if it is not found in env
 	if (str)
 	{
 		i = ft_strlen(token->content) + 1;
-		new = ft_calloc(i * 1);
+		new = ft_calloc(i, 1);
 		if (!new)
 			return (NULL);
 		new = replace_content(token->content, start, &new, str);
@@ -54,7 +54,11 @@ static	int	expander(t_token **tokens, t_env **env)
 			if (tmp->content[i] == '$')
 			{
 				if (tmp->content[0] != '\'')
+				{
 					tmp->content = expand_content(&tmp, i, env);
+					if (tmp->content == NULL)
+						return (EXIT_FAILURE);
+				}
 			}
 			i++;
 		}

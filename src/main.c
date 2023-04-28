@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 13:55:25 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/28 17:16:19 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,6 @@ static	int	run_line(char *line, t_env **env)
 	free_tokens(&tokens);
 	redirect(commands);
 	executer(env, commands);
-
-	//tokenize, parse expand,
-	//-> if redeiretion is needed redirect
-	//execute->if cmd is a buildtin execute builtin 
 }
 
 
