@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 11:27:26 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/28 17:16:06 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	get_string(t_token **tokens, char *line, int quote)
 	i = 0;
 	while (line[i] != quote)
 		i++;
-	str = ft_calloc(sizeof(char) * (i + 2), 1);
+	str = ft_calloc(1, sizeof(char) * (i + 2));
 	if (!str)
 		retun (EXIT_FAILURE);
 	ft_strlcpy(str, line, i + 2);
@@ -67,7 +67,7 @@ int	get_comment(t_token **tokens, char *line)
 	while (line[i] && line[i] != '\t' && line[i] != ' ' && line[i] != '|'
 		&& line[i] != '\"' && line[i] != '\'')
 		i++;
-	str = ft_calloc(sizeof(char) * (i + 1), 1);
+	str = ft_calloc(1, sizeof(char) * (i + 1));
 	if (!str)
 		retun (EXIT_FAILURE);
 	ft_strlcpy(str, line, i + 1);

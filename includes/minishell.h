@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 14:08:09 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/28 17:57:48 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,33 +31,35 @@ typedef struct s_env
 {
 	char			*key;
 	char			*value;
+	BOOL			eq;
 	struct s_env	*next;
 }				t_env;
 
 typedef struct s_builtin
 {
 	char	*name;
-	int		(*builtin)(t_ev **, t_command *);
+	int		(*builtin)(t_env **, t_command *);
 }		t_builtin;
 
 void		rl_replace_line(const char *text, int clear_undo);
-void		set_envp(char **envp, t_env **env);
 int			init_lexer(char *line, t_token	**tokens);
 int			retokenizer(t_token **tokens, t_env **env);
-void		init_env(char **envp, t_ev **env);
-t_ev		*find_env(t_ev **env, char *variable);
-t_ev		*new_env(char *key, char *value);
-void		add_env(t_ev **env, t_ev *new);
+void		init_env(char **envp, t_env **env);
+t_env		*find_env(t_env **env, char *variable, int predecessor);
+t_env		*new_env(char *key, char *value);
+void		add_env(t_env **env, t_env *new);
+int			print_export(t_env **env, t_command *cmd);
+t_env		*cpy_env(t_env **env);
 
 // BUILTINS
 /* their prototypes need to be made equal
 	We need to discuss the parser and abstract syntax tree, see comment abopve*/
-int			find_built_in(t_ev **env, t_command *cmd);
-int			ft_echo(t_ev **env, t_command *cmd);
-int			ft_env(t_ev **env, t_command *cmd);
-int			ft_pwd(t_ev **env, t_command *cmd);
-int			ft_cd(t_ev **env, t_command *cmd);
-int			ft_export(t_ev **env, t_command *cmd);
-int			ft_unset(t_ev **env, t_command *cmd);
+int			find_built_in(t_env **env, t_command *cmd);
+int			ft_echo(t_env **env, t_command *cmd);
+int			ft_env(t_env **env, t_command *cmd);
+int			ft_pwd(t_env **env, t_command *cmd);
+int			ft_cd(t_env **env, t_command *cmd);
+int			ft_export(t_env **env, t_command *cmd);
+int			ft_unset(t_env **env, t_command *cmd);
 
 #endif

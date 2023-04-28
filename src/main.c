@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 11:22:08 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/28 17:16:19 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static	int	run_line(char *line, t_env **env)
 {
 	t_token	*tokens;
 
-	tokens = (t_token *)ft_calloc(sizeof(t_token), 1);
+	tokens = (t_token *)ft_calloc(1, sizeof(t_token));
 	if (!tokens)
 		retun (EXIT_FAILURE);
 	if (!init_lexer(line, &tokens))

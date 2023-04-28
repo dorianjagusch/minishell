@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/27 11:38:02 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:10:26 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // Execve will give us the COMMAND as the first entry in the array.
 // That's why i starts at 1.
 
-int	ft_echo(t_ev **env, t_command *cmd)
+int	ft_echo(t_env **env, t_command *cmd)
 {
 	BOOL	n_flag;
 	int		i;
