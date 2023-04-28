@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 13:42:17 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/28 15:51:41 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,6 @@ typedef struct s_env
 	struct s_env	*next;
 }				t_env;
 
-enum e_token_type
-{
-	STRING,
-	COMMAND,
-	GREATER_THAN,
-	GREATER_GREATER,
-	LESS_THAN,
-	LESS_LESS,
-	PIPE
-};
-
-typedef struct s_token
-{
-	int				token_type;
-	char			*content;
-	struct s_token	*next;
-}					t_token;
-
 typedef struct s_builtin
 {
 	char	*name;
@@ -59,8 +41,8 @@ typedef struct s_builtin
 }		t_builtin;
 
 void		rl_replace_line(const char *text, int clear_undo);
-void		set_envp(char **envp, t_env **env);
-int			init_lexer(char *line, t_token	**tokens);
+void		set_envp(char **envp,t_env **env);
+int			init_lexer(char *line,t_token	**tokens);
 int			retokenizer(t_token **tokens, t_env **env);
 void		init_env(char **envp, t_ev **env);
 t_ev		*find_env(t_ev **env, char *variable);

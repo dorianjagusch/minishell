@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 13:47:57 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:48:15 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,31 @@ static	char	*expand_content(t_token **token, int start, t_env **env)
 
 	end = start;
 	i = 0;
-	while (ft_isalnum(token->content[end]) && token->content[end])
+	while (ft_isalnum((*token)->content[end]) && (*token)->content[end])
 	{
-		str[i] = token->content[end];
+		str[i] = (*token)->content[end];
 		end++;
 	}
 	str = find_env(env, str);
 	if (str)
 	{
-		i = ft_strlen(token->content) + 1;
-		new = ft_calloc(i * 1);
+		i = ft_strlen((*token)->content) + 1;
+		new = ft_calloc(i, 1);
 		if (!new)
 			return (NULL);
-		new = replace_content(token->content, start, &new, str);
-		free(token->content);
-		token->content = new;
+		new = replace_content((*token)->content, start, new, str);
+		free((*token)->content);
+		(*token)->content = new;
 	}
-	return (content);
+	return ((*token)->content);
 }
 
 static	int	expander(t_token **tokens, t_env **env)
 {
-	t_token	*temp;
+	t_token	*tmp;
 	int		i;
 
-	temp = *tokens;
+	tmp = *tokens;
 	while (tmp != NULL)
 	{
 		i = 0;
@@ -63,13 +63,13 @@ static	int	expander(t_token **tokens, t_env **env)
 	return (EXIT_SUCCESS);
 }
 
-static	int	unpacker(t_token **tokens, t_env **env)
+static	int	concatenate(t_token **tokens, t_env **env)
 {
-	t_token	*temp;
+	t_token	*tmp;
 	int		i;
 	char	quote;
 
-	temp = *tokens;
+	tmp = *tokens;
 	while (tmp != NULL)
 	{
 		i = 0;
@@ -77,11 +77,9 @@ static	int	unpacker(t_token **tokens, t_env **env)
 		{
 			if (tmp->content[i] == '\'' || tmp->content[i] == '\"')
 			{
-				if (istmp->next->content[0] != '\'')
+				if (tmp->next->content[0] != ' ' && //this is not the first node && last node is not space,pipe or redir) //here
 				{
-					tmp->content = expand_content(&tmp, i, env);
-					if (tmp->content == NULL)
-						return (EXIT_FAILURE);
+					//attach it to the last node, point the last node to the next node,  get rid of this node(free it)
 				}
 			}
 			i++;
@@ -91,7 +89,6 @@ static	int	unpacker(t_token **tokens, t_env **env)
 	return (EXIT_SUCCESS);
 }
 
-
 int	init_lexer(char *line, t_token	**tokens)
 {
 	int		i;
@@ -100,20 +97,20 @@ int	init_lexer(char *line, t_token	**tokens)
 	i = -1;
 	while (line[++i])
 	{
-		if (line[i] == ' ' || line[i] == '\t')
-			i++;
 		indicator = i;
-		else if (line[i] == '\"')
+		if (line[i] == ' ' || line[i] == '\t')
+			i += skip_white(&tokens, &line[i]);
+		if (line[i] == '\"')
 			i += get_string(&tokens, &line[i], '\"');
-		else if (line[i] == '\'')
+		if (line[i] == '\'')
 			i += get_string(&tokens, &line[i], '\'');
-		else if (line[i] == '|')
+		if (line[i] == '|')
 			i += add_token(&tokens, new_token("|", PIPE));
-		else if (line[i] == '>')
+		if (line[i] == '>')
 			i += add_token(&tokens, new_token(">", GREATER_THAN));
-		else if (line[i] == '<')
+		if (line[i] == '<')
 			i += add_token(&tokens, new_token("<", LESS_THAN));
-		else if (ft_isprint(line[i]) && line[i] != '|' && line[i] != ';')
+		if (ft_isprint(line[i]) && line[i] != '|' && line[i] != ';')
 			i += get_command(&tokens, &line[i]);
 		if (indicator > i)
 			return (EXIT_FAILURE);
@@ -125,7 +122,7 @@ int	retokenizer(t_token **tokens, t_env **env)
 {
 	if (!expander(tokens, env))
 		return (EXIT_FAILURE);
-	if (!packer(token, env)) //concatinater
+	if (!concatenate(tokens, env)) //concatinater
 		return (EXIT_FAILURE);
 	if (re_labler)
 	return (EXIT_SUCCESS);
