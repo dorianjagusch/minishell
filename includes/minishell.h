@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/27 12:41:17 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/28 14:08:09 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <errno.h>
+# include "lexer.h"
 # include "ft_error.h"
 # include "parser.h"
 # include <readline/readline.h>
@@ -26,30 +27,12 @@
 
 # define BOOL int
 
-typedef struct s_ev
+typedef struct s_env
 {
-	char		*key;
-	char		*value;
-	struct s_ev	*next;
-}				t_ev;
-
-enum e_token_type
-{
-	STRING,
-	COMMAND,
-	GREATER_THAN,
-	GREATER_GREATER,
-	LESS_THAN,
-	LESS_LESS,
-	PIPE
-};
-
-typedef struct s_token
-{
-	int				token_type;
-	char			*content;
-	struct s_token	*next;
-}					t_token;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}				t_env;
 
 typedef struct s_builtin
 {
@@ -58,6 +41,9 @@ typedef struct s_builtin
 }		t_builtin;
 
 void		rl_replace_line(const char *text, int clear_undo);
+void		set_envp(char **envp, t_env **env);
+int			init_lexer(char *line, t_token	**tokens);
+int			retokenizer(t_token **tokens, t_env **env);
 void		init_env(char **envp, t_ev **env);
 t_ev		*find_env(t_ev **env, char *variable);
 t_ev		*new_env(char *key, char *value);
@@ -73,6 +59,5 @@ int			ft_pwd(t_ev **env, t_command *cmd);
 int			ft_cd(t_ev **env, t_command *cmd);
 int			ft_export(t_ev **env, t_command *cmd);
 int			ft_unset(t_ev **env, t_command *cmd);
-
 
 #endif
