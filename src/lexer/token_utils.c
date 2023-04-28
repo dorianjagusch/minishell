@@ -6,13 +6,13 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 11:27:26 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/28 13:36:36 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
+//comments ?
 void	replace_content(char *conent, int start, char **new, char *str)
 {
 	int		i;
