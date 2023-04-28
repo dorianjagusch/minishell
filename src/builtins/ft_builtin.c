@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/15 14:53:05 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/27 11:37:36 by djagusch         ###   ########.fr       */
+/*   Created: 2023/04/26 13:29:10 by djagusch          #+#    #+#             */
+/*   Updated: 2023/04/27 11:46:58 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_cd(t_ev **env, t_command *cmd)
+int	find_built_in(t_ev **env, t_command *cmd)
 {
-	t_ev	*oldpwd;
-	t_ev	*pwd;
+	const t_builtin	**builtins[] = {
+	{"echo", &ft_echo},
+	{"cd", &ft_cd},
+	{"pwd", &ft_pwd},
+	{"export", &ft_export},
+	{"unset", &ft_unset},
+	{"env", &ft_env}
+	};
+	int				i;
 
-	if (!cmd->params[1])
-		return (EXIT_FAILURE);
-	if (chdir(cmd->params[1]))
+	i = 0;
+	while (i < 7)
 	{
-		perror("MiniShell$: cd:");
-		return (errno);
+		if (ft_strcmp(cmd->command, builtins[i][1]) == 0)
+			builtins[i][2](env, cmd);
 	}
-	oldpwd = find_env(env, "OLDPWD");
-	pwd = find_env(env, "PWD");
-	if (!oldpwd)
-		add_env(&env, new_env("OLDPWD", pwd->value));
-	else
-		oldpwd->value = pwd->value;
-	pwd->value = ft_strdup(cmd->params[1]);
-	return (EXIT_SUCCESS);
+	
 }

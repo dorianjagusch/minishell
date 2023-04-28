@@ -79,8 +79,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (argc > 1)
 		return (-1);
-	env = malloc(sizeof(t_env));
-	set_envp(envp, &env); //copy envp
+	init_env(envp, &env); //copy envp
 	//add a level to shell
 	//syntax check
 	exit_value = init_shell(&env);
