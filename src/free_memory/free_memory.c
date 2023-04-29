@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/27 11:29:57 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/29 15:46:02 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void	free_tokens(t_token **tokens)
 {
 	t_token	*tmp;
 
-	while ((*tokens) != NULL)
+	if (!tokens)
+		return ;
+	while (*tokens != NULL)
 	{
 		tmp = *tokens;
 		(*tokens) = (*tokens)->next;
@@ -24,4 +26,42 @@ void	free_tokens(t_token **tokens)
 		free(tmp);
 	}
 	free ((*tokens));
+}
+
+void	free_envs(t_command **commands)
+{
+	t_command	*tmp;
+
+	if (!commands || !*commands)
+		return ;
+	tmp = *commands;
+	while (tmp->next != NULL)
+		free_commands(&(tmp->next));
+	if (tmp->command)
+		free(tmp->command);
+	if (tmp->params)
+		ft_free_array(tmp->params, tmp->n_params);
+	if (tmp->infile)
+		free(tmp->infile);
+	if (tmp->outfile)
+		free(tmp->outfile);
+	free (*commands);
+	*commands = NULL;
+}
+
+void	free_env(t_command **env)
+{
+	t_env	*tmp;
+
+	if (!env || !*env)
+		return ;
+	tmp = *env;
+	while (tmp->next != NULL)
+		free_env(&(tmp->next));
+	if (tmp->key)
+		free(tmp->key);
+	if (tmp->value)
+		free(tmp->value);
+	free (*env);
+	*env = NULL;
 }
