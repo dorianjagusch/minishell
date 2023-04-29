@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:19 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/28 14:10:26 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/29 13:17:25 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_pwd(t_env **env, t_command *cmd)
 
 	if (getcwd(cur_dir, PATH_MAX))
 	{
-		ft_putendl(cur_dir);
+		ft_putendl_fd(cur_dir, cmd->out_fd[1]);
 		return (EXIT_SUCCESS);
 	}
 	return (EXIT_FAILURE);
