@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 17:16:19 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/28 18:35:56 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static	int	run_line(char *line, t_env **env)
 
 	tokens = (t_token *)ft_calloc(1, sizeof(t_token));
 	if (!tokens)
-		retun (EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	if (!init_lexer(line, &tokens))
 	{
 		free_tokens(&tokens);

@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 18:00:28 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/29 13:46:30 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,27 @@ void	add_env(t_env **env, t_env *new)
 	}
 }
 
-t_env	*find_env(t_env **env, char *variable, int predecessor)
+t_env	*find_env(t_env **env, char *key, int predecessor)
 {
 	t_env	*tmp;
 
-	if (!env || !*env || !variable || !(*variable))
+	if (!env || !*env || !key || !(*key))
 		return (NULL);
 	tmp = *env;
 	if (!predecessor)
 	{
 		while (tmp)
 		{
-			if (ft_strcmp(variable, tmp->key) == 0)
+			if (ft_strcmp(key, tmp->key) == 0)
 				break ;
 			tmp = tmp->next;
 		}
 	}
 	else
 	{
-		while (ft_strcmp(variable, tmp->key) != 0 && tmp && tmp->next)
+		while (ft_strcmp(key, tmp->key) != 0 && tmp && tmp->next)
 		{
-			if (ft_strcmp(variable, tmp->next->key) == 0)
+			if (ft_strcmp(key, tmp->next->key) == 0)
 				break ;
 			tmp = tmp->next;
 		}

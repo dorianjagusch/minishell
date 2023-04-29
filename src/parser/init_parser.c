@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/28 14:59:43 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/29 13:20:53 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ int	get_params(t_token *tokens, t_command *command)
 	return ((int) i);
 }
 
-get_file_info(t_token *tokens, t_command *command)
+t_command	*get_file_info(t_token *tokens, t_command *command)
 {
-	if (tokens->token_type == GREATER_THAN || tokens->token_type == GREATER_GREATER)
+	if (tokens->token_type == GREATER_THAN
+		|| tokens->token_type == GREATER_GREATER)
 	{
 		command->outfile = ft_strdup(tokens->next->content);
 		command->out_redirect = ft_strdup(tokens->content);
@@ -38,6 +39,7 @@ get_file_info(t_token *tokens, t_command *command)
 		command->infile = ft_strdup(tokens->next->content);
 		command->in_redirect = ft_strdup(tokens->content);
 	}
+	return (tokens->next);
 }
 
 t_command	*new_command(t_token *tokens)

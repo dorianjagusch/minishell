@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 14:10:26 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/29 13:16:32 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ int	ft_echo(t_env **env, t_command *cmd)
 		i++;
 	}
 	if (n_flag)
-		write(1, "\n", 1);
+		write(cmd->out_fd[1], "\n", 1);
 	return (EXIT_SUCCESS);
 }
