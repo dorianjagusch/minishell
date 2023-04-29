@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/29 16:16:34 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/29 16:22:26 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ t_command	*new_command(t_token *tokens)
 	while (tmp)
 	{
 		tmp = fill_command(tmp, command);
-		if (command->check == 1)
+		if (command->check == 1) // not correct yet
 		{
-			free(command);
+			free_command(command);
 			return (NULL);
 		}
 	}
