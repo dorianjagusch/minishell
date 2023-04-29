@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/29 13:56:32 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/29 15:46:46 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,6 @@ int	print_export(t_env **env, t_command *cmd)
 			"declare -x %s=\"%s\"\n", cpy->key, cpy->value);
 		cpy = cpy->next;
 	}
-	ft_free(cpy);
+	free_env(&cpy);
 	return (0);
 }
