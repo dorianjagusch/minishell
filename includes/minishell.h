@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/29 15:55:01 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/28 15:51:41 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ typedef struct s_builtin
 }		t_builtin;
 
 void		rl_replace_line(const char *text, int clear_undo);
-int			init_lexer(char *line, t_token	**tokens);
+void		set_envp(char **envp,t_env **env);
+int			init_lexer(char *line,t_token	**tokens);
 int			retokenizer(t_token **tokens, t_env **env);
 void		init_env(char **envp, t_env **env);
 t_env		*find_env(t_env **env, char *variable, int predecessor);
