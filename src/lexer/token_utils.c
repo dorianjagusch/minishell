@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-
+//comments ?
 void	replace_content(char *conent, int start, char **new, char *str)
 {
 	int		i;
@@ -43,7 +43,7 @@ int	get_string(t_token **tokens, char *line, int quote)
 	i = 0;
 	while (line[i] != quote)
 		i++;
-	str = ft_calloc(1, sizeof(char) * (i + 2));
+	str = ft_calloc(i + 2, sizeof(char));
 	if (!str)
 		retun (EXIT_FAILURE);
 	ft_strlcpy(str, line, i + 2);
@@ -67,7 +67,7 @@ int	get_comment(t_token **tokens, char *line)
 	while (line[i] && line[i] != '\t' && line[i] != ' ' && line[i] != '|'
 		&& line[i] != '\"' && line[i] != '\'')
 		i++;
-	str = ft_calloc(1, sizeof(char) * (i + 1));
+	str = ft_calloc((i + 1), sizeof(char));
 	if (!str)
 		retun (EXIT_FAILURE);
 	ft_strlcpy(str, line, i + 1);
