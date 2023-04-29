@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/27 11:38:43 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/28 18:01:14 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ int	invalid_env(char *arg)
 	return (i);
 }
 
-int	replace_env(t_ev **env, char *key, char *value)
+int	replace_env(t_env **env, char *key, char *value)
 {
-	t_ev	*tmp;
+	t_env	*tmp;
 
 	if (!env || !*env
 		|| !key || !*key)
 		return (1);
-	tmp = find_env(env, key);
+	tmp = find_env(env, key, 0);
 	if (!tmp)
 	{
 		tmp = new_env(key, value);
@@ -53,7 +53,7 @@ int	replace_env(t_ev **env, char *key, char *value)
 	return (0);
 }
 
-int	ft_export(t_ev **env, t_command *cmd)
+int	ft_export(t_env **env, t_command *cmd)
 {
 	size_t	i;
 	size_t	elems;
@@ -63,8 +63,10 @@ int	ft_export(t_ev **env, t_command *cmd)
 
 	if (!cmd->params)
 		return (1);
-	i = 0;
+	i = 1;
 	elems = ft_count_elements(cmd->params);
+	if (elems == 1)
+		return (print_export(env, cmd));
 	while (i < elems)
 	env_str = ft_split(cmd->params[i], '=');
 	if (!env_str)

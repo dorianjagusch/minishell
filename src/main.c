@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 13:55:25 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/28 18:35:56 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static	int	run_line(char *line, t_env **env)
 
 	tokens = (t_token *)ft_calloc(sizeof(t_token), 1);
 	if (!tokens)
-		retun (EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	if (!init_lexer(line, &tokens))
 	{
 		free_tokens(&tokens);
@@ -34,10 +34,6 @@ static	int	run_line(char *line, t_env **env)
 	free_tokens(&tokens);
 	redirect(commands);
 	executer(env, commands);
-
-	//tokenize, parse expand,
-	//-> if redeiretion is needed redirect
-	//execute->if cmd is a buildtin execute builtin 
 }
 
 

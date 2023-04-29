@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:55:20 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/27 12:43:36 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/04/29 16:09:34 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@ typedef struct s_command
 {
 	char		*command;
 	char		**params;
+	char		n_params;
 	int			in_redirect;
 	int			out_redirect;
 	char		*infile;
 	char		*outfile;
 	int			in_fd[2];
 	int			out_fd[2];
+	int			check;
 	t_command	*next;
 }				t_command;
 

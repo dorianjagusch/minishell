@@ -6,19 +6,19 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 11:12:21 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/04/29 13:46:30 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_env	*new_ev(char *key, char *value)
+t_env	*new_env(char *key, char *value)
 {
 	t_env	*new;
-  
+
 	if (!key)
 		return (-1);
-	new = malloc(sizeof(t_ev));
+	new = malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
 	new->key = ft_strdup(key);
@@ -31,12 +31,10 @@ static t_env	*new_ev(char *key, char *value)
 	return (new);
 }
 
-void	add_env(t_ev **env, t_ev *new)
+void	add_env(t_env **env, t_env *new)
 {
 	t_env	*tmp;
 
-	if (!env)
-		return ;
 	tmp = *env;
 	if (*env == NULL)
 		*env = new;
@@ -48,25 +46,37 @@ void	add_env(t_ev **env, t_ev *new)
 	}
 }
 
-t_ev	*find_env(t_ev **env, char *variable)
+t_env	*find_env(t_env **env, char *key, int predecessor)
 {
-	t_ev	*tmp;
+	t_env	*tmp;
 
-	if (!env || !*env || !variable || !(*variable))
+	if (!env || !*env || !key || !(*key))
 		return (NULL);
 	tmp = *env;
-	while (tmp)
+	if (!predecessor)
 	{
-		if (ft_strcmp(variable, tmp->key) == 0)
-			break ;
-		tmp = tmp->next;
+		while (tmp)
+		{
+			if (ft_strcmp(key, tmp->key) == 0)
+				break ;
+			tmp = tmp->next;
+		}
+	}
+	else
+	{
+		while (ft_strcmp(key, tmp->key) != 0 && tmp && tmp->next)
+		{
+			if (ft_strcmp(key, tmp->next->key) == 0)
+				break ;
+			tmp = tmp->next;
+		}
 	}
 	return (tmp);
 }
 
-char	*find_value(t_ev **env, char *variable)
+char	*find_value(t_env **env, char *variable)
 {
-	t_ev	*tmp;
+	t_env	*tmp;
 
 	if (!env || !*env || !variable || !(*variable))
 		return (NULL);
@@ -80,7 +90,7 @@ char	*find_value(t_ev **env, char *variable)
 	return (tmp->value);
 }
 
-void	init_env(char **envp, t_ev **env)
+void	init_env(char **envp, t_env **env)
 {
 	int		i;
 	char	**temp;
