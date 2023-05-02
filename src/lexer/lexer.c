@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/02 14:15:33 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:19:27 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static	int	concatenate(t_token **tokens, t_env **env)
 	char	quote;
 
 	tmp = *tokens;
-	concatinate_redir(t_token **tokens);
+	concatinate_redir(tokens);
 	while (tmp != NULL)
 	{
 		i = 0;
