@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
+#    By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/04/27 11:59:22 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/02 14:16:35 by asarikha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,13 +30,13 @@ S = src
 O = obj
 I = includes
 
-FILES = main \
-	env
-#	builtin
-#	pipex parse_input parse_command do_child utils
-#	#ft_split2 ft_count_words
+FILES = main env \
+	ft_builtin ft_cd ft_echo ft_env ft_export \
+	ft_export_printers ft_pwd ft_unset \
+	lexer token_utils \
+	clear_parser init_parser
 
-HEADER = libft.h minishell.h parser.h
+HEADER = minishell.h libft.h parser.h lexer.h ft_error.h
 HEADER := $(addprefix $I/,$(HEADER))
 
 SRCS := $(foreach FILE,$(FILES),$(shell find $S -type f -name '$(FILE).c'))

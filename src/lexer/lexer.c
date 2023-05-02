@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 16:48:15 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:15:33 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,19 @@ static	int	concatenate(t_token **tokens, t_env **env)
 	char	quote;
 
 	tmp = *tokens;
+	concatinate_redir(t_token **tokens);
 	while (tmp != NULL)
 	{
 		i = 0;
-		while (tmp->content[i])
+		if (tmp->content[i] == '\'' || tmp->content[i] == '\"' || i == 0
+			|| temp->token_type == PIPE || temp->token_type == GREATER_THAN
+			|| temp->token_type == LESS_THAN || temp->token_type == LESS_LESS
+			| temp->token_type == GREATER_GREATER)
 		{
-			if (tmp->content[i] == '\'' || tmp->content[i] == '\"')
+			if (can_concat(temp))
 			{
-				if (tmp->next->content[0] != ' ' && //this is not the first node && last node is not space,pipe or redir) //here
-				{
-					//attach it to the last node, point the last node to the next node,  get rid of this node(free it)
-				}
+				//attach the content to the next node, point the next node to the next next node, get rid of this node(free it)
 			}
-			i++;
 		}
 		tmp = tmp->next;
 	}
