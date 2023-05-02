@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/02 14:19:27 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:27:18 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,16 @@ static	int	expander(t_token **tokens, t_env **env)
 
 static	int	concatenate(t_token **tokens, t_env **env)
 {
-	t_token	*tmp;
+	t_token	*temp;
 	int		i;
 	char	quote;
 
-	tmp = *tokens;
+	temp = *tokens;
 	concatinate_redir(tokens);
-	while (tmp != NULL)
+	while (temp != NULL)
 	{
 		i = 0;
-		if (tmp->content[i] == '\'' || tmp->content[i] == '\"' || i == 0
+		if (temp->content[i] == '\'' || temp->content[i] == '\"' || i == 0
 			|| temp->token_type == PIPE || temp->token_type == GREATER_THAN
 			|| temp->token_type == LESS_THAN || temp->token_type == LESS_LESS
 			| temp->token_type == GREATER_GREATER)
@@ -88,7 +88,7 @@ static	int	concatenate(t_token **tokens, t_env **env)
 				//attach the content to the next node, point the next node to the next next node, get rid of this node(free it)
 			}
 		}
-		tmp = tmp->next;
+		temp = temp->next;
 	}
 	return (EXIT_SUCCESS);
 }
