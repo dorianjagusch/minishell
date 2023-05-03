@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/29 16:22:26 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:07:01 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	get_params(t_token *tokens, t_command *command)
 		if (!command->params[i++])
 		{
 			ft_free_array(&(command->params), i);
-			return (0);
+			return (FALSE);
 		}
 		tokens = tokens->next;
 	}
@@ -71,7 +71,7 @@ t_command	*fill_command(t_token *tmp, t_command *command)
 	}
 	else if (tmp->token_type == PIPE)
 	{
-		command->next = new_command(tmp->next);
+		command->next = init_command(tmp->next);
 		return (command);
 	}
 	else
@@ -79,7 +79,7 @@ t_command	*fill_command(t_token *tmp, t_command *command)
 	return (tmp->next);
 }
 
-t_command	*new_command(t_token *tokens)
+t_command	*init_command(t_token *tokens)
 {
 	t_command	*command;
 	t_token		*tmp;

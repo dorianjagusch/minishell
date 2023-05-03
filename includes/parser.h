@@ -6,12 +6,15 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:55:20 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/02 15:40:12 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:59:51 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
+
+# include "minishell.h"
+# include "lexer.h"
 
 typedef struct s_command
 {
@@ -27,5 +30,7 @@ typedef struct s_command
 	int					check;
 	struct s_command	*next;
 }						t_command;
+
+t_command	*init_command(t_token *tokens);
 
 #endif

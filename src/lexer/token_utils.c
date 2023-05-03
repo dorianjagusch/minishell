@@ -6,13 +6,12 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 16:32:16 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:04:31 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//comments ?
 char	*replace_content(char *content, int start, char *new, char *str)
 {
 	int		i;
@@ -32,70 +31,99 @@ char	*replace_content(char *content, int start, char *new, char *str)
 	while (++i < end)
 		new[i] = content[++len];
 	new[i] = 0;
-  return (new);
-}
-//Possibly from here everthing below deleted. For some reason the following code was in develop but not in your parser branch
-
-
-//strings include srounding single or double quotos
-int	get_string(t_token **tokens, char *line, int quote)
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	while (line[i] != quote)
-		i++;
-	str = ft_calloc(i + 2, sizeof(char));
-	if (!str)
-		retun (EXIT_FAILURE);
-	ft_strlcpy(str, line, i + 2);
-	if (add_token(tokens, new_token(str, STRING)) == EXIT_FAILURE)
-	{
-		free(str);
-		retun (EXIT_FAILURE);
-	}
-	free(str);
-	return (i + 1);
-}
-
-int	get_command(t_token **tokens, char *line) //said "comment" I changed it to command
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	while (line[i] == '-')
-		i++;
-	while (line[i] && line[i] != '\t' && line[i] != ' ' && line[i] != '|'
-		&& line[i] != '\"' && line[i] != '\'')
-		i++;
-	str = ft_calloc((i + 1), sizeof(char));
-	if (!str)
-		retun (EXIT_FAILURE);
-	ft_strlcpy(str, line, i + 1);
-	if (add_token(tokens, new_token(str, COMMAND)) == EXIT_FAILURE)
-	{
-		free(str);
-		retun (EXIT_FAILURE);
-	}
-	free(str);
-	return (i - 1);
-}
-
-t_token	*new_token(char *content, int token_type)
-{
-	t_token	*new;
-
-	new = malloc(sizeof(t_token));
-	if (!new)
-		return (NULL);
-	new->content = ft_strdup(content);
-	if (!new->content)
-	{
-		return (NULL);
-	}
-	new->token_type = token_type;
-	new->next = NULL;
 	return (new);
 }
+
+BOOL	can_concat(t_token **token)
+{
+	t_token	*tmp;
+
+	tmp = *token;
+	if (tmp->next->token_type != SPACE || tmp->next->token_type != PIPE
+		|| tmp->next->token_type != LESS_THAN
+		|| tmp->next->token_type != GREATER_THAN
+		|| tmp->next->token_type != LESS_LESS
+		|| tmp->next->token_type != GREATER_GREATER)
+	{
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+int	concat_redir(t_token *token)
+{
+	t_token	*temp;
+
+	temp = token;
+	if ((temp->token_type == GREATER_THAN && temp->next->token_type
+			== GREATER_THAN) || (temp->token_type == LESS_THAN
+			&& temp->next->token_type == LESS_THAN))
+	{
+		ft_free(temp->content);
+		if (temp->token_type == GREATER_THAN)
+		{
+			temp->token_type = GREATER_GREATER;
+			temp->content = ft_strdup(">>");
+		}
+		else
+		{
+			temp->token_type = LESS_LESS;
+			temp->content = ft_strdup("<<");
+		}
+		if (!temp->content)
+			return (EXIT_FAILURE);
+		temp->next = temp->next->next;
+		free(temp->next->content);
+		free(temp->next);
+	}
+	return (EXIT_SUCCESS);
+}
+
+static	void	bzero_closing_quote(t_token *token, t_token *next_token)
+{
+	int	i;
+
+	i = -1;
+	if (token->content[0] == '\'' || token->content[0] == '\"')
+	{
+		while (token->content[++i])
+			;
+		token->content[i - 1] = 0;
+	}
+	if (next_token->content[0] == '\'' || next_token->content[0] == '\"')
+	{
+		while (next_token->content[++i])
+			;
+		next_token->content[i - 1] = 0;
+	}
+}
+
+int	merge_nodes(t_token *token, t_token *next_token, int quote)
+{
+	char	*temp;
+	char	ptr;
+	char	next_ptr;
+	int		i;
+
+	ptr = &token->content[0];
+	next_ptr = &next_token->content[0];
+	if (token->content[0] == '\'' || token->content[0] == '\"')
+		ptr = &token->content[1];
+	if (next_token->content[0] == '\'' || next_token->content[0] == '\"')
+		next_ptr = &next_token->content[1];
+	bzero_closing_quote(token, next_token);
+	temp = ft_strjoin(ptr, next_ptr);
+	if (temp)
+	{
+		free(token->content);
+		token->content = temp;
+		token->next = next_token->next;
+		token->isquote = quote;
+		free(next_token->next->content);
+		free(next_token);
+		return (EXIT_SUCCESS);
+	}
+	else
+		return (EXIT_FAILURE);
+}
+

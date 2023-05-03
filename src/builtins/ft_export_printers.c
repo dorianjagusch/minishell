@@ -6,13 +6,13 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/29 15:46:46 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:42:34 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*cpy_env(t_env **env)
+t_env	*copy_env(t_env **env)
 {
 	t_env	*new;
 	t_env	*tmp;
@@ -48,10 +48,10 @@ t_env	**swap_env(t_env **env, t_env *e1, t_env *e2)
 	t_env	**head;
 
 	if (!e1 || !e2 || e1 == e2)
-		return ;
+		return (NULL);
 	head = env;
 	if (e1 == *head)
-		head = e2;
+		head = &e2;
 	tmp = find_env(env, e1->key, 1);
 	tmp2 = find_env(env, e2->key, 1);
 	tmp2->next = e1;

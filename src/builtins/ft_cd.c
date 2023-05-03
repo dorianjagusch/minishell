@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:05 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/28 18:01:04 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:36:24 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_cd(t_env **env, t_command *cmd)
 	oldpwd = find_env(env, "OLDPWD", 0);
 	pwd = find_env(env, "PWD", 0);
 	if (!oldpwd)
-		add_env(&env, new_env("OLDPWD", pwd->value));
+		add_env(env, new_env("OLDPWD", pwd->value));
 	else
 		oldpwd->value = pwd->value;
 	pwd->value = ft_strdup(cmd->params[1]);

@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/29 15:46:02 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:53:31 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@ void	free_tokens(t_token **tokens)
 	{
 		tmp = *tokens;
 		(*tokens) = (*tokens)->next;
-		free(tmp->content);
+		if (tmp->content)
+			free(tmp->content);
 		free(tmp);
 	}
 	free ((*tokens));
 }
 
-void	free_envs(t_command **commands)
+void	free_command(t_command **commands)
 {
 	t_command	*tmp;
 
@@ -36,11 +37,11 @@ void	free_envs(t_command **commands)
 		return ;
 	tmp = *commands;
 	while (tmp->next != NULL)
-		free_commands(&(tmp->next));
+		free_command(&(tmp->next));
 	if (tmp->command)
 		free(tmp->command);
 	if (tmp->params)
-		ft_free_array(tmp->params, tmp->n_params);
+		ft_free_array(&tmp->params, tmp->n_params);
 	if (tmp->infile)
 		free(tmp->infile);
 	if (tmp->outfile)
@@ -49,7 +50,7 @@ void	free_envs(t_command **commands)
 	*commands = NULL;
 }
 
-void	free_env(t_command **env)
+void	free_env(t_env **env)
 {
 	t_env	*tmp;
 
@@ -62,6 +63,6 @@ void	free_env(t_command **env)
 		free(tmp->key);
 	if (tmp->value)
 		free(tmp->value);
-	free (*env);
+	free(*env);
 	*env = NULL;
 }

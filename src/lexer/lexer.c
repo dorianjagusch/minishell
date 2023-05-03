@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 16:48:15 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:55:22 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static	char	*expand_content(t_token **token, int start, t_env **env)
 		str[i] = (*token)->content[end];
 		end++;
 	}
-	str = find_env(env, str, 0); //return null if it is not found in env
+	str = find_env(env, str, 0);
 	if (str)
 	{
 		i = ft_strlen((*token)->content) + 1;
@@ -51,14 +51,11 @@ static	int	expander(t_token **tokens, t_env **env)
 		i = 0;
 		while (tmp->content[i])
 		{
-			if (tmp->content[i] == '$')
+			if (tmp->content[i] == '$' && tmp->content[0] != '\'')
 			{
-				if (tmp->content[0] != '\'')
-				{
-					tmp->content = expand_content(&tmp, i, env);
-					if (tmp->content == NULL)
-						return (EXIT_FAILURE);
-				}
+				tmp->content = expand_content(&tmp, i, env);
+				if (tmp->content == NULL)
+					return (EXIT_FAILURE);
 			}
 			i++;
 		}
@@ -67,28 +64,30 @@ static	int	expander(t_token **tokens, t_env **env)
 	return (EXIT_SUCCESS);
 }
 
-static	int	concatenate(t_token **tokens, t_env **env)
+static	int	concatenate(t_token **tokens)
 {
-	t_token	*tmp;
-	int		i;
+	t_token	*temp;
 	char	quote;
 
-	tmp = *tokens;
-	while (tmp != NULL)
+	temp = *tokens;
+	quote = 0;
+	if (!concat_redir(tokens))
+		return (EXIT_FAILURE);
+	while (temp != NULL)
 	{
-		i = 0;
-		while (tmp->content[i])
+		if (temp->token_type != PIPE || temp->token_type != GREATER_THAN
+			|| temp->token_type != LESS_THAN || temp->token_type != LESS_LESS
+			|| temp->token_type != GREATER_GREATER || temp->token_type != SPACE)
 		{
-			if (tmp->content[i] == '\'' || tmp->content[i] == '\"')
+			if (can_concat(temp))
 			{
-				if (tmp->next->content[0] != ' ' && //this is not the first node && last node is not space,pipe or redir) //here
-				{
-					//attach it to the last node, point the last node to the next node,  get rid of this node(free it)
-				}
+				if (temp->content[0] == '\'' || temp->content[0] == '\"')
+					quote = 1;
+				if (!merge_nodes(temp, temp->next, quote))
+					return (EXIT_FAILURE);
 			}
-			i++;
 		}
-		tmp = tmp->next;
+		temp = temp->next;
 	}
 	return (EXIT_SUCCESS);
 }
@@ -114,7 +113,7 @@ int	init_lexer(char *line, t_token	**tokens)
 			i += add_token(&tokens, new_token(">", GREATER_THAN));
 		if (line[i] == '<')
 			i += add_token(&tokens, new_token("<", LESS_THAN));
-		if (ft_isprint(line[i]) && line[i] != '|' && line[i] != ';')
+		if (ft_isprint(line[i]) && line[i] != '|')
 			i += get_command(&tokens, &line[i]);
 		if (indicator > i)
 			return (EXIT_FAILURE);
@@ -122,12 +121,13 @@ int	init_lexer(char *line, t_token	**tokens)
 	return (EXIT_SUCCESS);
 }
 
-int	retokenizer(t_token **tokens, t_env **env)
+int	retokenize(t_token **tokens, t_env **env)
 {
 	if (!expander(tokens, env))
 		return (EXIT_FAILURE);
-	if (!concatenate(tokens, env)) //concatinater
+	if (!concatenate(tokens))
 		return (EXIT_FAILURE);
-	if (re_labler)
+	if (re_label(tokens))
+		return (EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }
