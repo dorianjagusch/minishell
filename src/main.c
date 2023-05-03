@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 18:35:56 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:54:05 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static	int	init_shell(t_env **env)
 		line = readline("\e[34m""MiniShell$>""\x1b[m");
 		if (!line) // CTRL D
 		{
-			write(2, "exit\n", 5);
-			exit(0);
+			write(2, "\n", 1);
+			exit(1);
 		}
 		if (ft_strlen(line) > 0)
 		{
@@ -70,12 +70,21 @@ static	int	init_shell(t_env **env)
 	return (exit_value);
 }
 
+void	sigint_handler(int signo)
+{
+	exit(1);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	int		exit_value;
 	t_env	*env;
+	struct sigaction s;
 
-
+	s.sa_handler = sigint_handler;
+	sigemptyset(&s.sa_mask);
+	s.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &s, NULL);
 	(void)argv;
 	if (argc > 1)
 		return (-1);
@@ -83,8 +92,6 @@ int	main(int argc, char **argv, char **envp)
 	//add a level to shell
 	//syntax check
 	exit_value = init_shell(&env);
-
-	
 	//terminate: free, clear history
 	//for the purpose of checking for leaks : system("leaks -q minishell");
 	return (exit_value);
