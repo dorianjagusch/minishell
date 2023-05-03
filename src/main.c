@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/03 16:54:05 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:33:20 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ static	int	run_line(char *line, t_env **env)
 		free_tokens(&tokens);
 		return (EXIT_FAILURE);
 	}
-	commands = init_parser(tokens); //maybe free tokens inside
+	commands = init_command(tokens); //maybe free tokens inside
 	free_tokens(&tokens);
-	redirect(commands);
-	executer(env, commands);
+	//redirect(commands);
+	//executer(env, commands);
+	return (0); //added because og compaint
 }
 
 

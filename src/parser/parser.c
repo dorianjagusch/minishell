@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/03 16:57:34 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:07:01 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_command	*fill_command(t_token *tmp, t_command *command)
 	}
 	else if (tmp->token_type == PIPE)
 	{
-		command->next = new_command(tmp->next);
+		command->next = init_command(tmp->next);
 		return (command);
 	}
 	else
@@ -79,7 +79,7 @@ t_command	*fill_command(t_token *tmp, t_command *command)
 	return (tmp->next);
 }
 
-t_command	*new_command(t_token *tokens)
+t_command	*init_command(t_token *tokens)
 {
 	t_command	*command;
 	t_token		*tmp;

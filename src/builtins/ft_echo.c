@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/29 13:16:32 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:37:15 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_echo(t_env **env, t_command *cmd)
 		i++;
 	while (cmd->params[i])
 	{
-		ft_putstr(cmd->params);
+		ft_putstr_fd(cmd->params[i], cmd->out_fd[1]);
 		if (cmd->params[i + 1] && cmd->params[i][0])
 			write(1, " ", 1);
 		i++;

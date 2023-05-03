@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/03 16:12:01 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:04:31 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,25 @@ int	concat_redir(t_token *token)
 	return (EXIT_SUCCESS);
 }
 
+static	void	bzero_closing_quote(t_token *token, t_token *next_token)
+{
+	int	i;
+
+	i = -1;
+	if (token->content[0] == '\'' || token->content[0] == '\"')
+	{
+		while (token->content[++i])
+			;
+		token->content[i - 1] = 0;
+	}
+	if (next_token->content[0] == '\'' || next_token->content[0] == '\"')
+	{
+		while (next_token->content[++i])
+			;
+		next_token->content[i - 1] = 0;
+	}
+}
+
 int	merge_nodes(t_token *token, t_token *next_token, int quote)
 {
 	char	*temp;
@@ -108,21 +127,3 @@ int	merge_nodes(t_token *token, t_token *next_token, int quote)
 		return (EXIT_FAILURE);
 }
 
-static	void	bzero_closing_quote(t_token *token, t_token *next_token)
-{
-	int	i;
-
-	i = -1;
-	if (token->content[0] == '\'' || token->content[0] == '\"')
-	{
-		while (token->content[++i])
-			;
-		token->content[i - 1] = 0;
-	}
-	if (next_token->content[0] == '\'' || next_token->content[0] == '\"')
-	{
-		while (next_token->content[++i])
-			;
-		next_token->content[i - 1] = 0;
-	}
-}
