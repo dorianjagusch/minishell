@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/03 18:00:17 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/03 21:25:43 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ COLOUR_END=\033[0m
 
 ### SET UP ###
 CC = cc
-CFLAGS = -Wall -Werror -Wall -I$I
+CFLAGS = -Wall -Wextra-I$I
 
 RM = /bin/rm -f
 RMDIR = /bin/rmdir -p

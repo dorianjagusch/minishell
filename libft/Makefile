@@ -6,13 +6,13 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 15:27:30 by djagusch          #+#    #+#              #
-#    Updated: 2023/04/06 13:40:46 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/03 21:26:01 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-CFLAGS =-Wall -Wextra -Werror -I$I -std=c99 -O3
+CFLAGS =-Wall -Wextra -I$I -std=c99 -O3
 
 NAME = libft.a
 
