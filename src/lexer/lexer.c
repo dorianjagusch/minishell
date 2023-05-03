@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/03 13:52:06 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/03 14:12:54 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static	int	expander(t_token **tokens, t_env **env)
 	return (EXIT_SUCCESS);
 }
 
-static	int	concatenate(t_token **tokens, t_env **env)
+static	int	concatenate(t_token **tokens)
 {
 	t_token	*temp;
 	char	quote;
@@ -129,9 +129,9 @@ int	retokenizer(t_token **tokens, t_env **env)
 {
 	if (!expander(tokens, env))
 		return (EXIT_FAILURE);
-	if (!concatenate(tokens, env))
+	if (!concatenate(tokens))
 		return (EXIT_FAILURE);
-	if (re_lable(tokens, env))
+	if (re_lable(tokens))
 		return (EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }
