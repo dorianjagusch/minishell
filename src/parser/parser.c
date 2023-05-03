@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/29 16:22:26 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:57:34 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	get_params(t_token *tokens, t_command *command)
 		if (!command->params[i++])
 		{
 			ft_free_array(&(command->params), i);
-			return (0);
+			return (FALSE);
 		}
 		tokens = tokens->next;
 	}
