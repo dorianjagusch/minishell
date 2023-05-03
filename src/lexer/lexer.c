@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/03 14:12:54 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:44:58 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static	char	*expand_content(t_token **token, int start, t_env **env)
 		str[i] = (*token)->content[end];
 		end++;
 	}
-	str = find_env(env, str, 0); //return null if it is not found in env
+	str = find_env(env, str, 0);
 	if (str)
 	{
 		i = ft_strlen((*token)->content) + 1;
@@ -78,10 +78,9 @@ static	int	concatenate(t_token **tokens)
 		return (EXIT_FAILURE);
 	while (temp != NULL)
 	{
-		if (temp->content[0] == '\'' || temp->content[0] == '\"'
-			|| temp->token_type == PIPE || temp->token_type == GREATER_THAN
-			|| temp->token_type == LESS_THAN || temp->token_type == LESS_LESS
-			|| temp->token_type == GREATER_GREATER || temp == *tokens)
+		if (temp->token_type != PIPE || temp->token_type != GREATER_THAN
+			|| temp->token_type != LESS_THAN || temp->token_type != LESS_LESS
+			|| temp->token_type != GREATER_GREATER || temp->token_type != SPACE)
 		{
 			if (can_concat(temp))
 			{
@@ -117,7 +116,7 @@ int	init_lexer(char *line, t_token	**tokens)
 			i += add_token(&tokens, new_token(">", GREATER_THAN));
 		if (line[i] == '<')
 			i += add_token(&tokens, new_token("<", LESS_THAN));
-		if (ft_isprint(line[i]) && line[i] != '|' && line[i] != ';')
+		if (ft_isprint(line[i]) && line[i] != '|')
 			i += get_command(&tokens, &line[i]);
 		if (indicator > i)
 			return (EXIT_FAILURE);
@@ -131,7 +130,7 @@ int	retokenizer(t_token **tokens, t_env **env)
 		return (EXIT_FAILURE);
 	if (!concatenate(tokens))
 		return (EXIT_FAILURE);
-	if (re_lable(tokens))
+	if (re_label(tokens))
 		return (EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }

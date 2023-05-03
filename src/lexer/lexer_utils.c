@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/02 14:28:21 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:48:44 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	get_command(t_token **tokens, char *line)
 	if (!str)
 		retun (EXIT_FAILURE);
 	ft_strlcpy(str, line, i + 1);
-	if (add_token(tokens, new_token(str, COMMAND)) == EXIT_FAILURE)
+	if (add_token(tokens, new_token(str, STRING)) == EXIT_FAILURE)
 	{
 		free(str);
 		return (EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/03 15:22:50 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:12:01 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	concat_redir(t_token *token)
 			== GREATER_THAN) || (temp->token_type == LESS_THAN
 			&& temp->next->token_type == LESS_THAN))
 	{
-		free(temp->content);
+		ft_free(temp->content);
 		if (temp->token_type == GREATER_THAN)
 		{
 			temp->token_type = GREATER_GREATER;
