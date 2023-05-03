@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/29 15:46:02 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/03 12:48:49 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	free_tokens(t_token **tokens)
 	{
 		tmp = *tokens;
 		(*tokens) = (*tokens)->next;
-		free(tmp->content);
+		if (tmp->content)
+			free(tmp->content);
 		free(tmp);
 	}
 	free ((*tokens));
