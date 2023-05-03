@@ -54,6 +54,8 @@ dkms.conf
 # Other ignores
 .DS_Store
 .vscode/
+.gitignore
+obj/
 a.out
 test/
 test.*

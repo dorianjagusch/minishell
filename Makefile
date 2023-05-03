@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/04/29 14:12:30 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/02 15:43:00 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ S = src
 O = obj
 I = includes
 
-FILES = main env \
+FILES = main env 
 	ft_builtin ft_cd ft_echo ft_env ft_export \
 	ft_export_printers ft_pwd ft_unset \
 	lexer token_utils \
@@ -76,14 +76,13 @@ $(LIBFT):
 clean:
 	@cd libft && $(MAKE) clean
 	@echo "$(COLOUR_RED) $(LIBFT) removed$(COLOUR_END)"
-	@$(RM) $(OBJS) $(B_OBJS)
+	@$(RM) $(OBJS)
 	@if [ -d $O ]; then $(RM) -rf $(O_DIRS) $O; fi
-	@if [ -d $(BO) ]; then $(RM) -rf $(BO_DIRS) $(BO); fi
 
 fclean : clean
 	@cd libft && $(MAKE) fclean
-	@$(RM) $(NAME) pipex_bonus
-	@echo "$(COLOUR_RED) $(NAME) (bonus) removed$(COLOUR_END)"
+	@$(RM) $(NAME)
+	@echo "$(COLOUR_RED) $(NAME) removed$(COLOUR_END)"
 
 re: fclean $(NAME) bonus
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_udec.c                                   :+:      :+:    :+:   */
+/*   ft_printf_udec_fd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:26:39 by djagusch          #+#    #+#             */
-/*   Updated: 2022/11/15 13:26:42 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:10:45 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_putunbr_c2(unsigned int n, int fd)
 	count = 0;
 	if (n > 9)
 	{
-		count += ft_putnbr_c2(n / 10, fd);
+		count += ft_putnbr_c2(n * 0.1, fd);
 		n %= 10;
 	}
 	if (n <= 9)
