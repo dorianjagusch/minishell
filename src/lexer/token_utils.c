@@ -6,13 +6,12 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/02 14:26:13 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/03 14:08:34 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//comments ?
 char	*replace_content(char *content, int start, char *new, char *str)
 {
 	int		i;
@@ -32,10 +31,10 @@ char	*replace_content(char *content, int start, char *new, char *str)
 	while (++i < end)
 		new[i] = content[++len];
 	new[i] = 0;
-  return (new);
+	return (new);
 }
 
-int	can_concat(t_token **token)
+BOOL	can_concat(t_token **token)
 {
 	t_token	*tmp;
 
@@ -45,8 +44,55 @@ int	can_concat(t_token **token)
 		|| tmp->next->token_type != GREATER_THAN
 		|| tmp->next->token_type != LESS_LESS
 		|| tmp->next->token_type != GREATER_GREATER)
+	{
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+int	concat_redir(t_token *token)
+{
+	t_token	*temp;
+
+	temp = token;
+	if ((temp->token_type == GREATER_THAN && temp->next->token_type
+			== GREATER_THAN) || (temp->token_type == LESS_THAN
+			&& temp->next->token_type == LESS_THAN))
+	{
+		free(temp->content);
+		if (temp->token_type == GREATER_THAN)
 		{
-			return (1);
+			temp->token_type = GREATER_GREATER;
+			temp->content = ft_strdup(">>");
 		}
-	return (0);
+		else
+		{
+			temp->token_type = LESS_LESS;
+			temp->content = ft_strdup("<<");
+		}
+		if (!temp->content)
+			return (EXIT_FAILURE);
+		temp->next = temp->next->next;
+		free(temp->next->content);
+		free(temp->next);
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	merge_nodes(t_token *token, t_token *next_token, int quote)
+{
+	char	*temp;
+
+	temp = ft_strjoin(token->content, next_token->content);
+	if (temp)
+	{
+		free(token->content);
+		token->content = temp;
+		token->next = next_token->next;
+		free(next_token->next->content);
+		free(next_token);
+		return (EXIT_SUCCESS);
+	}
+	else
+		return (EXIT_FAILURE);
 }

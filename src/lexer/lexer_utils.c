@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/28 16:30:26 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:28:21 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	get_string(t_token **tokens, char *line, int quote)
 	return (i + 1);
 }
 
-int	get_comment(t_token **tokens, char *line)
+int	get_command(t_token **tokens, char *line)
 {
 	char	*str;
 	int		i;

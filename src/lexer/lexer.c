@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/02 14:27:18 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/03 13:52:06 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,25 @@ static	int	expander(t_token **tokens, t_env **env)
 static	int	concatenate(t_token **tokens, t_env **env)
 {
 	t_token	*temp;
-	int		i;
 	char	quote;
 
 	temp = *tokens;
-	concatinate_redir(tokens);
+	quote = 0;
+	if (!concat_redir(tokens))
+		return (EXIT_FAILURE);
 	while (temp != NULL)
 	{
-		i = 0;
-		if (temp->content[i] == '\'' || temp->content[i] == '\"' || i == 0
+		if (temp->content[0] == '\'' || temp->content[0] == '\"'
 			|| temp->token_type == PIPE || temp->token_type == GREATER_THAN
 			|| temp->token_type == LESS_THAN || temp->token_type == LESS_LESS
-			| temp->token_type == GREATER_GREATER)
+			|| temp->token_type == GREATER_GREATER || temp == *tokens)
 		{
 			if (can_concat(temp))
 			{
-				//attach the content to the next node, point the next node to the next next node, get rid of this node(free it)
+				if (temp->content[0] == '\'' || temp->content[0] == '\"')
+					quote = 1;
+				if (!merge_nodes(temp, temp->next, quote))
+					return (EXIT_FAILURE);
 			}
 		}
 		temp = temp->next;
@@ -126,8 +129,9 @@ int	retokenizer(t_token **tokens, t_env **env)
 {
 	if (!expander(tokens, env))
 		return (EXIT_FAILURE);
-	if (!concatenate(tokens, env)) //concatinater
+	if (!concatenate(tokens, env))
 		return (EXIT_FAILURE);
-	if (re_labler)
+	if (re_lable(tokens, env))
+		return (EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }
