@@ -6,17 +6,17 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/04 13:12:26 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:07:21 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static BOOL	can_concat(t_token **token)
+static BOOL	can_concat(t_token *token)
 {
 	t_token	*tmp;
 
-	tmp = *token;
+	tmp = token;
 	if (tmp->next->token_type != SPACE || tmp->next->token_type != PIPE
 		|| tmp->next->token_type != LESS_THAN
 		|| tmp->next->token_type != GREATER_THAN
@@ -79,12 +79,11 @@ static	void	bzero_closing_quote(t_token *token, t_token *next_token)
 static int	merge_nodes(t_token *token, t_token *next_token, int quote)
 {
 	char	*temp;
-	char	ptr;
-	char	next_ptr;
-	int		i;
+	char	*ptr;
+	char	*next_ptr;
 
-	ptr = &token->content[0];
-	next_ptr = &next_token->content[0];
+	ptr = token->content;
+	next_ptr = next_token->content;
 	if (token->content[0] == '\'' || token->content[0] == '\"')
 		ptr = &token->content[1];
 	if (next_token->content[0] == '\'' || next_token->content[0] == '\"')
@@ -112,7 +111,7 @@ int	concatenate(t_token **tokens)
 
 	temp = *tokens;
 	quote = 0;
-	if (!concat_redir(tokens))
+	if (!concat_redir(*tokens))
 		return (EXIT_FAILURE);
 	while (temp != NULL)
 	{
