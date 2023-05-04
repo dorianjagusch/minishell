@@ -6,10 +6,13 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:59:27 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/03 15:00:23 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/04 12:26:54 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void signal_handler()
+{
+
+}

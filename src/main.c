@@ -6,11 +6,9 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/05/03 18:02:24 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/04 12:28:17 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "minishell.h"
 
@@ -39,7 +37,6 @@ static	int	run_line(char *line, t_env **env)
 	return (0); //added because og compaint
 }
 
-
 static	int	init_shell(t_env **env)
 {
 	char	*line;
@@ -63,19 +60,20 @@ static	int	init_shell(t_env **env)
 				exit(0);
 			}
 			//add_history(line);
-			//exit_value = run_line(line, env);
+			exit_value = run_line(line, env);
 			//if (exit_value == EXIT_FAILURE)
 				//inform the user that malloc failed?;
 		}
 		printf("%s\n",line);
-		//free(line);
+		free(line);
 	}
 	return (exit_value);
 }
 
 void	sigint_handler(int signo)
 {
-	exit(1);
+	if (signo)
+		exit(1);
 }
 
 int	main(int argc, char **argv, char **envp)

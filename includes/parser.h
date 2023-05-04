@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:55:20 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/03 17:59:51 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/04 12:32:08 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ typedef struct s_command
 }						t_command;
 
 t_command	*init_command(t_token *tokens);
+void		free_command(t_command **commands);
 
 #endif

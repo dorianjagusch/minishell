@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/03 21:40:20 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/04 12:32:28 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include "lexer.h"
 # include "ft_error.h"
 # include "parser.h"
-//# include <readline/readline.h>
-//# include <readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -45,7 +45,6 @@ void		add_env(t_env **env, t_env *new);
 t_env		*copy_env(t_env **env);
 
 void		free_env(t_env **env);
-void		free_command(t_command **commands);
 
 // BUILTINS
 void		find_built_in(t_env **env, t_command *cmd);
