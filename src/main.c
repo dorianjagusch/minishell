@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/05/04 12:28:17 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/04 12:36:30 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static	int	init_shell(t_env **env)
 		line = readline("\e[34m""MiniShell$>""\x1b[m");
 		if (!line) // CTRL D
 		{
-			write(2, "\n", 1);
+			write(2, "exit\n", 1);
 			exit(1);
 		}
 		if (ft_strlen(line) > 0)
