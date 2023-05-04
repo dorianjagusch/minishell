@@ -5,14 +5,40 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/21 13:03:57 by asarikha         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/05/04 14:33:50 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	init_shell(t_env **env)
+static	int	run_line(char *line, t_env **env)
+{
+	t_token		*tokens;
+	t_command	*commands;
+
+	tokens = (t_token *)ft_calloc(sizeof(t_token), 1);
+	if (!tokens)
+		return (EXIT_FAILURE);
+	if (!init_lexer(line, &tokens))
+	{
+		free_tokens(&tokens);
+		return (EXIT_FAILURE);
+	}
+	if (!retokenize(&tokens, env))
+	{
+		free_tokens(&tokens);
+		return (EXIT_FAILURE);
+	}
+	commands = init_command(tokens); //maybe free tokens inside
+	print_parser(&commands);
+	free_tokens(&tokens);
+	//redirect(commands);
+	//executer(env, commands);
+	return (0); //added because og compaint
+}
+
+static	int	init_shell(t_env **env)
 {
 	char	*line;
 	int		exit_value;
@@ -24,43 +50,50 @@ int	init_shell(t_env **env)
 		if (!line) // CTRL D
 		{
 			write(2, "exit\n", 5);
-			exit(0);
+			exit(1);
 		}
 		if (ft_strlen(line) > 0)
 		{
-			if (ft_strcmp(line, "exit") == 0) //might need to trim white space first
+			if (ft_strcmp(line, "exit") == 0)
 			{
 				write(2, "exit\n", 5);
 				exit_value = 0;
-				break ;
+				exit(0);
 			}
-			add_history(line);
-			init_lexer(line, env);
+			//add_history(line);
+			exit_value = run_line(line, env);
+			//if (exit_value == EXIT_FAILURE)
+				//inform the user that malloc failed?;
 		}
-		//syntax check, tokenize, parse expand,
-		//-> if redeiretion is needed redirect
-		//execute->if cmd is a buildtin execute builtin 
-		//handle history
 		printf("%s\n",line);
-		//if cmd == exit break
+		free(line);
 	}
 	return (exit_value);
+}
+
+void	sigint_handler(int signo)
+{
+	if (signo)
+		exit(1);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	int		exit_value;
 	t_env	*env;
+	struct sigaction s;
 
-
+	s.sa_handler = sigint_handler;
+	sigemptyset(&s.sa_mask);
+	s.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &s, NULL);
 	(void)argv;
 	if (argc > 1)
 		return (-1);
-	env = malloc(sizeof(t_env));
-	set_envp(envp, &env); //copy envp
+	init_env(envp, &env); //copy envp
 	//add a level to shell
+	//syntax check
 	exit_value = init_shell(&env);
-
 	//terminate: free, clear history
 	//for the purpose of checking for leaks : system("leaks -q minishell");
 	return (exit_value);

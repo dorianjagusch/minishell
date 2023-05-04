@@ -70,6 +70,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
+//char	*ft_strldup(const char *s1, size_t n)
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
@@ -88,7 +89,7 @@ void	ft_strupper(char *s);
 int		ft_toupper(int c);
 int		ft_lenbase(int n, int base);
 size_t	ft_count_elements(char **array);
-void	*ft_free_array(char ***array, size_t index);
+void	*ft_free_array(char ***array, size_t elements);
 // linked list
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstadd_front(t_list **lst, t_list *new);
@@ -135,4 +136,6 @@ long	ft_max(long a, long b);
 long	ft_min(long a, long b);
 double	ft_powerf(double x, int exp);
 void	ft_free(void *ptr);
+void	ft_print_array(char **str, int fd);
+
 #endif
