@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/03 10:17:13 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/04 12:24:25 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_env		*find_env(t_env **env, char *variable, int predecessor);
 t_env		*new_env(char *key, char *value);
 void		add_env(t_env **env, t_env *new);
 t_env		*cpy_env(t_env **env);
-
+void		free_tokens(t_token **tokens);
 
 // BUILTINS
 /* their prototypes need to be made equal
