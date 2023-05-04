@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "libft.h"
+
+size_t	ft_count_words(char const *s);
 
 static int	ft_get_quotes(char const *s, size_t *index, size_t *i, size_t *size)
 {

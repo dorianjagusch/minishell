@@ -6,25 +6,25 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/27 09:53:43 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/04 19:01:37 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
-void	do_child(t_cmd *cmds, int current, char *envp[])
+void	do_child( t_command *head, t_command *command, int current, char **env_arr)
 {
-	close_fds(cmds, current);
-	if (dup2(cmds->fd[current][0], STDIN_FILENO) < 0
-		|| dup2(cmds->fd[current + 1][1], STDOUT_FILENO) < 0)
+
+	close_fdss(head, current);
+	if (dup2(command->fds[0], STDIN_FILENO) < 0
+		|| dup2(command->fds[1], STDOUT_FILENO) < 0)
 		ft_error(0, "");
-	close(cmds->fd[current][0]);
-	close(cmds->fd[current + 1][1]);
-	if (!cmds->cmd[current])
+	close(command->fds[0]);
+	close(command->fds[1]);
+	if (!command->command)
 	{
 		ft_error(NOCMMD, "");
 	}
-	ft_print_array(cmds->params[current]);
-	execve(cmds->cmd[current], cmds->params[current], envp);
-	ft_error(NOCMMD, cmds->cmd[current]);
+	execve(command->command, command->params, env_arr);
+	ft_error(NOCMMD, command->command);
 }

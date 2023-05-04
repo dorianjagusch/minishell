@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 static void	ft_free_paths(char ***paths, char *raw_path)
 {
@@ -53,65 +53,20 @@ static char	*find_path(char **path, char **cmd_name)
 	return (ft_strdup(*cmd_name));
 }
 
-static char	*get_exe_path(char	*cmd_name, char *envp[])
+char	*get_exe_path(t_env **env, t_command *command)
 {
 	char	*path;
 	char	*exe_path;
 	size_t	i;
 
 	i = -1;
-	while (envp[++i])
+	if (!find_built_in(command, &env))
 	{
-		path = ft_strnstr(envp[i], "PATH=", 5);
-		if (path)
-		{
-			path += 5;
-			exe_path = find_path(&path, &cmd_name);
-			if (exe_path)
-				return (exe_path);
-		}
+		path = find_env(env, "PATH", 0)->value;
+		exe_path = find_path(&path, &(command->command));
+		if (exe_path)
+			return (exe_path);
 	}
 	return (NULL);
 }
 
-static void	ft_malloc_cmd(t_cmd *cmds)
-{
-	cmds->cmd = malloc(sizeof(char *) * (cmds->n_cmd));
-	if (!cmds->cmd)
-	{
-		ft_error(ENOMEM, "");
-	}
-	cmds->params = malloc(sizeof(char **) * (cmds->n_cmd));
-	if (!cmds->params)
-	{
-		ft_free(cmds->cmd);
-		ft_error(ENOMEM, "");
-	}
-	cmds->n_params = malloc(sizeof(int) * cmds->n_cmd);
-	if (!cmds->n_params)
-	{
-		ft_free(cmds->cmd);
-		ft_free(cmds->params);
-		ft_error(ENOMEM, "");
-	}
-}
-
-void	parse_cmds(t_cmd *cmds, int ac, char **av, char *envp[])
-{
-	size_t	i;
-
-	i = 0;
-	ft_malloc_cmd(cmds);
-	while (i < cmds->n_cmd)
-	{
-		cmds->params[i] = ft_split2(av[i + 2]);
-		if (cmds->params[i] && cmds->params[i][0])
-		{
-			cmds->n_params[i] = count_elements(cmds->params[i]);
-			cmds->cmd[i] = get_exe_path(cmds->params[i][0], envp);
-		}
-		else
-			cmds->cmd[i] = NULL;
-		i++;
-	}
-}

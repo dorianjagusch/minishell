@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/04 14:22:45 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/04 18:48:14 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_params(t_token *tokens, t_command *command)
+static int	get_params(t_token *tokens, t_command *command, int get)
 {
 	static size_t	i;
 
-	while (tokens->token_type == STRING)
+	while (tokens->token_type == STRING && get)
 	{
 		command->params[i] = ft_strdup(tokens->content);
 		if (!command->params[i++])
@@ -49,8 +49,12 @@ static t_token	*get_file_info(t_token *tokens, t_command *command)
 	return (tokens->next);
 }
 
-t_token	*fill_command(t_token *tmp, t_command *command)
+// Params is not allocated yet => param counting function between two commands 
+// skipping redirects and the following (in/outfile))
+
+t_token	*fill_command(t_token *tmp, t_command *command, int get)
 {
+	get = 1;
 	if (tmp->token_type == COMMAND)
 	{
 		command->command = ft_strdup(tmp->content);
@@ -59,7 +63,7 @@ t_token	*fill_command(t_token *tmp, t_command *command)
 	}
 	else if (tmp->token_type == STRING)
 	{
-		command->n_params = get_params(tmp, command);
+		command->n_params = get_params(tmp, command, get);
 		if (!command->n_params)
 			command->check = 1;
 	}
@@ -77,6 +81,7 @@ t_command	*init_command(t_token *tokens)
 {
 	t_command	*command;
 	t_token		*tmp;
+	int			get;
 
 	if (!tokens)
 		return (NULL);
@@ -87,14 +92,16 @@ t_command	*init_command(t_token *tokens)
 		command->check = 1;
 		return (NULL);
 	}
+	get = 0;
 	while (tmp)
 	{
-		tmp = fill_command(tmp, command);
+		tmp = fill_command(tmp, command, get);
 		if (command->check == 1) // not correct yet
 		{
 			free_command(&command);
 			return (NULL);
 		}
+		get = 0;
 	}
 	return (command);
 }

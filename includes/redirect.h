@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_count_words.c                                   :+:      :+:    :+:   */
+/*   redirect.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/10 15:25:26 by djagusch          #+#    #+#             */
-/*   Updated: 2023/03/10 15:29:50 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/04 18:49:46 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/04 18:57:12 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#ifndef REDIRECT_H
+# define REDIRECT_H
 
-size_t	ft_count_words(char const *s)
-{
-	size_t	i;
-	size_t	flag;
-	size_t	quote_flag;
+# include "minishell.h"
 
-	i = 0;
-	flag = 0;
-	quote_flag = 0;
-	while (*s)
-	{
-		if (!ft_isspace(*s) && !flag && !quote_flag)
-		{
-			flag = 1;
-			i++;
-		}
-		else if (ft_isspace(*s))
-			flag = 0;
-		if (*s == '\'')
-			quote_flag = (quote_flag + 1) % 2;
-		s++;
-	}
-	return (i);
-}
+# define READ 0
+# define WRITE 1
+
+int		redirect(t_command *command, t_env *env);
+size_t	count_commands(t_command *commands);
+char	*get_exe_path(t_env **env, t_command *command);
+void	get_fds(t_command *commands);
+
+#endif
