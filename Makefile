@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+         #
+#    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/02 14:23:40 by asarikha         ###   ########.fr        #
+#    Updated: 2023/05/04 12:25:37 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ COLOUR_END=\033[0m
 
 ### SET UP ###
 CC = cc
-CFLAGS = -Wall -Werror -Wall -I$I
+CFLAGS = -Wall -Wextra -Werror -I$I
 
 RM = /bin/rm -f
 RMDIR = /bin/rmdir -p
@@ -31,10 +31,27 @@ O = obj
 I = includes
 
 FILES = main env \
-	ft_builtin ft_cd ft_echo ft_env ft_export \
-	ft_export_printers ft_pwd ft_unset \
-	lexer token_utils \
-	clear_parser init_parser
+	ft_builtin \
+	ft_cd \
+	ft_echo \
+	ft_env \
+	ft_export \
+	ft_export_printers \
+	ft_pwd \
+	ft_unset \
+	free_memory \
+	lexer \
+	lexer_utils \
+	token \
+	token_utils \
+	parser \
+	do_child \
+	ft_count_words \
+	ft_split2 \
+	parse_command \
+	parse_input \
+	pipex \
+	utils \
 
 HEADER = minishell.h libft.h parser.h lexer.h ft_error.h
 HEADER := $(addprefix $I/,$(HEADER))
@@ -76,14 +93,13 @@ $(LIBFT):
 clean:
 	@cd libft && $(MAKE) clean
 	@echo "$(COLOUR_RED) $(LIBFT) removed$(COLOUR_END)"
-	@$(RM) $(OBJS) $(B_OBJS)
+	@$(RM) $(OBJS)
 	@if [ -d $O ]; then $(RM) -rf $(O_DIRS) $O; fi
-	@if [ -d $(BO) ]; then $(RM) -rf $(BO_DIRS) $(BO); fi
 
 fclean : clean
 	@cd libft && $(MAKE) fclean
-	@$(RM) $(NAME) pipex_bonus
-	@echo "$(COLOUR_RED) $(NAME) (bonus) removed$(COLOUR_END)"
+	@$(RM) $(NAME)
+	@echo "$(COLOUR_RED) $(NAME) removed$(COLOUR_END)"
 
 re: fclean $(NAME) bonus
 

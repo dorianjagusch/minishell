@@ -6,13 +6,13 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 13:29:10 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/28 14:15:11 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:35:58 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	find_built_in(t_env **env, t_command *cmd)
+void	find_built_in(t_env **env, t_command *cmd)
 {
 	const t_builtin	builtins[] = {
 	{"echo", &ft_echo},

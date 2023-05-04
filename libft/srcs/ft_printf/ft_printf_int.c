@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_int.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:26:20 by djagusch          #+#    #+#             */
-/*   Updated: 2022/11/15 13:26:22 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:10:45 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_putnbr_c(int n)
 	}
 	if (n > 9)
 	{
-		count += ft_putnbr_c(n / 10);
+		count += ft_putnbr_c(n * 0.1);
 		n %= 10;
 	}
 	if (n <= 9)

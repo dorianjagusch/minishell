@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 18:32:39 by djagusch          #+#    #+#             */
-/*   Updated: 2022/10/27 18:32:39 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:10:45 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_putnbr_fd(int n, int fd)
 	}
 	if (n > 9)
 	{
-		ft_putnbr_fd(n / 10, fd);
+		ft_putnbr_fd(n * 0.1, fd);
 		n %= 10;
 	}
 	if (n <= 9)

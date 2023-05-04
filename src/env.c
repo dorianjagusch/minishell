@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/04/29 13:46:30 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:35:40 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_env	*new_env(char *key, char *value)
 	t_env	*new;
 
 	if (!key)
-		return (-1);
+		return (NULL);
 	new = malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
@@ -94,7 +94,7 @@ void	init_env(char **envp, t_env **env)
 {
 	int		i;
 	char	**temp;
-	char	hold;
+	char	*hold;
 
 	i = 0;
 	while (envp[i])
@@ -104,9 +104,9 @@ void	init_env(char **envp, t_env **env)
 		{
 			hold = temp[1];
 			temp[1] = ft_itoa(ft_atoi(temp[1]) + 1);
-			free (hold);
+			free(hold);
 		}
-		add_ev(env, new_ev(temp[0], temp[1]));
+		add_env(env, new_env(temp[0], temp[1]));
 		free(temp[0]);
 		free(temp[1]);
 		free(temp);
