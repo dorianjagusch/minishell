@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
 /*   Updated: 2023/05/04 16:01:09 by djagusch         ###   ########.fr       */
@@ -31,6 +31,7 @@ static	int	run_line(char *line, t_env **env)
 		return (EXIT_FAILURE);
 	}
 	commands = init_command(tokens); //maybe free tokens inside
+	print_parser(&commands);
 	free_tokens(&tokens);
 	//redirect(commands);
 	//executer(env, commands);
@@ -48,7 +49,7 @@ static	int	init_shell(t_env **env)
 		line = readline("\e[34m""MiniShell$>""\x1b[m");
 		if (!line) // CTRL D
 		{
-			write(2, "exit\n", 1);
+			write(2, "exit\n", 5);
 			exit(1);
 		}
 		if (ft_strlen(line) > 0)

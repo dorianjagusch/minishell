@@ -1,44 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_utils.c                                      :+:      :+:    :+:   */
+/*   concat.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/03 17:04:31 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:07:21 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*replace_content(char *content, int start, char *new, char *str)
-{
-	int		i;
-	int		end;
-	int		j;
-	int		len;
-
-	i = -1;
-	j = -1;
-	end = ft_strlen(str);
-	len = -1;
-	while (++i < start)
-		new[i] = content[++len];
-	while (++i < end)
-		new[i] = str[++j];
-	end = ft_strlen(content);
-	while (++i < end)
-		new[i] = content[++len];
-	new[i] = 0;
-	return (new);
-}
-
-BOOL	can_concat(t_token **token)
+static BOOL	can_concat(t_token *token)
 {
 	t_token	*tmp;
 
-	tmp = *token;
+	tmp = token;
 	if (tmp->next->token_type != SPACE || tmp->next->token_type != PIPE
 		|| tmp->next->token_type != LESS_THAN
 		|| tmp->next->token_type != GREATER_THAN
@@ -50,7 +28,7 @@ BOOL	can_concat(t_token **token)
 	return (FALSE);
 }
 
-int	concat_redir(t_token *token)
+static int	concat_redir(t_token *token)
 {
 	t_token	*temp;
 
@@ -98,15 +76,14 @@ static	void	bzero_closing_quote(t_token *token, t_token *next_token)
 	}
 }
 
-int	merge_nodes(t_token *token, t_token *next_token, int quote)
+static int	merge_nodes(t_token *token, t_token *next_token, int quote)
 {
 	char	*temp;
-	char	ptr;
-	char	next_ptr;
-	int		i;
+	char	*ptr;
+	char	*next_ptr;
 
-	ptr = &token->content[0];
-	next_ptr = &next_token->content[0];
+	ptr = token->content;
+	next_ptr = next_token->content;
 	if (token->content[0] == '\'' || token->content[0] == '\"')
 		ptr = &token->content[1];
 	if (next_token->content[0] == '\'' || next_token->content[0] == '\"')
@@ -127,3 +104,30 @@ int	merge_nodes(t_token *token, t_token *next_token, int quote)
 		return (EXIT_FAILURE);
 }
 
+int	concatenate(t_token **tokens)
+{
+	t_token	*temp;
+	char	quote;
+
+	temp = *tokens;
+	quote = 0;
+	if (!concat_redir(*tokens))
+		return (EXIT_FAILURE);
+	while (temp != NULL)
+	{
+		if (temp->token_type != PIPE || temp->token_type != GREATER_THAN
+			|| temp->token_type != LESS_THAN || temp->token_type != LESS_LESS
+			|| temp->token_type != GREATER_GREATER || temp->token_type != SPACE)
+		{
+			if (can_concat(temp))
+			{
+				if (temp->content[0] == '\'' || temp->content[0] == '\"')
+					quote = 1;
+				if (!merge_nodes(temp, temp->next, quote))
+					return (EXIT_FAILURE);
+			}
+		}
+		temp = temp->next;
+	}
+	return (EXIT_SUCCESS);
+}

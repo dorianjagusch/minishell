@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:55:20 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/04 12:32:08 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:29:17 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ typedef struct s_command
 
 t_command	*init_command(t_token *tokens);
 void		free_command(t_command **commands);
+void		print_parser(t_command **command);
 
 #endif
