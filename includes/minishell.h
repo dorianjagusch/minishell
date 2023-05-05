@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/04 13:19:03 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/05 09:22:13 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "lexer.h"
 # include "ft_error.h"
 # include "parser.h"
+# include "redirect.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -56,7 +57,7 @@ t_env		*copy_env(t_env **env);
 void		free_env(t_env **env);
 
 // BUILTINS
-void		find_built_in(t_env **env, t_command *cmd);
+int			find_built_in(t_env **env, t_command *cmd);
 int			ft_echo(t_env **env, t_command *cmd);
 int			ft_env(t_env **env, t_command *cmd);
 int			ft_pwd(t_env **env, t_command *cmd);

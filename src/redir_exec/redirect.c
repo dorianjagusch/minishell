@@ -10,23 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
-#include "stdio.h"
+#include "minishell.h"
 
-static void	set_up_pipes(t_cmd *cmds)
-{
-	int	i;
-
-	i = 1;
-	while (i < cmds->n_cmd)
-	{
-		if (pipe(cmds->fd[i]) < 0)
-			ft_error(EPIPE, "");
-		i++;
-	}
-}
-
-static void	ft_wait(t_cmd *cmds, int *pids)
+static void	ft_wait(t_command *cmds, int *pids)
 {
 	int			status;
 	int			i;
@@ -43,29 +29,39 @@ static void	ft_wait(t_cmd *cmds, int *pids)
 	return ;
 }
 
-int	main(int ac, char **av, char *envp[])
+static int	redirect(t_command *command, t_env *env, size_t n_cmds)
 {
-	t_cmd	*cmds;
+	n_cmds = count_commands(command);
+	set_up_pipes(command, n_cmds);
+	get_fds(command, n_cmds);
+	get_exe_path(command, env);
+}
+
+int	redirect_exe(t_command *command, t_env *env)
+{
+	size_t	n_cmds;
 	pid_t	*pids;
+	char	**env_arr;
+	int		*fd[2];
 	int		i;
 
-	if (ac < 4)
-		ft_error(FEWARG, "");
-	pids = NULL;
-	cmds = parse_input(ac, av, &pids, envp);
-	set_up_pipes(cmds);
+	n_cmds = 0;
+	redirect(command, env, n_cmds);
+	pids = ft_calloc(n_cmds, sizeof(int));
+	env_arr = ft_env_to_array(env);
 	i = 0;
-	while (i < cmds->n_cmd)
+	while (i < n_cmds)
 	{
 		pids[i] = fork();
 		if (pids[i] < 0)
 			ft_error(EPIPE, "");
 		if (pids[i] == 0)
-			do_child(cmds, i, envp);
+			do_child(command, i, env);
 		i++;
+		command = command->next;
 	}
 	close_fds(cmds, cmds->n_cmd);
-	ft_wait(cmds, pids);
+	ft_wait(cmds, pids); //to do
 	free_cmds(&cmds, &pids);
 	return (0);
 }

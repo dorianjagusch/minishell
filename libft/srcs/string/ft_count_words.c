@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_builtin.c                                       :+:      :+:    :+:   */
+/*   ft_count_words.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/26 13:29:10 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/05 09:23:19 by djagusch         ###   ########.fr       */
+/*   Created: 2023/03/10 15:25:26 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/04 18:06:06 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	is_built_in(t_command *cmd, t_env **env)
+size_t	ft_count_words(char const *s)
 {
-	const t_builtin	builtins[] = {
-	{"echo", &ft_echo},
-	{"cd", &ft_cd},
-	{"pwd", &ft_pwd},
-	{"export", &ft_export},
-	{"unset", &ft_unset},
-	{"env", &ft_env}
-	};
-	int				i;
+	size_t	i;
+	size_t	flag;
+	size_t	quote_flag;
 
 	i = 0;
-	while (i < 7)
+	flag = 0;
+	quote_flag = 0;
+	while (*s)
 	{
-		if (ft_strcmp(cmd->command, builtins[i].name) == 0)
-			return (1);
+		if (!ft_isspace(*s) && !flag && !quote_flag)
+		{
+			flag = 1;
+			i++;
+		}
+		else if (ft_isspace(*s))
+			flag = 0;
+		if (*s == '\'')
+			quote_flag = (quote_flag + 1) % 2;
+		s++;
 	}
-	return (0);
+	return (i);
 }

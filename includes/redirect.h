@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_builtin.c                                       :+:      :+:    :+:   */
+/*   redirect.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/26 13:29:10 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/05 09:23:19 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/04 18:49:46 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/05 10:12:17 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef REDIRECT_H
+# define REDIRECT_H
 
-int	is_built_in(t_command *cmd, t_env **env)
-{
-	const t_builtin	builtins[] = {
-	{"echo", &ft_echo},
-	{"cd", &ft_cd},
-	{"pwd", &ft_pwd},
-	{"export", &ft_export},
-	{"unset", &ft_unset},
-	{"env", &ft_env}
-	};
-	int				i;
+# include "minishell.h"
 
-	i = 0;
-	while (i < 7)
-	{
-		if (ft_strcmp(cmd->command, builtins[i].name) == 0)
-			return (1);
-	}
-	return (0);
-}
+# define READ 0
+# define WRITE 1
+
+int		redirect_exe(t_command *command, t_env *env);
+size_t	count_commands(t_command *commands);
+char	*get_exe_path(t_env **env, t_command *command);
+void	get_fds(t_command *commands, size_t n_cmds);
+
+#endif

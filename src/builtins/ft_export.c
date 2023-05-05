@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/03 17:38:45 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/05 10:43:38 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 int	invalid_env(char *arg)
 {
 	size_t	i;
-	size_t	len;
 	size_t	eq_pos;
 
 	if (!ft_isalpha(arg[0]) || arg[0] != '_')
 		return (-1);
 	i = 0;
-	len = ft_strlen(arg);
 	eq_pos = 0;
 	while (arg[eq_pos] && arg[eq_pos] != '=')
 		eq_pos++;

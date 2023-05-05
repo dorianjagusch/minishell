@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_count_words.c                                   :+:      :+:    :+:   */
+/*   count_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/10 15:25:26 by djagusch          #+#    #+#             */
-/*   Updated: 2023/03/10 15:29:50 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/04 18:10:17 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/05 09:18:48 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
-size_t	ft_count_words(char const *s)
+size_t	count_commands(t_command *commands)
 {
-	size_t	i;
-	size_t	flag;
-	size_t	quote_flag;
+	t_command	*tmp;
+	size_t		count;
 
-	i = 0;
-	flag = 0;
-	quote_flag = 0;
-	while (*s)
+	tmp = commands;
+	count = 0;
+	while (tmp)
 	{
-		if (!ft_isspace(*s) && !flag && !quote_flag)
-		{
-			flag = 1;
-			i++;
-		}
-		else if (ft_isspace(*s))
-			flag = 0;
-		if (*s == '\'')
-			quote_flag = (quote_flag + 1) % 2;
-		s++;
+		count++;
+		tmp = tmp->next;
 	}
-	return (i);
+	return (count);
 }
