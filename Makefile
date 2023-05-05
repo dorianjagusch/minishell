@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
+#    By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/04 12:25:37 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/04 14:33:21 by asarikha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,15 +43,9 @@ FILES = main env \
 	lexer \
 	lexer_utils \
 	token \
-	token_utils \
+	concat \
 	parser \
-	do_child \
-	ft_count_words \
-	ft_split2 \
-	parse_command \
-	parse_input \
-	pipex \
-	utils \
+	parser_print
 
 HEADER = minishell.h libft.h parser.h lexer.h ft_error.h
 HEADER := $(addprefix $I/,$(HEADER))

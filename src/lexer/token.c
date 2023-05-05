@@ -6,15 +6,16 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/04 12:25:13 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:03:06 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*replace_content(char *content, int start, char *new, char *str)
+static int	replace_content(char *content, int start, char *new, char *str)
 {
 	int		i;
+	int		old_len;
 	int		end;
 	int		j;
 	int		len;
@@ -23,6 +24,10 @@ static char	*replace_content(char *content, int start, char *new, char *str)
 	j = -1;
 	end = ft_strlen(str);
 	len = -1;
+	old_len = ft_strlen(content) + 1;
+	new = ft_calloc(old_len, 1);
+	if (!new)
+		return (EXIT_FAILURE);
 	while (++i < start)
 		new[i] = content[++len];
 	while (++i < end)
@@ -30,8 +35,9 @@ static char	*replace_content(char *content, int start, char *new, char *str)
 	end = ft_strlen(content);
 	while (++i < end)
 		new[i] = content[++len];
-	new[i] = 0;
-	return (new);
+	free(content);
+	content = new;
+	return (EXIT_SUCCESS);
 }
 
 static int	re_label(t_token **tokens)
@@ -63,35 +69,35 @@ static int	re_label(t_token **tokens)
 	return (EXIT_SUCCESS);
 }
 
-static	char	*expand_content(t_token **token, int start, t_env **env)
+static	int	expand_content(t_token **token, int start, t_env **env)
 {
 	int		end;
-	int		i;
 	char	*str;
 	char	*new;
+	char	*value;
 
 	end = start;
-	i = 0;
-	while (ft_isalnum((*token)->content[end]) && (*token)->content[end])
-	{
-		str[i] = (*token)->content[end];
+	new = NULL;
+	while ((ft_isalnum((*token)->content[end])
+			|| (*token)->content[end] == '_') && (*token)->content[end])
 		end++;
-	}
-	str = find_env(env, str, 0);
-	if (str)
+	str = ft_substr((*token)->content, start, end - start);
+	if (!str)
+		return (EXIT_FAILURE);
+	value = find_env(env, str, 0)->value;
+	if (value)
 	{
-		i = ft_strlen((*token)->content) + 1;
-		new = ft_calloc(i, 1);
-		if (!new)
-			return (NULL);
-		new = replace_content((*token)->content, start, new, str);
-		free((*token)->content);
-		(*token)->content = new;
+		if (replace_content((*token)->content, start, new, value))
+		{
+			free(str);
+			return (EXIT_SUCCESS);
+		}
 	}
-	return ((*token)->content);
+	free(str);
+	return (EXIT_FAILURE);
 }
 
-static	int	expander(t_token **tokens, t_env **env)
+static	int	expand(t_token **tokens, t_env **env)
 {
 	t_token	*tmp;
 	int		i;
@@ -106,8 +112,7 @@ static	int	expander(t_token **tokens, t_env **env)
 			{
 				if (tmp->content[0] != '\'')
 				{
-					tmp->content = expand_content(&tmp, i, env);
-					if (tmp->content == NULL)
+					if (!expand_content(&tmp, i, env))
 						return (EXIT_FAILURE);
 				}
 			}
@@ -118,9 +123,9 @@ static	int	expander(t_token **tokens, t_env **env)
 	return (EXIT_SUCCESS);
 }
 
-int	retokenizer(t_token **tokens, t_env **env)
+int	retokenize(t_token **tokens, t_env **env)
 {
-	if (!expander(tokens, env))
+	if (!expand(tokens, env))
 		return (EXIT_FAILURE);
 	if (!concatenate(tokens))
 		return (EXIT_FAILURE);

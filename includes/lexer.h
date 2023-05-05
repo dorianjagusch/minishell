@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/04 13:11:46 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/04 13:18:55 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,6 @@ typedef struct s_token
 	char			*content;
 	struct s_token	*next;
 }					t_token;
-
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	BOOL			eq;
-	struct s_env	*next;
-}				t_env;
 
 enum e_token_type
 {

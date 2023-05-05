@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/04 13:10:51 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/04 13:19:03 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@
 
 # define TRUE 1
 # define FALSE 0
+
+
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	BOOL			eq;
+	struct s_env	*next;
+}				t_env;
 
 typedef struct s_builtin
 {
