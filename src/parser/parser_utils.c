@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.h                                         :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/15 15:29:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/05 15:48:15 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/05 12:55:42 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/05 15:10:37 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_ERROR_H
-# define FT_ERROR_H
+#include "lexer.h"
+#include "parser.h"
 
-# include "minishell.h"
 
-# define EPATH 127 /* No such file or directory */
-# define NOFILE 1
-# define NOACCESS 1
-# define NOCMMD 1
-# define MEMERR 1
-
-#endif
+BOOL	ft_isredir(t_token *token)
+{
+	if (token->token_type == GREATER_THAN
+		|| token->token_type == GREATER_GREATER
+		|| token->token_type == LESS_THAN
+		|| token->token_type == LESS_LESS)
+		return (1);
+	return (0);
+}

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+         #
+#    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/04 14:33:21 by asarikha         ###   ########.fr        #
+#    Updated: 2023/05/05 15:20:03 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ FILES = main env \
 	token \
 	concat \
 	parser \
+	open_files \
 	parser_print
 
 HEADER = minishell.h libft.h parser.h lexer.h ft_error.h

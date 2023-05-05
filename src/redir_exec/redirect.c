@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+static void	set_up_pipes(t_command *command, int *pipes)
+{
+	int	i;
+
+	i = 1;
+	while (i < pipes)
+	{
+		if (pipe(pipes) < 0)
+			ft_error(EPIPE, "");
+		i++;
+	}
+}
+
 static void	ft_wait(t_command *cmds, int *pids)
 {
 	int			status;
@@ -29,26 +42,30 @@ static void	ft_wait(t_command *cmds, int *pids)
 	return ;
 }
 
-static int	redirect(t_command *command, t_env *env, size_t n_cmds)
+static char	**set_up_exe(t_command *command, t_env *env, size_t *n_cmds)
 {
-	n_cmds = count_commands(command);
-	set_up_pipes(command, n_cmds);
-	get_fds(command, n_cmds);
+	char	**env_arr;
+
+	*n_cmds = count_commands(command);
+	set_up_pipes(command, *n_cmds);
 	get_exe_path(command, env);
+	env_arr = ft_env_to_array(env);
 }
+
+//set_up_pipes is not taking the array yet. Need to work out how to let the already open files go in there.
+// Also need to remember to close the files that were opened and then closed in parser.c
 
 int	redirect_exe(t_command *command, t_env *env)
 {
 	size_t	n_cmds;
 	pid_t	*pids;
 	char	**env_arr;
-	int		*fd[2];
+	int		*fds[2];
 	int		i;
 
 	n_cmds = 0;
-	redirect(command, env, n_cmds);
+	env_arr = set_up_exe(command, env, *n_cmds);
 	pids = ft_calloc(n_cmds, sizeof(int));
-	env_arr = ft_env_to_array(env);
 	i = 0;
 	while (i < n_cmds)
 	{
@@ -60,8 +77,8 @@ int	redirect_exe(t_command *command, t_env *env)
 		i++;
 		command = command->next;
 	}
-	close_fds(cmds, cmds->n_cmd);
-	ft_wait(cmds, pids); //to do
-	free_cmds(&cmds, &pids);
+	close_fds(command, n_cmds);
+	ft_wait(command, pids); //to do
+	free_cmds(&command, &pids);
 	return (0);
 }
