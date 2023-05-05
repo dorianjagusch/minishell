@@ -12,16 +12,6 @@
 
 #include "minishell.h"
 
-static void	set_up_pipes(t_command *command, size_t n_cmds)
-{
-	while (command)
-	{
-		if (pipe(command->fds) < 0)
-			ft_error(EPIPE, "");
-		command = command->next;
-	}
-}
-
 static void	ft_wait(t_command *cmds, int *pids)
 {
 	int			status;
@@ -39,18 +29,25 @@ static void	ft_wait(t_command *cmds, int *pids)
 	return ;
 }
 
-int	redirect(t_command *command, t_env *env)
+static int	redirect(t_command *command, t_env *env, size_t n_cmds)
+{
+	n_cmds = count_commands(command);
+	set_up_pipes(command, n_cmds);
+	get_fds(command, n_cmds);
+	get_exe_path(command, env);
+}
+
+int	redirect_exe(t_command *command, t_env *env)
 {
 	size_t	n_cmds;
 	pid_t	*pids;
-	char 	**env_arr;
+	char	**env_arr;
+	int		*fd[2];
 	int		i;
 
-	get_fds(command);
-	get_exe_path(command, env);
-	n_cmds = count_commands(command);
+	n_cmds = 0;
+	redirect(command, env, n_cmds);
 	pids = ft_calloc(n_cmds, sizeof(int));
-	set_up_pipes(command, n_cmds);
 	env_arr = ft_env_to_array(env);
 	i = 0;
 	while (i < n_cmds)
@@ -59,7 +56,7 @@ int	redirect(t_command *command, t_env *env)
 		if (pids[i] < 0)
 			ft_error(EPIPE, "");
 		if (pids[i] == 0)
-			do_child(command, i, env); // to do
+			do_child(command, i, env);
 		i++;
 		command = command->next;
 	}

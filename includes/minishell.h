@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/04 18:49:36 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/05 09:22:13 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "lexer.h"
 # include "ft_error.h"
 # include "parser.h"
+# include "redirect.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 

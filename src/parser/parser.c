@@ -6,11 +6,33 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/04 18:48:14 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/05 10:05:22 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	count_params(t_token *token)
+{
+	t_token	*tmp;
+	int		n_params;
+
+	if (!token)
+		return (0);
+	tmp = token->next;
+	n_params = 0;
+	while (tmp && (ft_strcmp(tmp->content, "PIPE") != 0))
+	{
+		if ((tmp->token_type == GREATER_GREATER
+			|| tmp->token_type == GREATER_THAN
+			|| tmp->token_type == LESS_LESS
+			|| tmp->token_type == LESS_THAN) && tmp->next)
+				tmp = tmp->next->next;
+		if (tmp && ft_strcmp(tmp->content, "STRING"))
+			n_params++;
+		tmp = tmp->next;
+	}
+}
 
 static int	get_params(t_token *tokens, t_command *command, int get)
 {
@@ -54,16 +76,20 @@ static t_token	*get_file_info(t_token *tokens, t_command *command)
 
 t_token	*fill_command(t_token *tmp, t_command *command, int get)
 {
+	static size_t	id;
+
 	get = 1;
 	if (tmp->token_type == COMMAND)
 	{
 		command->command = ft_strdup(tmp->content);
 		if (!command->command)
 			command->check = 1;
+		command->id = id++;
+		command->n_params = count_params(tmp);
 	}
 	else if (tmp->token_type == STRING)
 	{
-		command->n_params = get_params(tmp, command, get);
+		get_params(tmp, command, get);
 		if (!command->n_params)
 			command->check = 1;
 	}

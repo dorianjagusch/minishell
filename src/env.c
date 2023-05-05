@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/03 17:35:40 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/05 10:57:39 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_env	*new_env(char *key, char *value)
 	return (new);
 }
 
-void	add_env(t_env **env, t_env *new)
+int	add_env(t_env **env, t_env *new)
 {
 	t_env	*tmp;
 
