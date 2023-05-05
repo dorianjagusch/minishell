@@ -3,21 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/03 17:07:01 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:22:45 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
 #include "minishell.h"
 
 static int	get_params(t_token *tokens, t_command *command)
 {
-	size_t	i;
+	static size_t	i;
 
-	i = 0;
 	while (tokens->token_type == STRING)
 	{
 		command->params[i] = ft_strdup(tokens->content);
@@ -31,7 +29,7 @@ static int	get_params(t_token *tokens, t_command *command)
 	return ((int) i);
 }
 
-static t_command	*get_file_info(t_token *tokens, t_command *command)
+static t_token	*get_file_info(t_token *tokens, t_command *command)
 {
 	if (tokens->token_type == GREATER_THAN
 		|| tokens->token_type == GREATER_GREATER)
@@ -39,23 +37,19 @@ static t_command	*get_file_info(t_token *tokens, t_command *command)
 		command->outfile = ft_strdup(tokens->next->content);
 		if (!command->outfile)
 			command->check = 1;
-		command->out_redirect = ft_strdup(tokens->content);
-		if (!command->out_redirect)
-			command->check = 1;
+		command->out_redirect = tokens->token_type;
 	}
 	else if (tokens->token_type == LESS_THAN || tokens->token_type == LESS_LESS)
 	{
 		command->infile = ft_strdup(tokens->next->content);
 		if (!command->infile)
 			command->check = 1;
-		command->in_redirect = ft_strdup(tokens->content);
-		if (!command->in_redirect)
-			command->check = 1;
+		command->in_redirect = tokens->token_type;
 	}
 	return (tokens->next);
 }
 
-t_command	*fill_command(t_token *tmp, t_command *command)
+t_token	*fill_command(t_token *tmp, t_command *command)
 {
 	if (tmp->token_type == COMMAND)
 	{
@@ -72,7 +66,7 @@ t_command	*fill_command(t_token *tmp, t_command *command)
 	else if (tmp->token_type == PIPE)
 	{
 		command->next = init_command(tmp->next);
-		return (command);
+		return (tmp);
 	}
 	else
 		tmp = get_file_info(tmp, command);
@@ -98,8 +92,9 @@ t_command	*init_command(t_token *tokens)
 		tmp = fill_command(tmp, command);
 		if (command->check == 1) // not correct yet
 		{
-			free_command(command);
+			free_command(&command);
 			return (NULL);
 		}
 	}
+	return (command);
 }

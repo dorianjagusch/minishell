@@ -6,7 +6,7 @@
 /*   By: azarsarikhani <azarsarikhani@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/05 09:42:45 by azarsarikha      ###   ########.fr       */
+/*   Updated: 2023/05/05 10:06:20 by azarsarikha      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	skip_white(t_token **tokens, char *line)
 		if (line[i] == ' ' || line[i] == '\t')
 			i++;
 	}
-	if (add_token(&tokens, new_token(" ", SPACE)) == EXIT_FAILURE)
+	if (add_token(tokens, new_token(" ", SPACE)) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (i);
 }
@@ -37,7 +37,7 @@ static int	get_string(t_token **tokens, char *line, int quote)
 		i++;
 	str = ft_calloc(sizeof(char) * (i + 2), 1);
 	if (!str)
-		retun (EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	ft_strlcpy(str, line, i + 2);
 	if (add_token(tokens, new_token(str, STRING)) == EXIT_FAILURE)
 	{
@@ -61,7 +61,7 @@ static int	get_text(t_token **tokens, char *line)
 		i++;
 	str = ft_calloc(sizeof(char) * (i + 1), 1);
 	if (!str)
-		retun (EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	ft_strlcpy(str, line, i + 1);
 	if (add_token(tokens, new_token(str, STRING)) == EXIT_FAILURE)
 	{
@@ -82,15 +82,15 @@ int	init_lexer(char *line, t_token	**tokens)
 	{
 		indicator = i;
 		if (line[i] == ' ' || line[i] == '\t')
-			i += skip_white(&tokens, &line[i]);
+			i += skip_white(tokens, &line[i]);
 		if (line[i] == '\"')
-			i += get_string(&tokens, &line[i], '\"');
+			i += get_string(tokens, &line[i], '\"');
 		if (line[i] == '\'')
-			i += get_string(&tokens, &line[i], '\'');
+			i += get_string(tokens, &line[i], '\'');
 		if (line[i] == '|')
-			i += add_token(&tokens, new_token("|", PIPE));
+			i += add_token(tokens, new_token("|", PIPE));
 		if (line[i] == '>')
-			i += add_token(&tokens, new_token(">", GREATER_THAN));
+			i += add_token(tokens, new_token(">", GREATER_THAN));
 		if (line[i] == '<')
 			i += add_token(&tokens, new_token("<", LESS_THAN));
 		if (ft_isprint(line[i]) && line[i] != '|' && line[i] != ' ')
