@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azarsarikhani <azarsarikhani@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/04 13:11:07 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/05 09:42:45 by azarsarikha      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	get_string(t_token **tokens, char *line, int quote)
 	char	*str;
 	int		i;
 
-	i = 0;
+	i = 1;
 	while (line[i] != quote)
 		i++;
 	str = ft_calloc(sizeof(char) * (i + 2), 1);
@@ -45,7 +45,7 @@ static int	get_string(t_token **tokens, char *line, int quote)
 		return (EXIT_FAILURE);
 	}
 	free(str);
-	return (i + 1);
+	return (i);
 }
 
 static int	get_text(t_token **tokens, char *line)
@@ -93,7 +93,7 @@ int	init_lexer(char *line, t_token	**tokens)
 			i += add_token(&tokens, new_token(">", GREATER_THAN));
 		if (line[i] == '<')
 			i += add_token(&tokens, new_token("<", LESS_THAN));
-		if (ft_isprint(line[i]) && line[i] != '|')
+		if (ft_isprint(line[i]) && line[i] != '|' && line[i] != ' ')
 			i += get_text(&tokens, &line[i]);
 		if (indicator > i)
 			return (EXIT_FAILURE);
