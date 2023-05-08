@@ -18,7 +18,7 @@ static void	ft_free_paths(char ***paths, char *raw_path, char *cmd_name)
 
 	if (paths)
 	{
-		len = count_elements(*paths);
+		len = ft_count_elements(*paths);
 		ft_free_array(paths, len);
 	}
 	if (raw_path)
@@ -37,7 +37,7 @@ static void	find_path(char **path, char **cmd_name)
 
 	i = 0;
 	paths = ft_split(*path, ':');
-	len = count_elements(paths);
+	len = ft_count_elements(paths);
 	while (i < len)
 	{
 		raw_path = ft_strjoin(paths[i], "/");
@@ -59,11 +59,10 @@ static void	find_path(char **path, char **cmd_name)
 void	get_exe_path(t_env **env, t_command *command)
 {
 	char	*path;
-	char	*exe_path;
 	size_t	i;
 
 	i = -1;
-	if (!is_built_in(command, &env))
+	if (!is_built_in(env, command))
 	{
 		path = find_env(env, "PATH", 0)->value;
 		find_path(&path, &(command->command));

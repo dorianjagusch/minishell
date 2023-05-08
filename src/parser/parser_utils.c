@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_builtin.c                                       :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/26 13:29:10 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/08 15:27:54 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/05 12:55:42 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/08 15:24:49 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "lexer.h"
+#include "parser.h"
 
-int	is_built_in(t_env **env, t_command *cmd)
+
+BOOL	ft_isredir(t_token *token)
 {
-	const t_builtin	builtins[] = {
-	{"echo", &ft_echo},
-	{"cd", &ft_cd},
-	{"pwd", &ft_pwd},
-	{"export", &ft_export},
-	{"unset", &ft_unset},
-	{"env", &ft_env}
-	};
-	int				i;
-
-	i = 0;
-	while (i < 7)
-	{
-		if (ft_strcmp(cmd->command, builtins[i].name) == 0)
-		{
-			builtins[i].builtin(env, cmd);
-			return (1);
-		}
-	}
+	if (token->token_type == GREATER_THAN
+		|| token->token_type == GREATER_GREATER
+		|| token->token_type == LESS_THAN
+		|| token->token_type == LESS_LESS)
+		return (1);
 	return (0);
+}
+
+t_command	*set_command(t_command *head, size_t id)
+{
+	t_command	*tmp;
+
+	tmp = head;
+	if (tmp)
+	{
+		while (tmp->id != id)
+			tmp = tmp->next;
+	}
+	return (tmp);
 }
