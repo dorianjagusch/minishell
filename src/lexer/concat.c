@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/04 14:07:21 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/08 14:02:58 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	concatenate(t_token **tokens)
 
 	temp = *tokens;
 	quote = 0;
+	print_token(*tokens);
 	if (!concat_redir(*tokens))
 		return (EXIT_FAILURE);
 	while (temp != NULL)
@@ -129,5 +130,6 @@ int	concatenate(t_token **tokens)
 		}
 		temp = temp->next;
 	}
+	
 	return (EXIT_SUCCESS);
 }

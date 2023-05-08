@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/04 13:18:55 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/08 11:12:25 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ enum e_token_type
 };
 
 t_token		*new_token(char *content, int token_type);
-int			add_token(t_token **token, t_token *new);
+int			add_token(t_token **token, t_token *new, int *flag);
 int			concatenate(t_token **tokens);
 
 #endif
