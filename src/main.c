@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/05/04 16:01:09 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/04 17:28:04 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,24 @@ static	int	run_line(char *line, t_env **env)
 	return (0); //added because og compaint
 }
 
+void	sigint_handler(int signo)
+{
+	if (signo)
+		ft_printf("\n\e[34m""MiniShell$>""\x1b[m");
+}
+
 static	int	init_shell(t_env **env)
 {
-	char	*line;
-	int		exit_value;
+	char				*line;
+	int					exit_value;
+	struct sigaction	s;
 
+	s.sa_handler = sigint_handler;
+	sigemptyset(&s.sa_mask);
+	s.sa_flags = SA_RESTART;
 	while (1)
 	{
-		//handle signals
+		sigaction(SIGINT, &s, NULL);
 		line = readline("\e[34m""MiniShell$>""\x1b[m");
 		if (!line) // CTRL D
 		{
@@ -71,22 +81,12 @@ static	int	init_shell(t_env **env)
 	return (exit_value);
 }
 
-void	sigint_handler(int signo)
-{
-	if (signo)
-		exit(1);
-}
 
 int	main(int argc, char **argv, char **envp)
 {
 	int		exit_value;
 	t_env	*env;
-	struct sigaction s;
 
-	s.sa_handler = sigint_handler;
-	sigemptyset(&s.sa_mask);
-	s.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &s, NULL);
 	(void)argv;
 	if (argc > 1)
 		return (-1);
