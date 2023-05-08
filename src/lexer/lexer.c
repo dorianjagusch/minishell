@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azarsarikhani <azarsarikhani@student.42    +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/05 10:06:20 by azarsarikha      ###   ########.fr       */
+/*   Updated: 2023/05/08 10:25:40 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,12 @@ int	init_lexer(char *line, t_token	**tokens)
 		if (line[i] == '>')
 			i += add_token(tokens, new_token(">", GREATER_THAN));
 		if (line[i] == '<')
-			i += add_token(&tokens, new_token("<", LESS_THAN));
+			i += add_token(tokens, new_token("<", LESS_THAN));
 		if (ft_isprint(line[i]) && line[i] != '|' && line[i] != ' ')
-			i += get_text(&tokens, &line[i]);
+			i += get_text(tokens, &line[i]);
 		if (indicator > i)
 			return (EXIT_FAILURE);
+		ft_printf("i :%d indicator:%d\n",i,indicator);
 	}
 	return (EXIT_SUCCESS);
 }
