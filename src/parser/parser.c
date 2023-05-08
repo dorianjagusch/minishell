@@ -3,98 +3,129 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/04 14:22:45 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/08 14:56:48 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_params(t_token *tokens, t_command *command)
+int	count_params(t_token *token)
 {
-	static size_t	i;
+	int	n_params;
 
-	while (tokens->token_type == STRING)
+	n_params = 0;
+	while (token && token->token_type != PIPE)
 	{
-		command->params[i] = ft_strdup(tokens->content);
-		if (!command->params[i++])
+		if (ft_isredir(token))
 		{
-			ft_free_array(&(command->params), i);
-			return (FALSE);
+			if (token->next && token->next->next)
+			{
+				token = token->next->next;
+				continue ;
+			}
+			else
+				return (n_params);
 		}
-		tokens = tokens->next;
+		n_params++;
 	}
-	return ((int) i);
+	return (n_params);
 }
 
-static t_token	*get_file_info(t_token *tokens, t_command *command)
+void	get_params(t_token *token, t_command *command)
 {
-	if (tokens->token_type == GREATER_THAN
-		|| tokens->token_type == GREATER_GREATER)
+	int	i;
+
+	command->n_params = count_params(token);
+	command->params = ft_calloc(command->n_params + 1, sizeof(char *));
+	i = -1;
+	if (!command->params)
 	{
-		command->outfile = ft_strdup(tokens->next->content);
-		if (!command->outfile)
-			command->check = 1;
-		command->out_redirect = tokens->token_type;
+		free_command(&command);
+		ft_error(MEMERR, "");
 	}
-	else if (tokens->token_type == LESS_THAN || tokens->token_type == LESS_LESS)
+	while (token && token->token_type != PIPE && ++i < command->n_params)
 	{
-		command->infile = ft_strdup(tokens->next->content);
+		if (ft_isredir(token))
+		{
+			if (token->next->next)
+				token = token->next->next;
+		}
+		command->params[i] = ft_strdup(token->content);
+		if (!command->params[i])
+			free_command(&command);
+	}
+}
+
+static t_token	*redir_command(t_token *token, t_command *command)
+{
+	if (token->token_type == GREATER_GREATER
+		|| token->token_type == GREATER_THAN)
+	{
+		if (command->infile)
+			free(command->infile);
+		command->infile = ft_strdup(token->next->content);
 		if (!command->infile)
-			command->check = 1;
-		command->in_redirect = tokens->token_type;
+			ft_error(MEMERR, "");
+		command->in_redirect = token->token_type;
 	}
-	return (tokens->next);
+	if (token->token_type == LESS_LESS
+		|| token->token_type == LESS_THAN)
+	{
+		if (command->outfile)
+			free(command->outfile);
+		command->outfile = ft_strdup(token->next->content);
+		if (!command->infile)
+			ft_error(MEMERR, "");
+		command->out_redirect = token->token_type;
+	}
+	get_fds(command, token);
+	return (token->next);
 }
 
-t_token	*fill_command(t_token *tmp, t_command *command)
+int	extract_command(t_token *token, t_command *command)
 {
-	if (tmp->token_type == COMMAND)
+	t_token		*tmp;
+	static int	i;
+
+	tmp = token;
+	while (tmp && tmp->token_type != PIPE)
 	{
-		command->command = ft_strdup(tmp->content);
-		if (!command->command)
-			command->check = 1;
+		if (tmp->token_type == COMMAND)
+		{
+			command->command = ft_strdup(token->content);
+			command->id = i++;
+			if (!command->command)
+				return (-1);
+		}
+		else if (tmp->token_type == SPACE)
+			tmp = tmp->next;
+		else if (tmp->token_type == PIPE)
+			init_command(token->next);
+		else if (tmp->token_type == STRING)
+			get_params(token, command);
+		else
+			tmp = redir_command(token, command);
+		tmp = tmp->next;
 	}
-	else if (tmp->token_type == STRING)
-	{
-		command->n_params = get_params(tmp, command);
-		if (!command->n_params)
-			command->check = 1;
-	}
-	else if (tmp->token_type == PIPE)
-	{
-		command->next = init_command(tmp->next);
-		return (tmp);
-	}
-	else
-		tmp = get_file_info(tmp, command);
-	return (tmp->next);
+	return (1);
 }
 
-t_command	*init_command(t_token *tokens)
+t_command	*init_command(t_token *token)
 {
 	t_command	*command;
-	t_token		*tmp;
 
-	if (!tokens)
+	if (!token)
 		return (NULL);
-	tmp = tokens;
 	command = ft_calloc(1, sizeof(t_command));
 	if (!command)
-	{
-		command->check = 1;
 		return (NULL);
-	}
-	while (tmp)
+	if (extract_command(token, command) < 0)
 	{
-		tmp = fill_command(tmp, command);
-		if (command->check == 1) // not correct yet
-		{
-			free_command(&command);
-			return (NULL);
-		}
+		free_command(&command);
+		return (NULL);
 	}
 	return (command);
 }

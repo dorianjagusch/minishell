@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.h                                         :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/15 15:29:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/08 14:53:32 by djagusch         ###   ########.fr       */
+/*   Created: 2023/02/02 14:37:54 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/08 15:17:14 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_ERROR_H
-# define FT_ERROR_H
+#include "minishell.h"
 
-# include "minishell.h"
+void	close_fds(t_command *head, int *(fds[2]), int cur, int n_cmd)
+{
+	size_t	pipe;
 
-# define EPATH 127 /* No such file or directory */
-# define NOFILE 1
-# define NOACCESS 1
-# define NOCMMD 1
-# define MEMERR 1
+	pipe = 0;
+	while (pipe <= n_cmd)
+	{
+		if (pipe != cur && pipe != n_cmd)
+			close(fds[pipe][0]);
+		if (pipe != cur + 1 && pipe != 0)
+			close(fds[pipe][1]);
+		pipe++;
+	}
+}
 
-void	ft_error(int error, char *str);
-
-#endif

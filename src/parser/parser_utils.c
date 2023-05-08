@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_count_words.c                                   :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/10 15:25:26 by djagusch          #+#    #+#             */
-/*   Updated: 2023/03/10 15:29:50 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/05 12:55:42 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/08 15:24:49 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "lexer.h"
+#include "parser.h"
 
-size_t	ft_count_words(char const *s)
+
+BOOL	ft_isredir(t_token *token)
 {
-	size_t	i;
-	size_t	flag;
-	size_t	quote_flag;
+	if (token->token_type == GREATER_THAN
+		|| token->token_type == GREATER_GREATER
+		|| token->token_type == LESS_THAN
+		|| token->token_type == LESS_LESS)
+		return (1);
+	return (0);
+}
 
-	i = 0;
-	flag = 0;
-	quote_flag = 0;
-	while (*s)
+t_command	*set_command(t_command *head, size_t id)
+{
+	t_command	*tmp;
+
+	tmp = head;
+	if (tmp)
 	{
-		if (!ft_isspace(*s) && !flag && !quote_flag)
-		{
-			flag = 1;
-			i++;
-		}
-		else if (ft_isspace(*s))
-			flag = 0;
-		if (*s == '\'')
-			quote_flag = (quote_flag + 1) % 2;
-		s++;
+		while (tmp->id != id)
+			tmp = tmp->next;
 	}
-	return (i);
+	return (tmp);
 }

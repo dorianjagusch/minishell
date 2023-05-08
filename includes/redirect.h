@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.h                                         :+:      :+:    :+:   */
+/*   redirect.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/15 15:29:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/08 14:53:32 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/04 18:49:46 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/08 15:23:57 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_ERROR_H
-# define FT_ERROR_H
+#ifndef REDIRECT_H
+# define REDIRECT_H
 
 # include "minishell.h"
 
-# define EPATH 127 /* No such file or directory */
-# define NOFILE 1
-# define NOACCESS 1
-# define NOCMMD 1
-# define MEMERR 1
+# define READ 0
+# define WRITE 1
 
-void	ft_error(int error, char *str);
+int			redirect_exe(t_command *command, t_env *env);
+size_t		count_commands(t_command *commands);
+char		*get_exe_path(t_env **env, t_command *command);
+void		close_fds(t_command *head, int *(fds[2]), int cur, int n_cmd);
 
 #endif

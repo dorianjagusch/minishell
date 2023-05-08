@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.h                                         :+:      :+:    :+:   */
+/*   count_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/15 15:29:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/08 14:53:32 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/04 18:10:17 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/05 09:18:48 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_ERROR_H
-# define FT_ERROR_H
+#include "minishell.h"
 
-# include "minishell.h"
+size_t	count_commands(t_command *commands)
+{
+	t_command	*tmp;
+	size_t		count;
 
-# define EPATH 127 /* No such file or directory */
-# define NOFILE 1
-# define NOACCESS 1
-# define NOCMMD 1
-# define MEMERR 1
-
-void	ft_error(int error, char *str);
-
-#endif
+	tmp = commands;
+	count = 0;
+	while (tmp)
+	{
+		count++;
+		tmp = tmp->next;
+	}
+	return (count);
+}

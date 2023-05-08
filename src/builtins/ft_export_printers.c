@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/03 17:42:34 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/08 14:43:54 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,28 @@
 
 t_env	*copy_env(t_env **env)
 {
-	t_env	*new;
 	t_env	*tmp;
 	t_env	*list;
+	t_env	*new;
 
 	if (!env || !*env)
 		return (NULL);
-	list = ft_calloc(1, sizeof(t_env));
-	list->key = (*env)->key;
-	list->value = (*env)->value;
-	tmp = (*env)->next;
+	list = NULL;
+	add_env(&list, new_env((*env)->key, (*env)->value));
+	if (!list)
+		return (list);
+	tmp = list->next;
 	while (tmp)
 	{
-		if (tmp->eq == 1)
+		new = new_env(tmp->key, tmp->value);
+		if (!new)
 		{
-			new = ft_calloc(1, sizeof(t_env));
-			if (!new)
-				break ;
-			new->key = tmp->key;
-			new->value = tmp->value;
+			free_env(&list);
+			return (NULL);
 		}
+		add_env(&list, new);
 		tmp = tmp->next;
 	}
-	if (!new)
-		free(&list);
 	return (list);
 }
 
@@ -88,17 +86,17 @@ void	sort_env(t_env **env)
 int	print_export(t_env **env, t_command *cmd)
 {
 	t_env	*cpy;
-	t_env	*tmp;
 
 	cpy = copy_env(env);
+	if (!cpy)
+		return (EXIT_FAILURE);
 	sort_env(&cpy);
-	tmp = cpy;
 	while (cpy)
 	{
-		ft_printf_fd(cmd->out_fd[1],
+		ft_printf_fd(cmd->fds[1],
 			"declare -x %s=\"%s\"\n", cpy->key, cpy->value);
 		cpy = cpy->next;
 	}
 	free_env(&cpy);
-	return (0);
+	return (EXIT_SUCCESS);
 }
