@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/05 15:47:53 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/08 14:56:48 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	count_params(t_token *token)
 		{
 			if (token->next && token->next->next)
 			{
-				token == token->next->next;
+				token = token->next->next;
 				continue ;
 			}
 			else
@@ -34,7 +34,7 @@ int	count_params(t_token *token)
 	return (n_params);
 }
 
-char	**get_params(t_token *token, t_command *command)
+void	get_params(t_token *token, t_command *command)
 {
 	int	i;
 
@@ -42,7 +42,10 @@ char	**get_params(t_token *token, t_command *command)
 	command->params = ft_calloc(command->n_params + 1, sizeof(char *));
 	i = -1;
 	if (!command->params)
-		return (NULL);
+	{
+		free_command(&command);
+		ft_error(MEMERR, "");
+	}
 	while (token && token->token_type != PIPE && ++i < command->n_params)
 	{
 		if (ft_isredir(token))
@@ -63,7 +66,7 @@ static t_token	*redir_command(t_token *token, t_command *command)
 	{
 		if (command->infile)
 			free(command->infile);
-		command->infile == ft_strdup(token->next->content);
+		command->infile = ft_strdup(token->next->content);
 		if (!command->infile)
 			ft_error(MEMERR, "");
 		command->in_redirect = token->token_type;
@@ -73,12 +76,13 @@ static t_token	*redir_command(t_token *token, t_command *command)
 	{
 		if (command->outfile)
 			free(command->outfile);
-		command->outfile == ft_strdup(token->next->content);
+		command->outfile = ft_strdup(token->next->content);
 		if (!command->infile)
 			ft_error(MEMERR, "");
 		command->out_redirect = token->token_type;
 	}
 	get_fds(command, token);
+	return (token->next);
 }
 
 int	extract_command(t_token *token, t_command *command)
@@ -91,7 +95,7 @@ int	extract_command(t_token *token, t_command *command)
 	{
 		if (tmp->token_type == COMMAND)
 		{
-			command->command == ft_strdup(token->content);
+			command->command = ft_strdup(token->content);
 			command->id = i++;
 			if (!command->command)
 				return (-1);
@@ -101,11 +105,12 @@ int	extract_command(t_token *token, t_command *command)
 		else if (tmp->token_type == PIPE)
 			init_command(token->next);
 		else if (tmp->token_type == STRING)
-			command->params = get_params(token, command);
+			get_params(token, command);
 		else
 			tmp = redir_command(token, command);
 		tmp = tmp->next;
 	}
+	return (1);
 }
 
 t_command	*init_command(t_token *token)
@@ -116,10 +121,10 @@ t_command	*init_command(t_token *token)
 		return (NULL);
 	command = ft_calloc(1, sizeof(t_command));
 	if (!command)
-		return (EXIT_FAILURE);
+		return (NULL);
 	if (extract_command(token, command) < 0)
 	{
-		free_command(command);
+		free_command(&command);
 		return (NULL);
 	}
 	return (command);

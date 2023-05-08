@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/05 15:20:03 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/08 15:31:18 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,9 @@ S = src
 O = obj
 I = includes
 
-FILES = main env \
+FILES = main \
 	ft_builtin \
+	ft_error \
 	ft_cd \
 	ft_echo \
 	ft_env \
@@ -39,14 +40,23 @@ FILES = main env \
 	ft_export_printers \
 	ft_pwd \
 	ft_unset \
+	env \
+	env_utils \
 	free_memory \
+	concat \
 	lexer \
 	lexer_utils \
 	token \
-	concat \
-	parser \
 	open_files \
-	parser_print
+	parser \
+	parser_utils \
+	parser_print \
+	token_print \
+#	count_commands \
+#	do_child \
+#	find_command \
+#	redirect \
+#	utils 
 
 HEADER = minishell.h libft.h parser.h lexer.h ft_error.h
 HEADER := $(addprefix $I/,$(HEADER))

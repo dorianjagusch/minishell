@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 12:55:42 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/05 15:10:37 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:24:49 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,17 @@ BOOL	ft_isredir(t_token *token)
 		|| token->token_type == LESS_LESS)
 		return (1);
 	return (0);
+}
+
+t_command	*set_command(t_command *head, size_t id)
+{
+	t_command	*tmp;
+
+	tmp = head;
+	if (tmp)
+	{
+		while (tmp->id != id)
+			tmp = tmp->next;
+	}
+	return (tmp);
 }

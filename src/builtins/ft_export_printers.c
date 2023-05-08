@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/05 11:03:18 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/08 14:43:54 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ t_env	*copy_env(t_env **env)
 		new = new_env(tmp->key, tmp->value);
 		if (!new)
 		{
-			free_env(list);
+			free_env(&list);
 			return (NULL);
 		}
 		add_env(&list, new);
 		tmp = tmp->next;
 	}
+	return (list);
 }
 
 t_env	**swap_env(t_env **env, t_env *e1, t_env *e2)

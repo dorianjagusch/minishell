@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/05 11:20:44 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/08 14:40:28 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_env	*new_env(char *key, char *value)
 	return (new);
 }
 
-int	add_env(t_env **env, t_env *new)
+void	add_env(t_env **env, t_env *new)
 {
 	t_env	*tmp;
 
@@ -46,7 +46,7 @@ int	add_env(t_env **env, t_env *new)
 	}
 }
 
-static char	*split_env(char *envp)
+static char	**split_env(char *envp)
 {
 	char	**tmp;
 	char	*hold;
@@ -67,19 +67,19 @@ static char	*split_env(char *envp)
 		tmp[1] = ft_itoa(ft_atoi(tmp[1]) + 1);
 		free(hold);
 	}
+	return (tmp);
 }
 
 void	init_env(char **envp, t_env **env)
 {
 	int		i;
 	char	**tmp;
-	char	*hold;
 	t_env	*new;
 
 	i = 0;
 	while (envp[i])
 	{
-		tmp = split_env(env);
+		tmp = split_env(envp[i]);
 		if (!tmp)
 			break ;
 		new = new_env(tmp[0], tmp[1]);
@@ -87,6 +87,6 @@ void	init_env(char **envp, t_env **env)
 			break ;
 		add_env(env, new);
 		i++;
+		ft_free_array(&tmp, 2);
 	}
-	ft_free_array(tmp, 2);
 }
