@@ -6,25 +6,28 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/04 19:01:37 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/08 15:24:23 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "redirect.h"
 #include "minishell.h"
 
-void	do_child( t_command *head, t_command *command, int current, char **env_arr)
+void	do_child(t_command *head, int (*fds[2]), int current, char **env_arr)
 {
+	size_t		n_cmd;
+	t_command	*tmp;
 
-	close_fdss(head, current);
-	if (dup2(command->fds[0], STDIN_FILENO) < 0
-		|| dup2(command->fds[1], STDOUT_FILENO) < 0)
+	n_cmd = count_commands(head);
+	tmp = set_command(head, current);
+	close_fds(head, fds, current, n_cmd);
+	if (dup2(tmp->fds[0], STDIN_FILENO) < 0
+		|| dup2(tmp->fds[1], STDOUT_FILENO) < 0)
 		ft_error(0, "");
-	close(command->fds[0]);
-	close(command->fds[1]);
-	if (!command->command)
-	{
+	close(tmp->fds[0]);
+	close(tmp->fds[1]);
+	if (!tmp->command)
 		ft_error(NOCMMD, "");
-	}
-	execve(command->command, command->params, env_arr);
-	ft_error(NOCMMD, command->command);
+	execve(tmp->command, tmp->params, env_arr);
+	ft_error(NOCMMD, tmp->command);
 }
