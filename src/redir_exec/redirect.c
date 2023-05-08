@@ -64,7 +64,7 @@ int	redirect_exe(t_command *command, t_env *env)
 	int		i;
 
 	n_cmds = 0;
-	env_arr = set_up_exe(command, env, *n_cmds);
+	env_arr = set_up_exe(command, env, &n_cmds);
 	pids = ft_calloc(n_cmds, sizeof(int));
 	i = 0;
 	while (i < n_cmds)

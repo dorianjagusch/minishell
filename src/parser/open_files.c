@@ -16,14 +16,19 @@
 static void	check_file(t_command *command, int token_type)
 {
 	char	*file;
+	int		file_type;
 
+	file_type = 0;
 	if (token_type == GREATER_GREATER || token_type == GREATER_THAN)
 		file = command->infile;
 	else
+	{
+		file_type++;
 		file = command->outfile;
+	}
 	if (access(file, F_OK))
 		ft_error(NOFILE, file);
-	else if (command->fds[0] < 0 && access(file, F_OK) == 0) //fd is not correct here
+	else if (command->fds[file_type] < 0 && access(file, F_OK) == 0)
 		ft_error(NOACCESS, file);
 }
 
