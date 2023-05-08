@@ -36,7 +36,7 @@ enum e_token_type
 };
 
 t_token		*new_token(char *content, int token_type);
-int			add_token(t_token **token, t_token *new);
+int			add_token(t_token **token, t_token *new, int *flag);
 int			concatenate(t_token **tokens);
 
 #endif
