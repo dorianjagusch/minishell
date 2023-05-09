@@ -6,13 +6,13 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/08 14:56:48 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/09 17:09:54 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_params(t_token *token)
+int	count_params(t_token *token) // have to get the reirections in here already. Return to where I left off to get the strings and then skip everything all together
 {
 	int	n_params;
 

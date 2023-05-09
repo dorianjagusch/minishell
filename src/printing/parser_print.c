@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:07:32 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/08 12:45:26 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/09 17:04:25 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,19 @@ void	print_parser(t_command **command)
 	}
 	tmp = *command;
 	ft_printf("COMMAND: %s\n", tmp->command);
-	ft_printf("==================\n");
+	ft_printf("-----------------------\n");
 	ft_printf("PARAMS:\n");
 	ft_print_array(tmp->params, 1);
 	ft_printf("n_params: %d\n", tmp->n_params);
-	ft_printf("==================\n");
-	ft_printf("infile: %s\n", tmp->infile);
+	ft_printf("-----------------------\n");
+	ft_printf("infile:\t%s\n", tmp->infile);
 	ft_printf("infile fd:\t%d\n", tmp->fds[0]);
-	ft_printf("redirect: %d\n", tmp->in_redirect);
-	ft_printf("==================\n");
-	ft_printf("outfile: %s\t", tmp->outfile);
+	ft_printf("redirect:\t%d\n", tmp->in_redirect);
+	ft_printf("-----------------------\n");
+	ft_printf("outfile:\t%s\t", tmp->outfile);
 	ft_printf("outfile fd:\t%d\n", tmp->fds[1]);
-	ft_printf("redirect: %d\n", tmp->out_redirect);
-	ft_printf("==================\n");
-	ft_printf("==================\n");
+	ft_printf("redirect:\t%d\n", tmp->out_redirect);
+	ft_printf("=======================\n");
 	print_parser(&(tmp->next));
 }
 

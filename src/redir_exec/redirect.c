@@ -39,7 +39,7 @@ static int	*set_up_pipes(t_command *command, int n_cmd)
 
 }
 
-static void	ft_wait(t_env *env, t_command *cmds, int *pids, int *pipes)
+static void	ft_wait(t_env *env, t_command *cmds, int *pids, int *fds)
 {
 	int			status;
 	int			i;
@@ -51,7 +51,7 @@ static void	ft_wait(t_env *env, t_command *cmds, int *pids, int *pipes)
 	if (status > 0)
 	{
 		ft_free(pids);
-		ft_free(pipes);
+		ft_free(fds);
 		free_command(cmds);
 		free_env(env);
 		ft_error(0, "");
@@ -91,8 +91,8 @@ int	redirect_exe(t_command *command, t_env *env)
 			do_child(command, i, env);
 		i++;
 	}
-	close_fds(command, n_cmds);
-	ft_wait(command, pids); //to do
+	close_fds(command, fds, n_cmds, n_cmds);
+	ft_wait(command, env, pids, fds); //to do
 	free_cmds(&command, &pids);
 	return (0);
 }
