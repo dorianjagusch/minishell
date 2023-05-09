@@ -39,7 +39,7 @@ static int	*set_up_pipes(t_command *command, int n_cmd)
 
 }
 
-static void	ft_wait(t_command *cmds, int *pids)
+static void	ft_wait(t_env *env, t_command *cmds, int *pids, int *pipes)
 {
 	int			status;
 	int			i;
@@ -50,7 +50,10 @@ static void	ft_wait(t_command *cmds, int *pids)
 		;
 	if (status > 0)
 	{
-		free_cmds(&cmds, &pids);
+		ft_free(pids);
+		ft_free(pipes);
+		free_command(cmds);
+		free_env(env);
 		ft_error(0, "");
 	}
 	return ;
@@ -65,9 +68,6 @@ static int	*set_up_exe(t_command *command, t_env *env, size_t *n_cmds)
 	get_exe_path(command, env);
 	return (pipes);
 }
-
-//set_up_pipes is not taking the array yet. Need to work out how to let the already open files go in there.
-// Also need to remember to close the files that were opened and then closed in parser.c
 
 int	redirect_exe(t_command *command, t_env *env)
 {
