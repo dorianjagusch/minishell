@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 14:37:54 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/09 15:49:16 by djagusch         ###   ########.fr       */
+/*   Created: 2023/04/26 13:29:10 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/09 15:59:11 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	close_fds(t_command *head, int *fds, int cur, int n_cmd)
+int	is_built_in(t_env **env, t_command *cmd)
 {
-	size_t	pipe;
+	const t_builtin	builtins[] = {
+	{"echo", &ft_echo},
+	{"cd", &ft_cd},
+	{"pwd", &ft_pwd},
+	{"export", &ft_export},
+	{"unset", &ft_unset},
+	{"env", &ft_env}
+	};
+	int				i;
+	char			**env_arr;
 
-	pipe = 0;
-	while (pipe <= n_cmd)
+	i = 0;
+	env_arr = ft_env_to_array(env);
+	while (i < 7)
 	{
-		if (pipe != cur && pipe != n_cmd)
-			close(fds[cur + 0]);
-		if (pipe != cur + 1 && pipe != 0)
-			close(fds[cur + 1]);
-		pipe++;
+		if (ft_strcmp(cmd->command, builtins[i].name) == 0)
+			return (1);
 	}
+	return (0);
 }
-

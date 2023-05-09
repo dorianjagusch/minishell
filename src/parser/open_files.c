@@ -50,3 +50,4 @@ t_token	*get_fds(t_command *command, t_token *token)
 	check_file(command, token->token_type);
 	return (token->next);
 }
+ // write for outfiles
