@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:07:32 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/09 17:04:25 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/10 09:59:36 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_parser(t_command **command)
 	ft_printf("COMMAND: %s\n", tmp->command);
 	ft_printf("-----------------------\n");
 	ft_printf("PARAMS:\n");
-	ft_print_array(tmp->params, 1);
+	ft_print_array(tmp->params, STDOUT_FILENO);
 	ft_printf("n_params: %d\n", tmp->n_params);
 	ft_printf("-----------------------\n");
 	ft_printf("infile:\t%s\n", tmp->infile);
@@ -51,13 +51,15 @@ void	print_parser(t_command **command)
 // 	test = ft_calloc(1, sizeof(t_command));
 // 	test->command = "cat";
 // 	test->infile = "src/main.c";
+// 	test->outfile = "test.c";
 // 	i = 0;
 // 	test->params = ft_calloc(PARAMS + 1, sizeof(char *));
 // 	while (i < PARAMS)
-// 		test->params[i++] = str;
+// 		test->params[i++] = (char *)str;
 // 	test->n_params = ft_count_elements(test->params);
 // 	test->in_redirect = 2;
-// 	test->in_fd[0] = open(test->infile, O_RDONLY | O_APPEND);
+// 	test->fds[0] = open(test->infile, O_RDONLY | O_APPEND);
+// 	test->fds[1] = open(test->infile, O_WRONLY, 0644);
 // 	print_parser(&test);
 // 	return (0);
 // }

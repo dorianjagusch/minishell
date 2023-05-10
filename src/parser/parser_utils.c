@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 12:55:42 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/08 15:24:49 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/10 10:49:19 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@
 
 BOOL	ft_isredir(t_token *token)
 {
-	if (token->token_type == GREATER_THAN
-		|| token->token_type == GREATER_GREATER
-		|| token->token_type == LESS_THAN
-		|| token->token_type == LESS_LESS)
+	if (token->token_type >= GREATER_THAN
+		|| token->token_type <= LESS_LESS)
 		return (1);
 	return (0);
 }

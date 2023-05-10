@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/09 17:08:02 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/10 10:14:51 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,23 +89,23 @@ $O:
 $O/%.o: $S/%.c $(HEADER) | $O
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-test_parser:
+parser_test: $(LIBFT) $(PARSER_F) src/printing/parser_print.c src/free_memory/free_memory.c src/ft_error.c src/tests/parser_test.c
 	@$(CC) $(CFLAGS) src/printing/token_print.c src/printing/parser_print.c src/free_memory/free_memory.c \
 	$(PARSER_F) src/ft_error.c src/tests/parser_test.c \
 	-Iincludes/ includes/parser.h includes/lexer.h includes/minishell.h \
-	-Llibft -lft
+	-Llibft -lft -g -fsanitize=address -static-libsan
 
 test_builtin:
 	@$(CC) $(CFLAGS) src/printing/token_print.c src/printing/parser_print.c src/free_memory/free_memory.c \
 	$(builtin_F) src/ft_error.c src/tests/builtin_test.c \
 	-Iincludes/ includes/parser.h includes/lexer.h includes/minishell.h \
-	-Llibft -lft
+	-Llibft -lft -g -fsanitize=address -static-libsan -o builtin_test
 
 test_env:
 	@$(CC) $(CFLAGS) src/printing/token_print.c src/printing/parser_print.c src/free_memory/free_memory.c \
 	$(ENV_F) src/ft_error.c src/tests/env_test.c \
 	-Iincludes/ includes/parser.h includes/lexer.h includes/minishell.h \
-	-Llibft -lft
+	-Llibft -lft -g -fsanitize=address -static-libsan -o env_test
 
 ### LIBFT
 
