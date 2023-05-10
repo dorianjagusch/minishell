@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/10 10:48:30 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/10 15:47:23 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	get_params(t_token *token, t_command *command)
 
 static t_token	*redir_command(t_token *token, t_command *command)
 {
-	if (token->token_type < LESS_THAN)
+	if (token->token_type >= LESS_THAN)
 	{
 		if (command->infile)
 			free(command->infile);
@@ -75,7 +75,7 @@ static t_token	*redir_command(t_token *token, t_command *command)
 		if (command->outfile)
 			free(command->outfile);
 		command->outfile = ft_strdup(token->next->content);
-		if (!command->infile)
+		if (!command->outfile)
 			ft_error(MEMERR, "");
 		command->out_redirect = token->token_type;
 	}
@@ -107,9 +107,10 @@ int	extract_command(t_token *token, t_command *command)
 			get_params(token, command);
 			params_flag = 1;
 		}
-		else
-			tmp = redir_command(token, command);
-		tmp = tmp->next;
+		else if (tmp->token_type != STRING && tmp->token_type != COMMAND)
+			tmp = redir_command(tmp, command);
+		if (tmp)
+			tmp = tmp->next;
 	}
 	return (1);
 }
