@@ -20,23 +20,27 @@ static int	*set_up_pipes(t_command *command, int n_cmd)
 
 	i = 0;
 	pipes = malloc(n_cmd * 2);
-	while (i < n_cmd)
+	if (pipes)
 	{
-		if (pipe(pipes + i) < 0)
-			ft_error(EPIPE, "");
-		if (command->infile)
+		while (i < n_cmd)
 		{
-			if (close(pipes[i]) < 0)
+			if (pipe(pipes + i) < 0)
 				ft_error(EPIPE, "");
+			if (command->infile)
+			{
+				if (close(pipes[i]) < 0)
+					ft_error(EPIPE, "");
+			}
+			if (command->outfile)
+			{
+				if (close(pipes[i + 1]) < 0)
+					ft_error(EPIPE, "");
+			}
+			i += 2;
+			command = command->next;
 		}
-		if (command->outfile)
-		{
-			if (close(pipes[i + 1]) < 0)
-				ft_error(EPIPE, "");
-		}
-		i += 2;
 	}
-
+	return (pipes);
 }
 
 static void	ft_wait(t_env *env, t_command *cmds, int *pids, int *fds)
@@ -52,26 +56,27 @@ static void	ft_wait(t_env *env, t_command *cmds, int *pids, int *fds)
 	{
 		ft_free(pids);
 		ft_free(fds);
-		free_command(cmds);
-		free_env(env);
+		free_command(&cmds);
+		free_env(&env);
 		ft_error(0, "");
 	}
 	return ;
 }
 
-static int	*set_up_exe(t_command *command, t_env *env, size_t *n_cmds)
+static int	*set_up_exe(t_command *command, t_env *env, int *n_cmds)
 {
 	int	*pipes;
 
 	*n_cmds = count_commands(command);
-	pipes = set_up_pipes(command, n_cmds);
-	get_exe_path(command, env);
+	pipes = set_up_pipes(command, *n_cmds);
+	if (get_exe_path(&env, &command));
+		return (0);
 	return (pipes);
 }
 
 int	redirect_exe(t_command *command, t_env *env)
 {
-	size_t	n_cmds;
+	int		n_cmds;
 	pid_t	*pids;
 	char	**env_arr;
 	int		*fds;
@@ -79,6 +84,8 @@ int	redirect_exe(t_command *command, t_env *env)
 
 	n_cmds = 0;
 	set_up_exe(command, env, &n_cmds);
+	printf("here\n");
+	exit(0);
 	pids = ft_calloc(n_cmds, sizeof(int));
 	env_arr = ft_env_to_array(env);
 	i = 0;
@@ -88,11 +95,11 @@ int	redirect_exe(t_command *command, t_env *env)
 		if (pids[i] < 0)
 			ft_error(EPIPE, "");
 		if (pids[i] == 0)
-			do_child(command, i, env);
+			do_child(command, fds, i, env_arr);
 		i++;
 	}
-	close_fds(command, fds, n_cmds, n_cmds);
-	ft_wait(command, env, pids, fds); //to do
-	free_cmds(&command, &pids);
+	//close_fds(command, fds, n_cmds, n_cmds);
+	ft_wait(env, command, pids, fds); //to do
+	//free_cmds(&command, &pids);
 	return (0);
 }

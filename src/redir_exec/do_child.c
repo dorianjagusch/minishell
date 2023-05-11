@@ -6,11 +6,12 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/09 11:55:57 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:23:23 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redirect.h"
+#include "parser.h"
 #include "minishell.h"
 
 void	do_child(t_command *head, int *fds, int current, char **env_arr)

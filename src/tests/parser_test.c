@@ -6,13 +6,14 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:29:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/11 15:01:17 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:23:53 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "parser.h"
 #include "lexer.h"
+#include "redirect.h"
+#include "minishell.h"
 
 void	print_token(t_token *token);
 
@@ -32,6 +33,8 @@ int	main(int argc, char **argv, char *envp[])
 	t_token	token12;
 	t_token	token13;
 	t_command	*head;
+
+	t_env *env;
 
 	token1.next = &token2;
 	token2.next = &token3;
@@ -81,6 +84,9 @@ int	main(int argc, char **argv, char *envp[])
 	ft_print_array(envp, 1);
 	head = init_command(&token1);
 	print_parser(head);
+	init_env(envp, &env);
+	redirect_exe(head, env);
+	free_env(&env);
 	free_command(&head);
 	system("leaks a.out");
 	return (0);

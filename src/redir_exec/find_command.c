@@ -56,7 +56,7 @@ static void	find_path(char **path, char **cmd_name)
 	return ;
 }
 
-void	get_exe_path(t_env **env, t_command *command)
+int	get_exe_path(t_env **env, t_command *command)
 {
 	char	*path;
 	size_t	i;
@@ -66,6 +66,7 @@ void	get_exe_path(t_env **env, t_command *command)
 	{
 		path = find_env(env, "PATH", 0)->value;
 		find_path(&path, &(command->command));
+		return (0);
 	}
-	return ;
+	return (1);
 }
