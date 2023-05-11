@@ -6,130 +6,130 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/08 14:02:58 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/11 14:58:19 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static BOOL	can_concat(t_token *token)
+static int	concat_redir(t_token **token)
 {
-	t_token	*tmp;
-
-	tmp = token;
-	if (tmp->next->token_type != SPACE || tmp->next->token_type != PIPE
-		|| tmp->next->token_type != LESS_THAN
-		|| tmp->next->token_type != GREATER_THAN
-		|| tmp->next->token_type != LESS_LESS
-		|| tmp->next->token_type != GREATER_GREATER)
+	ft_printf("in concat redir\n");
+	if (((*token)->token_type == GREATER_THAN && (*token)->next->token_type
+			== GREATER_THAN) || ((*token)->token_type == LESS_THAN
+			&& (*token)->next->token_type == LESS_THAN))
 	{
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-static int	concat_redir(t_token *token)
-{
-	t_token	*temp;
-
-	temp = token;
-	if ((temp->token_type == GREATER_THAN && temp->next->token_type
-			== GREATER_THAN) || (temp->token_type == LESS_THAN
-			&& temp->next->token_type == LESS_THAN))
-	{
-		ft_free(temp->content);
-		if (temp->token_type == GREATER_THAN)
+		ft_free((*token)->content);
+		if ((*token)->token_type == GREATER_THAN)
 		{
-			temp->token_type = GREATER_GREATER;
-			temp->content = ft_strdup(">>");
+			(*token)->token_type = GREATER_GREATER;
+			(*token)->content = ft_strdup(">>");
 		}
 		else
 		{
-			temp->token_type = LESS_LESS;
-			temp->content = ft_strdup("<<");
+			(*token)->token_type = LESS_LESS;
+			(*token)->content = ft_strdup("<<");
 		}
-		if (!temp->content)
+		if (!(*token)->content)
 			return (EXIT_FAILURE);
-		temp->next = temp->next->next;
-		free(temp->next->content);
-		free(temp->next);
+		(*token)->next = (*token)->next->next;
+		free((*token)->next->content);
+		free((*token)->next);
+	}
+	ft_printf("exiting concat redir with success\n");
+	return (EXIT_SUCCESS);
+}
+
+static	int	bzero_quote(t_token *token, t_token *next_token)
+{
+	char	*temp;
+
+	if ((token->content)[0] == '\'' || (token->content)[0] == '\"')
+	{
+		temp = ft_substr(token->content , 1 , ft_strlen(token->content) - 2);
+		if (temp)
+		{
+			free(token->content);
+			token->content = temp;
+		}
+		else
+			return (EXIT_FAILURE);
+		
+	}
+	if ((next_token->content)[0] == '\'' || (next_token->content)[0] == '\"')
+	{
+		temp = ft_substr(next_token->content , 1 , ft_strlen(next_token->content) - 2);
+		if (temp)
+		{
+			free(next_token->content);
+			next_token->content = temp;
+		}
+		else
+			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
 
-static	void	bzero_closing_quote(t_token *token, t_token *next_token)
-{
-	int	i;
-
-	i = -1;
-	if (token->content[0] == '\'' || token->content[0] == '\"')
-	{
-		while (token->content[++i])
-			;
-		token->content[i - 1] = 0;
-	}
-	if (next_token->content[0] == '\'' || next_token->content[0] == '\"')
-	{
-		while (next_token->content[++i])
-			;
-		next_token->content[i - 1] = 0;
-	}
-}
-
-static int	merge_nodes(t_token *token, t_token *next_token, int quote)
+static int	merge_nodes(t_token **token, t_token **next_token, int quote)
 {
 	char	*temp;
-	char	*ptr;
-	char	*next_ptr;
 
-	ptr = token->content;
-	next_ptr = next_token->content;
-	if (token->content[0] == '\'' || token->content[0] == '\"')
-		ptr = &token->content[1];
-	if (next_token->content[0] == '\'' || next_token->content[0] == '\"')
-		next_ptr = &next_token->content[1];
-	bzero_closing_quote(token, next_token);
-	temp = ft_strjoin(ptr, next_ptr);
+	ft_printf("in merge nodes\n");
+	if (((*token)->content)[0] == '\'' || ((*token)->content)[0] == '\"' 
+		|| (*next_token)->content[0] == '\'' || (*next_token)->content[0] == '\"')
+		if (bzero_quote((*token), (*next_token)) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+	temp = ft_strjoin((*token)->content, (*next_token)->content);
 	if (temp)
 	{
-		free(token->content);
-		token->content = temp;
-		token->next = next_token->next;
-		token->isquote = quote;
-		free(next_token->next->content);
-		free(next_token);
+		ft_printf("temp : %s\n", temp);
+		free((*token)->content);
+		(*token)->content = temp;
+		ft_printf("content : %s\n", (*token)->content);
+		(*token)->next = (*next_token)->next;
+		(*token)->isquote = quote;
+		free((*next_token)->content);
+//		free((*next_token));
 		return (EXIT_SUCCESS);
 	}
 	else
 		return (EXIT_FAILURE);
 }
 
+static int	quote_exist(t_token *token)
+{
+	if ((token->content)[0] == '\'' || (token->content)[0] == '\"'
+			|| token->isquote == 1 || (token->next->content)[0] == '\''
+			|| (token->next->content)[0] == '\"')
+		return (1);
+	return (0);
+}
+
 int	concatenate(t_token **tokens)
 {
 	t_token	*temp;
-	char	quote;
+	int		quote;
 
 	temp = *tokens;
-	quote = 0;
-	print_token(*tokens);
-	if (!concat_redir(*tokens))
-		return (EXIT_FAILURE);
-	while (temp != NULL)
+	while (temp != NULL && temp->next != NULL)
 	{
-		if (temp->token_type != PIPE || temp->token_type != GREATER_THAN
-			|| temp->token_type != LESS_THAN || temp->token_type != LESS_LESS
-			|| temp->token_type != GREATER_GREATER || temp->token_type != SPACE)
+		if (concat_redir(&temp) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		temp = temp->next;
+	}
+	temp = *tokens;
+	while (temp != NULL && temp->next != NULL)
+	{
+		quote = 0;
+		if (temp->token_type == STRING && temp->next->token_type == STRING)
 		{
-			if (can_concat(temp))
-			{
-				if (temp->content[0] == '\'' || temp->content[0] == '\"')
-					quote = 1;
-				if (!merge_nodes(temp, temp->next, quote))
-					return (EXIT_FAILURE);
-			}
+			quote = quote_exist(temp);
+			if (merge_nodes(&temp, &(temp->next), quote) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+			temp = *tokens;
+			continue ;
 		}
 		temp = temp->next;
 	}
-	
 	return (EXIT_SUCCESS);
 }
