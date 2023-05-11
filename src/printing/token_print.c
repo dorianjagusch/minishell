@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 16:02:34 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/09 17:00:48 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:09:06 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	print_token(t_token *token)
 		else if (token->token_type == GREATER_THAN)
 			ft_printf("> %d\n", token->content);
 		else if (token->token_type == LESS_LESS)
-			ft_printf("param: %d\n", token->content);
+			ft_printf("<<: %d\n", token->content);
 		else if (token->token_type == LESS_THAN)
-			ft_printf("param: %d\n", token->content);
+			ft_printf("<: %d\n", token->content);
 		else if (token->token_type == PIPE)
 			ft_printf("%s\n", token->content);
 		else if (token->token_type == SPACE)

@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/10 10:14:51 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/11 11:36:29 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,7 @@ parser_test: $(LIBFT) $(PARSER_F) src/printing/parser_print.c src/free_memory/fr
 	@$(CC) $(CFLAGS) src/printing/token_print.c src/printing/parser_print.c src/free_memory/free_memory.c \
 	$(PARSER_F) src/ft_error.c src/tests/parser_test.c \
 	-Iincludes/ includes/parser.h includes/lexer.h includes/minishell.h \
-	-Llibft -lft -g -fsanitize=address -static-libsan
+	-Llibft -lft
 
 test_builtin:
 	@$(CC) $(CFLAGS) src/printing/token_print.c src/printing/parser_print.c src/free_memory/free_memory.c \

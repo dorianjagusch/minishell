@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/10 15:47:23 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:30:45 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static t_token	*redir_command(t_token *token, t_command *command)
 	if (token->token_type >= LESS_THAN)
 	{
 		if (command->infile)
-			free(command->infile);
+			ft_free(command->infile);
 		command->infile = ft_strdup(token->next->content);
 		if (!command->infile)
 			ft_error(MEMERR, "");
@@ -95,13 +95,16 @@ int	extract_command(t_token *token, t_command *command)
 	{
 		if (tmp->token_type == COMMAND)
 		{
-			command->command = ft_strdup(token->content);
+			command->command = ft_strdup(tmp->content);
 			command->id = i++;
 			if (!command->command)
 				return (-1);
 		}
 		else if (tmp->token_type == PIPE)
-			command->next = init_command(token->next);
+		{
+			command->next = init_command(tmp->next);
+			return (0);
+		}
 		else if (tmp->token_type == STRING && !params_flag)
 		{
 			get_params(token, command);
@@ -112,7 +115,7 @@ int	extract_command(t_token *token, t_command *command)
 		if (tmp)
 			tmp = tmp->next;
 	}
-	return (1);
+	return (0);
 }
 
 t_command	*init_command(t_token *token)

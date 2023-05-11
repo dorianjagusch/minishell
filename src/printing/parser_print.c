@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:07:32 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/10 15:49:21 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:35:48 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,32 @@
 
 #define PARAMS 5
 
-void	print_parser(t_command **command)
+void	print_parser(t_command *command)
 {
-	t_command	*tmp;
-
-	if (!command || !*command)
+	if (!command)
 	{
 		ft_printf("END\n");
 		return ;
 	}
-	tmp = *command;
-	ft_printf("COMMAND: %s\n", tmp->command);
+	ft_printf("COMMAND: %s\n", command->command);
 	ft_printf("-----------------------\n");
 	ft_printf("PARAMS:\n");
-	ft_print_array(tmp->params, STDOUT_FILENO);
-	ft_printf("n_params: %d\n", tmp->n_params);
+	ft_print_array(command->params, STDOUT_FILENO);
+	ft_printf("n_params: %d\n", command->n_params);
 	ft_printf("-----------------------\n");
-	ft_printf("infile:\t%s\n", tmp->infile);
-	ft_printf("infile fd:\t%d\n", tmp->fds[0]);
-	ft_printf("redirect:\t%d\n", tmp->in_redirect);
+	ft_printf("infile:\t%s\n", command->infile);
+	ft_printf("infile fd:\t%d\n", command->fds[0]);
+	if (command->infile)
+		close(command->fds[0]);
+	ft_printf("redirect:\t%d\n", command->in_redirect);
 	ft_printf("-----------------------\n");
-	ft_printf("outfile:\t%s\n", tmp->outfile);
-	ft_printf("outfile fd:\t%d\n", tmp->fds[1]);
-	ft_printf("redirect:\t%d\n", tmp->out_redirect);
+	ft_printf("outfile:\t%s\n", command->outfile);
+	ft_printf("outfile fd:\t%d\n", command->fds[1]);
+	if (command->outfile)
+		close(command->fds[1]);
+	ft_printf("redirect:\t%d\n", command->out_redirect);
 	ft_printf("=======================\n");
-	print_parser(&(tmp->next));
+	print_parser(command->next);
 }
 
 // int	main(void)
@@ -60,6 +61,6 @@ void	print_parser(t_command **command)
 // 	test->in_redirect = 2;
 // 	test->fds[0] = open(test->infile, O_RDONLY | O_APPEND);
 // 	test->fds[1] = open(test->infile, O_WRONLY, 0644);
-// 	print_parser(&test);
+// 	print_parser(test);
 // 	return (0);
 // }
