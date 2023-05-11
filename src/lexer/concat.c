@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/11 14:58:19 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:03:27 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 static int	concat_redir(t_token **token)
 {
-	ft_printf("in concat redir\n");
+	t_token *temp;
+	
+	//ft_printf("in concat redir\n");
 	if (((*token)->token_type == GREATER_THAN && (*token)->next->token_type
 			== GREATER_THAN) || ((*token)->token_type == LESS_THAN
 			&& (*token)->next->token_type == LESS_THAN))
@@ -32,21 +34,21 @@ static int	concat_redir(t_token **token)
 		}
 		if (!(*token)->content)
 			return (EXIT_FAILURE);
+		temp = (*token)->next;
 		(*token)->next = (*token)->next->next;
-		free((*token)->next->content);
-		free((*token)->next);
+		free(temp->content);
+		free(temp);
 	}
-	ft_printf("exiting concat redir with success\n");
+	//ft_printf("exiting concat redir with success\n");
 	return (EXIT_SUCCESS);
 }
 
-static	int	bzero_quote(t_token *token, t_token *next_token)
+static	int	bzero_quote(t_token *token, t_token *next_token, char *temp
+, char *next_temp)
 {
-	char	*temp;
-
 	if ((token->content)[0] == '\'' || (token->content)[0] == '\"')
 	{
-		temp = ft_substr(token->content , 1 , ft_strlen(token->content) - 2);
+		temp = ft_substr(token->content, 1, ft_strlen(token->content) - 2);
 		if (temp)
 		{
 			free(token->content);
@@ -54,30 +56,47 @@ static	int	bzero_quote(t_token *token, t_token *next_token)
 		}
 		else
 			return (EXIT_FAILURE);
-		
 	}
+	ft_printf("content : %s\n", token->content);
+	ft_printf("next content : %s\n", token->next->content);
 	if ((next_token->content)[0] == '\'' || (next_token->content)[0] == '\"')
 	{
-		temp = ft_substr(next_token->content , 1 , ft_strlen(next_token->content) - 2);
-		if (temp)
+		next_temp = ft_substr(next_token->content, 1,
+				ft_strlen(next_token->content) - 2);
+		if (next_temp)
 		{
 			free(next_token->content);
-			next_token->content = temp;
+			next_token->content = next_temp;
 		}
 		else
 			return (EXIT_FAILURE);
 	}
+	ft_printf("content : %s\n", token->content);
+	ft_printf("next content : %s\n", token->next->content);
 	return (EXIT_SUCCESS);
+}
+
+static int	quote_check(t_token *token)
+{
+	if ((token->content)[0] == '\'' || (token->content)[0] == '\"'
+			|| token->isquote == 1 || (token->next->content)[0] == '\''
+			|| (token->next->content)[0] == '\"')
+		return (1);
+	return (0);
 }
 
 static int	merge_nodes(t_token **token, t_token **next_token, int quote)
 {
 	char	*temp;
+	char	*tmp;
+	char	*next_tmp;
+	t_token	*ptr;
 
+	tmp = NULL;
+	next_tmp = NULL;
 	ft_printf("in merge nodes\n");
-	if (((*token)->content)[0] == '\'' || ((*token)->content)[0] == '\"' 
-		|| (*next_token)->content[0] == '\'' || (*next_token)->content[0] == '\"')
-		if (bzero_quote((*token), (*next_token)) == EXIT_FAILURE)
+	if (quote_check(*token))
+		if (bzero_quote((*token), (*next_token), tmp, next_tmp) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	temp = ft_strjoin((*token)->content, (*next_token)->content);
 	if (temp)
@@ -86,23 +105,18 @@ static int	merge_nodes(t_token **token, t_token **next_token, int quote)
 		free((*token)->content);
 		(*token)->content = temp;
 		ft_printf("content : %s\n", (*token)->content);
-		(*token)->next = (*next_token)->next;
+		ptr = (*next_token);
+		(*token)->next = (*token)->next->next;
 		(*token)->isquote = quote;
-		free((*next_token)->content);
-//		free((*next_token));
+		free(ptr->content);
+		free(ptr);
+		ft_printf("here\n");
+		if ((*token)->next)
+			ft_printf("next content : %s\n", (*token)->next->content);
 		return (EXIT_SUCCESS);
 	}
 	else
 		return (EXIT_FAILURE);
-}
-
-static int	quote_exist(t_token *token)
-{
-	if ((token->content)[0] == '\'' || (token->content)[0] == '\"'
-			|| token->isquote == 1 || (token->next->content)[0] == '\''
-			|| (token->next->content)[0] == '\"')
-		return (1);
-	return (0);
 }
 
 int	concatenate(t_token **tokens)
@@ -118,15 +132,18 @@ int	concatenate(t_token **tokens)
 		temp = temp->next;
 	}
 	temp = *tokens;
+	ft_printf("after concat redir\n");
+	print_token(*tokens);
 	while (temp != NULL && temp->next != NULL)
 	{
 		quote = 0;
 		if (temp->token_type == STRING && temp->next->token_type == STRING)
 		{
-			quote = quote_exist(temp);
+			quote = quote_check(temp);
 			if (merge_nodes(&temp, &(temp->next), quote) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
 			temp = *tokens;
+			print_token(*tokens);
 			continue ;
 		}
 		temp = temp->next;
