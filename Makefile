@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/11 17:38:48 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/12 08:45:10 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,8 +112,7 @@ test_redir:
 	$(CC) $(CFLAGS) src/printing/token_print.c src/printing/parser_print.c src/free_memory/free_memory.c \
 	$(ENV_F) $(REDIR_F) $(BUILTIN_F) $(PARSER_F) src/ft_error.c src/tests/parser_test.c \
 	-Iincludes/ includes/parser.h includes/lexer.h includes/minishell.h \
-	-Llibft -lft -g -fsanitize=address -static-libsan
-
+	-Llibft -lft -g
 ### LIBFT
 
 libft: $(LIBFT)

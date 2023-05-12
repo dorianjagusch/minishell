@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/08 14:40:28 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/12 09:32:41 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,12 @@ void	init_env(char **envp, t_env **env)
 			break ;
 		new = new_env(tmp[0], tmp[1]);
 		if (!new)
+		{
+			ft_free_array(&tmp, 2);
 			break ;
+		}
 		add_env(env, new);
-		i++;
 		ft_free_array(&tmp, 2);
+		i++;
 	}
 }

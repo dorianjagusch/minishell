@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:29:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/11 16:23:53 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/12 09:35:52 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,23 @@ void	print_token(t_token *token);
 
 int	main(int argc, char **argv, char *envp[])
 {
-	t_token	token1;
-	t_token	token2;
-	t_token	token3;
-	t_token	token4;
-	t_token	token5;
-	t_token	token6;
-	t_token	token7;
-	t_token	token8;
-	t_token	token9;
-	t_token	token10;
-	t_token	token11;
-	t_token	token12;
-	t_token	token13;
+	t_token		token1;
+	t_token		token2;
+	t_token		token3;
+	t_token		token4;
+	t_token		token5;
+	t_token		token6;
+	t_token		token7;
+	t_token		token8;
+	t_token		token9;
+	t_token		token10;
+	t_token		token11;
+	t_token		token12;
+	t_token		token13;
+	t_token		token14;
+	t_token		token15;
+	t_token		token16;
+	t_token		token17;
 	t_command	*head;
 
 	t_env *env;
@@ -48,7 +52,11 @@ int	main(int argc, char **argv, char *envp[])
 	token10.next = &token11;
 	token11.next = &token12;
 	token12.next = &token13;
-	token13.next = NULL;
+	token13.next = &token14;
+	token14.next = &token15;
+	token15.next = &token16;
+	token16.next = &token17;
+	token17.next = NULL;
 
 	token1.content = ft_strdup("echo");
 	token1.token_type = COMMAND;
@@ -60,7 +68,7 @@ int	main(int argc, char **argv, char *envp[])
 	token4.token_type = STRING;
 	token5.content = ft_strdup(">");
 	token5.token_type = GREATER_THAN;
-	token6.content = ft_strdup("blabla.txt");
+	token6.content = ft_strdup("test.txt");
 	token6.token_type = STRING;
 	token7.content = ft_strdup("jhjfgjkosfkdfg");
 	token7.token_type = STRING;
@@ -73,9 +81,17 @@ int	main(int argc, char **argv, char *envp[])
 	token11.content = ft_strdup("cat");
 	token11.token_type = COMMAND;
 	token12.content = ft_strdup(">>");
-	token12.token_type = GREATER_THAN;
+	token12.token_type = GREATER_GREATER;
 	token13.content = ft_strdup("test.txt");
 	token13.token_type = STRING;
+	token14.content = ft_strdup("|");
+	token14.token_type = PIPE;
+	token15.content = ft_strdup("env");
+	token15.token_type = COMMAND;
+	token16.content = ft_strdup(">>");
+	token16.token_type = GREATER_GREATER;
+	token17.content = ft_strdup("test.txt");
+	token17.token_type = STRING;
 
 	argc = 1;
 	argv = 0;
@@ -85,6 +101,7 @@ int	main(int argc, char **argv, char *envp[])
 	head = init_command(&token1);
 	print_parser(head);
 	init_env(envp, &env);
+	ft_env(&env, head);
 	redirect_exe(head, env);
 	free_env(&env);
 	free_command(&head);

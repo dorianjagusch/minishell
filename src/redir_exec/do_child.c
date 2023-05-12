@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/11 16:23:23 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/12 08:34:30 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	do_child(t_command *head, int *fds, int current, char **env_arr)
 
 	n_cmd = count_commands(head);
 	tmp = set_command(head, current);
-	close_fds(head, fds, current, n_cmd);
+	close_fds(fds, current, n_cmd);
 	if (dup2(fds[current], STDIN_FILENO) < 0
 		|| dup2(fds[current + 1], STDOUT_FILENO) < 0)
 		ft_error(0, "");

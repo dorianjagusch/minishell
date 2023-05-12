@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/09 11:53:51 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/12 09:06:24 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	ft_echo(t_env **env, t_command *cmd)
 	i = 1;
 	if (!env)
 		return (EXIT_FAILURE);
-	if (cmd->params[i] && ft_strcmp(cmd->params[i], "-n"))
+	if (cmd->params[i] && !ft_strncmp(cmd->params[i], "-n", 2))
 		n_flag = 1;
-	while (cmd->params[i] && ft_strcmp(cmd->params[i], "-n"))
+	while (cmd->params[i] && !ft_strncmp(cmd->params[i], "-n", 2))
 		i++;
 	while (cmd->params[i])
 	{

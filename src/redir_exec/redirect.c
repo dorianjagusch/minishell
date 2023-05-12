@@ -13,29 +13,37 @@
 #include "minishell.h"
 #include "redirect.h"
 
+
+static void	set_pipes(t_command *command, int *pipes)
+{
+	if (pipe(pipes) < 0)
+		ft_error(EPIPE, "");
+	if (command->infile)
+	{
+		if (close(pipes[0]) < 0)
+			ft_error(EPIPE, "");
+		dup2(pipes[0], command->fds[0]);
+	}
+	if (command->outfile)
+	{
+		if (close(pipes[1]) < 0)
+			ft_error(EPIPE, "");
+		dup2(pipes[1], command->fds[0]);
+	}
+}
+
 static int	*set_up_pipes(t_command *command, int n_cmd)
 {
 	int	i;
 	int	*pipes;
 
 	i = 0;
-	pipes = malloc(n_cmd * 2);
+	pipes = malloc(2 * n_cmd);
 	if (pipes)
 	{
-		while (i < n_cmd)
+		while (i < 2 * n_cmd)
 		{
-			if (pipe(pipes + i) < 0)
-				ft_error(EPIPE, "");
-			if (command->infile)
-			{
-				if (close(pipes[i]) < 0)
-					ft_error(EPIPE, "");
-			}
-			if (command->outfile)
-			{
-				if (close(pipes[i + 1]) < 0)
-					ft_error(EPIPE, "");
-			}
+			set_pipes(command, pipes + i);
 			i += 2;
 			command = command->next;
 		}
@@ -69,7 +77,7 @@ static int	*set_up_exe(t_command *command, t_env *env, int *n_cmds)
 
 	*n_cmds = count_commands(command);
 	pipes = set_up_pipes(command, *n_cmds);
-	if (get_exe_path(&env, &command));
+	if (get_exe_path(&env, command))
 		return (0);
 	return (pipes);
 }
@@ -85,9 +93,10 @@ int	redirect_exe(t_command *command, t_env *env)
 	n_cmds = 0;
 	set_up_exe(command, env, &n_cmds);
 	printf("here\n");
-	exit(0);
 	pids = ft_calloc(n_cmds, sizeof(int));
 	env_arr = ft_env_to_array(env);
+	ft_print_array(env_arr, 1);
+	exit(0);
 	i = 0;
 	while (i < n_cmds)
 	{
