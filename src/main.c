@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/05/04 17:28:04 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:09:52 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ static	int	run_line(char *line, t_env **env)
 	tokens = (t_token *)ft_calloc(sizeof(t_token), 1);
 	if (!tokens)
 		return (EXIT_FAILURE);
-	if (!init_lexer(line, &tokens))
+	tokens = NULL;
+	if (init_lexer(line, &tokens) == EXIT_FAILURE)
 	{
 		free_tokens(&tokens);
 		return (EXIT_FAILURE);
 	}
-	if (!retokenize(&tokens, env))
+	if (retokenize(&tokens, env) == EXIT_FAILURE)
 	{
 		free_tokens(&tokens);
 		return (EXIT_FAILURE);
@@ -75,7 +76,7 @@ static	int	init_shell(t_env **env)
 			//if (exit_value == EXIT_FAILURE)
 				//inform the user that malloc failed?;
 		}
-		printf("%s\n",line);
+		//printf("%s\n",line);
 		free(line);
 	}
 	return (exit_value);
@@ -91,6 +92,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1)
 		return (-1);
 	init_env(envp, &env); //copy envp
+	//ft_env(&env, NULL);
 	//add a level to shell
 	//syntax check
 	exit_value = init_shell(&env);

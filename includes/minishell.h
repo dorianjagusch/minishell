@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/08 15:27:47 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:06:26 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void		add_env(t_env **env, t_env *new);
 void		free_tokens(t_token **tokens);
 t_env		*copy_env(t_env **env);
 void		free_env(t_env **env);
+char		*find_value(t_env **env, char *key);
 
 // BUILTINS
 int			is_built_in(t_env **env, t_command *cmd);
@@ -64,5 +65,6 @@ int			ft_cd(t_env **env, t_command *cmd);
 int			ft_export(t_env **env, t_command *cmd);
 int			print_export(t_env **env, t_command *cmd);
 int			ft_unset(t_env **env, t_command *cmd);
+void		print_token(t_token *token);
 
 #endif
