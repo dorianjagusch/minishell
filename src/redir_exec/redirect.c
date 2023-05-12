@@ -91,6 +91,8 @@ int	redirect_exe(t_command *command, t_env *env)
 	int		i;
 
 	n_cmds = 0;
+	if (!command || !env)
+		return (-1);
 	set_up_exe(command, env, &n_cmds);
 	printf("here\n");
 	pids = ft_calloc(n_cmds, sizeof(int));
