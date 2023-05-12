@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/05/12 15:51:40 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/12 16:47:11 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ BOOL	empty_pipe(char *line)
 		else
 			i++;
 		if (i == -1)
+		{
+			ft_printf("syntax error! Empty pipe.");
 			return (FALSE);
-
+		}
 	}
 	return (TRUE);
 }
@@ -69,8 +71,11 @@ BOOL	empty_redir(char *line)
 		else
 			i++;
 		if (i == -1)
+		{
+			ft_printf("syntax error! Empty redirection.");
 			return (FALSE);
 
+		}
 	}
 	return (TRUE);
 }

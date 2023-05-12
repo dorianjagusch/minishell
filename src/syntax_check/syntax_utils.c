@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/05/12 16:11:44 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/12 16:43:44 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,16 @@ int	skip_pipe(char *line)
 	}
 	if (i == 0)
 		return (-1);
-	i = pipe -1;
+	i = pipe - 1;
 	while (line[++i])
 	{
 		if (ft_isprint(line [i]) && line[i] != ' ')
-			break ;
+		{
+			if (line[i] != '>' || line[i] != '<' || line[i] != '|')
+				return (-1);
+			else
+				break ;
+		}
 	}
 	if (line[i + 1] == 0)
 		return (-1);
@@ -76,23 +81,37 @@ int	skip_pipe(char *line)
 
 int	skip_redir(char *line)
 {
-	int	redir;
+	int		redir_pos;
+	char	redir;
 
-	redir = i;
+	redir = line[i];
 	if (line[i + 1] == 0)
 		return (-1);
+	if (line[i + 1] == redir)
+		i++;
+	redir_pos = i;
 	while (--i >= 0)
 	{
 		if (ft_isprint(line [i]) && line[i] != ' ')
-			break ;
+		{
+			if (line[i] != '>' || line[i] != '<' || line[i] != '|')
+				return (-1);
+			else
+				break ;
+		}
 	}
 	if (i == 0)
 		return (-1);
-	i = redir -1;
+	i = redir_pos -1;
 	while (line[++i])
 	{
 		if (ft_isprint(line [i]) && line[i] != ' ')
-			break ;
+		{
+			if (line[i] != '>' || line[i] != '<' || line[i] != '|')
+				return (-1);
+			else
+				break ;
+		}
 	}
 	if (line[i + 1] == 0)
 		return (-1);
