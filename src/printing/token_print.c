@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 16:02:34 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/10 16:05:02 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:09:06 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_token(t_token *token)
 		else if (token->token_type == SPACE)
 			ft_printf("SPACE: %s\n", token->content);
 		printf("quote: %d\n", token->isquote);
-		printf("=====================\n");
+		printf("-------------------\n");
 		token = token->next;
 	}
 }

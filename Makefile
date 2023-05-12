@@ -6,7 +6,7 @@
 #    By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/11 14:59:44 by asarikha         ###   ########.fr        #
+#    Updated: 2023/05/12 08:45:10 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,11 +52,12 @@ FILES = main \
 	parser_utils \
 	parser_print \
 	token_print \
-#	count_commands \
-#	do_child \
-#	find_command \
-#	redirect \
-#	utils 
+	count_commands \
+	do_child \
+	execute \
+	find_command \
+	redirect \
+	utils 
 
 HEADER = minishell.h libft.h parser.h lexer.h ft_error.h
 HEADER := $(addprefix $I/,$(HEADER))
@@ -69,11 +70,16 @@ READLINE = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/includ
 
 NAME = minishell
 
+PARSER_F := $(shell find $S/parser -type f -name '*.c')
+BUILTIN_F = $(shell find $S/builtins -type f -name '*.c')
+ENV_F = $(shell find $S/env -type f -name '*.c')
+REDIR_F = $(shell find $S/redir_exec -type f -name '*.c')
+
 ### RULES ###
 all: $(NAME)
 
 print:
-	@echo $(SRCS)
+	@echo $(PARSER_F)
 
 $(NAME): $(OBJS) $(LIBFT)
 	@$(CC) $(CFLAGS) $(OBJS) $(READLINE) -Llibft -lft -o $(NAME)
@@ -85,6 +91,29 @@ $O:
 $O/%.o: $S/%.c $(HEADER) | $O
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+parser_test: $(LIBFT) $(PARSER_F) src/printing/parser_print.c src/free_memory/free_memory.c src/ft_error.c src/tests/parser_test.c
+	@$(CC) $(CFLAGS) src/printing/token_print.c src/printing/parser_print.c src/free_memory/free_memory.c \
+	$(PARSER_F) src/ft_error.c src/tests/parser_test.c \
+	-Iincludes/ includes/parser.h includes/lexer.h includes/minishell.h \
+	-Llibft -lft
+
+test_builtin:
+	@$(CC) $(CFLAGS) src/printing/token_print.c src/printing/parser_print.c src/free_memory/free_memory.c \
+	$(BUILTIN_F) src/ft_error.c src/tests/builtin_test.c \
+	-Iincludes/ includes/parser.h includes/lexer.h includes/minishell.h \
+	-Llibft -lft -g
+
+test_env:
+	@$(CC) $(CFLAGS) src/printing/token_print.c src/printing/parser_print.c src/free_memory/free_memory.c \
+	$(ENV_F) src/ft_error.c src/tests/env_test.c \
+	-Iincludes/ includes/parser.h includes/lexer.h includes/minishell.h \
+	-Llibft -lft -g
+  
+test_redir:
+	$(CC) $(CFLAGS) src/printing/token_print.c src/printing/parser_print.c src/free_memory/free_memory.c \
+	$(ENV_F) $(REDIR_F) $(BUILTIN_F) $(PARSER_F) src/ft_error.c src/tests/parser_test.c \
+	-Iincludes/ includes/parser.h includes/lexer.h includes/minishell.h \
+	-Llibft -lft -g
 
 ### LIBFT
 

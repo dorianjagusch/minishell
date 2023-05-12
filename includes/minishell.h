@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/10 12:06:26 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:02:59 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_env		*new_env(char *key, char *value);
 void		add_env(t_env **env, t_env *new);
 void		free_tokens(t_token **tokens);
 t_env		*copy_env(t_env **env);
+char		**ft_env_to_array(t_env *env);
 void		free_env(t_env **env);
 char		*find_value(t_env **env, char *key);
 

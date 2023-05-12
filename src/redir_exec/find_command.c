@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_command.c                                    :+:      :+:    :+:   */
+/*   find_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/12 15:57:13 by djagusch          #+#    #+#             */
-/*   Updated: 2023/02/12 15:57:13 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/09 11:53:04 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/09 11:53:04 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	find_path(char **path, char **cmd_name)
 	return ;
 }
 
-void	get_exe_path(t_env **env, t_command *command)
+int	get_exe_path(t_env **env, t_command *command)
 {
 	char	*path;
 	size_t	i;
@@ -66,6 +66,7 @@ void	get_exe_path(t_env **env, t_command *command)
 	{
 		path = find_env(env, "PATH", 0)->value;
 		find_path(&path, &(command->command));
+		return (0);
 	}
-	return ;
+	return (1);
 }

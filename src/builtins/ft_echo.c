@@ -6,15 +6,11 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/05 10:48:37 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/12 09:06:24 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// Assuming that the string is already parsed and the variables are expanded.
-// Execve will give us the COMMAND as the first entry in the array.
-// That's why i starts at 1.
 
 int	ft_echo(t_env **env, t_command *cmd)
 {
@@ -25,9 +21,9 @@ int	ft_echo(t_env **env, t_command *cmd)
 	i = 1;
 	if (!env)
 		return (EXIT_FAILURE);
-	if (cmd->params[i] && ft_strcmp(cmd->params[i], "-n"))
+	if (cmd->params[i] && !ft_strncmp(cmd->params[i], "-n", 2))
 		n_flag = 1;
-	while (cmd->params[i] && ft_strcmp(cmd->params[i], "-n"))
+	while (cmd->params[i] && !ft_strncmp(cmd->params[i], "-n", 2))
 		i++;
 	while (cmd->params[i])
 	{
