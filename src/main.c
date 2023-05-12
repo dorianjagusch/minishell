@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/05/11 16:18:27 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/12 14:54:36 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ static	int	init_shell(t_env **env)
 				exit(0);
 			}
 			//add_history(line);
-			exit_value = run_line(line, env);
+			if (syntax_check(line))
+				exit_value = run_line(line, env);
 			//if (exit_value == EXIT_FAILURE)
 				//inform the user that malloc failed?;
 		}
@@ -93,8 +94,6 @@ int	main(int argc, char **argv, char **envp)
 		return (-1);
 	init_env(envp, &env); //copy envp
 	//ft_env(&env, NULL);
-	//add a level to shell
-	//syntax check
 	exit_value = init_shell(&env);
 	//terminate: free, clear history
 	//for the purpose of checking for leaks : system("leaks -q minishell");

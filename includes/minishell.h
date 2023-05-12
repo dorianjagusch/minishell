@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/11 16:02:59 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/12 14:59:02 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <errno.h>
 # include "libft.h"
+# include "syntax.h"
 # include "lexer.h"
 # include "ft_error.h"
 # include "parser.h"
@@ -45,17 +46,20 @@ typedef struct s_builtin
 
 void		rl_replace_line(const char *text, int clear_undo);
 void		init_env(char **envp, t_env **env);
-int			init_lexer(char *line, t_token	**tokens);
-int			retokenize(t_token **tokens, t_env **env);
 void		init_env(char **envp, t_env **env);
 t_env		*find_env(t_env **env, char *variable, int predecessor);
 t_env		*new_env(char *key, char *value);
 void		add_env(t_env **env, t_env *new);
-void		free_tokens(t_token **tokens);
 t_env		*copy_env(t_env **env);
 char		**ft_env_to_array(t_env *env);
 void		free_env(t_env **env);
 char		*find_value(t_env **env, char *key);
+
+//SYNTAX_CHECK AND TOKENIZE
+int			init_lexer(char *line, t_token	**tokens);
+int			retokenize(t_token **tokens, t_env **env);
+BOOL		syntax_check(char *line);
+void		free_tokens(t_token **tokens);
 
 // BUILTINS
 int			is_built_in(t_env **env, t_command *cmd);
