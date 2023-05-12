@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:07:51 by djagusch          #+#    #+#             */
 /*   Updated: 2023/05/11 16:05:55 by djagusch         ###   ########.fr       */
@@ -89,18 +89,20 @@ t_env	*find_env(t_env **env, char *key, int predecessor)
 	return (tmp);
 }
 
-char	*find_value(t_env **env, char *variable)
+char	*find_value(t_env **env, char *key)
 {
 	t_env	*tmp;
 
-	if (!env || !*env || !variable || !(*variable))
+	if (!env || !*env || !key || !(key[0]))
 		return (NULL);
 	tmp = *env;
 	while (tmp)
 	{
-		if (ft_strcmp(variable, tmp->key) == 0)
+		if (ft_strcmp(key, tmp->key) == 0)
 			break ;
 		tmp = tmp->next;
 	}
-	return (tmp->value);
+	if (tmp)
+		return (tmp->value);
+	return (NULL);
 }
