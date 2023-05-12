@@ -19,34 +19,36 @@ static void	check_file(t_command *command, int token_type)
 	int		file_type;
 
 	file_type = 0;
-	if (token_type == GREATER_GREATER || token_type == GREATER_THAN)
+	if (token_type == LESS_LESS || token_type == LESS_THAN)
 		file = command->infile;
 	else
 	{
 		file_type++;
 		file = command->outfile;
 	}
-	if (access(file, F_OK))
+	if (file && access(file, F_OK))
 		ft_error(NOFILE, file);
-	else if (command->fds[file_type] < 0 && access(file, F_OK) == 0)
+	else if (file && command->fds[file_type] < 0 && access(file, F_OK) == 0)
 		ft_error(NOACCESS, file);
 }
 
 t_token	*get_fds(t_command *command, t_token *token)
 {
-	if (command->infile
-		&& (token->token_type == GREATER_GREATER
-			|| token->token_type == GREATER_THAN))
-		command->fds[0] = open(command->infile, O_RDONLY | O_CLOEXEC);
-	else
+	if (token->token_type == LESS_THAN)
+		command->fds[0] = open(command->infile, O_RDONLY);
+	else if (token->token_type == LESS_LESS)
 		command->fds[0] = -1;
-	if (command->outfile)
+	else if (token->token_type == GREATER_THAN)
 	{
 		command->fds[1] = open(command->outfile,
-				O_RDWR | O_CREAT | O_TRUNC | O_CLOEXEC, 0644);
+				O_RDWR | O_CREAT | O_TRUNC, 0644);
 	}
 	else
-		command->fds[1] = -1;
+	{
+		command->fds[1] = open(command->outfile,
+				O_RDWR | O_CREAT | O_APPEND, 0644);
+	}
 	check_file(command, token->token_type);
-	return (token->next);
+	return (token);
 }
+ // write for outfiles

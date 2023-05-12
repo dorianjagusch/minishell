@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/05/10 12:09:52 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:18:27 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static	int	run_line(char *line, t_env **env)
 		return (EXIT_FAILURE);
 	}
 	commands = init_command(tokens); //maybe free tokens inside
-	print_parser(&commands);
+	print_parser(commands);
 	free_tokens(&tokens);
 	//redirect(commands);
 	//executer(env, commands);
