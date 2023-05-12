@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/10 15:48:38 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/12 13:01:56 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	replace_content(char **content, int start, int rm_end, char *str)
 		new[i++] = (*content)[rm_end++];
 	free(*content);
 	*content = new;
-	ft_printf("content : %s\n",*content);
 	return (EXIT_SUCCESS);
 }
 
@@ -102,7 +101,6 @@ static	int	expand(t_token **tokens, t_env **env)
 	int		i;
 
 	tmp = *tokens;
-	ft_printf("in expand.\n");
 	while (tmp)
 	{
 		i = 0;
@@ -117,7 +115,6 @@ static	int	expand(t_token **tokens, t_env **env)
 		}
 		tmp = tmp->next;
 	}
-	ft_printf("exiting expand with success\n");
 	return (EXIT_SUCCESS);
 }
 
@@ -125,14 +122,18 @@ int	retokenize(t_token **tokens, t_env **env)
 {
 	if (expand(tokens, env) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	ft_printf("expand success\n\n");
-	print_token(*tokens);
 	if (concatenate(tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	ft_printf("concat success\n\n");
 	print_token(*tokens);
+	remove_space(tokens);
+	ft_printf("after remove space\n");
+	print_token(*tokens);
 	if (re_label(tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	ft_printf("re lable success\n\n");
+	print_token(*tokens);
+	ft_printf("last print success\n\n");
+	//exit(0);
 	return (EXIT_SUCCESS);
-	//remove space nodes
 }

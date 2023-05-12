@@ -6,11 +6,40 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/08 16:02:46 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/12 12:44:54 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	remove_space(t_token **token)
+{
+	t_token	*temp;
+	t_token	*previous;
+
+	temp = *token;
+	previous = temp;
+	while (temp != NULL)
+	{
+		if (temp->token_type == SPACE)
+		{
+			if (temp == *token)
+			{
+				free(temp->content);
+				*token = temp->next;
+				free(previous);
+			}
+			else
+			{
+				free(temp->content);
+				previous->next = temp->next;
+				free (temp);
+			}
+		}
+		previous = temp;
+		temp = temp->next;
+	}
+}
 
 t_token	*new_token(char *content, int token_type)
 {
