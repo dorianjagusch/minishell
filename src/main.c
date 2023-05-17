@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/05/12 14:54:36 by asarikha         ###   ########.fr       */
+/*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
+/*   Updated: 2023/05/17 13:40:55 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ static	int	run_line(char *line, t_env **env)
 	commands = init_command(tokens); //maybe free tokens inside
 	print_parser(commands);
 	free_tokens(&tokens);
-	//redirect(commands);
-	//executer(env, commands);
+	//redirect_exe(commands, *env);
+	//terminate: free, clear history
 	return (0); //added because og compaint
 }
 
@@ -69,6 +69,7 @@ static	int	init_shell(t_env **env)
 			{
 				write(2, "exit\n", 5);
 				exit_value = 0;
+				free(line);
 				exit(0);
 			}
 			//add_history(line);
@@ -77,7 +78,6 @@ static	int	init_shell(t_env **env)
 			//if (exit_value == EXIT_FAILURE)
 				//inform the user that malloc failed?;
 		}
-		//printf("%s\n",line);
 		free(line);
 	}
 	return (exit_value);
@@ -92,10 +92,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (argc > 1)
 		return (-1);
-	init_env(envp, &env); //copy envp
-	//ft_env(&env, NULL);
+	init_env(envp, &env);
 	exit_value = init_shell(&env);
-	//terminate: free, clear history
+	
 	//for the purpose of checking for leaks : system("leaks -q minishell");
 	return (exit_value);
 }
