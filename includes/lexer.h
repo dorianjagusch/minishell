@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/12 13:07:29 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:32:25 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ t_token		*new_token(char *content, int token_type);
 int			add_token(t_token **token, t_token *new, int *flag);
 int			concatenate(t_token **tokens);
 void		remove_space(t_token **token);
+BOOL		redir_check(t_token *token);
+int			remove_quote(t_token **tokens);
 
 #endif

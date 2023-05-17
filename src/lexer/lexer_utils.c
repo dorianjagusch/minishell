@@ -6,11 +6,48 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/12 12:44:54 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:32:40 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+BOOL	redir_check(t_token *token)
+{
+	if (token->token_type == GREATER_THAN
+		|| token->token_type == GREATER_GREATER
+		|| token->token_type == LESS_LESS || token->token_type == LESS_THAN)
+		return (TRUE);
+	return (FALSE);
+}
+
+int	remove_quote(t_token **tokens)
+{
+	t_token	*temp;
+	char	*tmp;
+
+	temp = *tokens;
+	while (temp != NULL)
+	{
+		if (temp->token_type == STRING)
+		{
+			if ((temp->content)[0] == '\'' || (temp->content)[0] == '\"')
+			{
+				tmp = ft_substr(temp->content, 1, ft_strlen(temp->content) - 2);
+				if (tmp)
+				{
+					free(temp->content);
+					temp->content = tmp;
+					temp->isquote = 1;
+				}
+				else
+					return (EXIT_FAILURE);
+			}
+		}
+		temp = temp->next;
+	}
+	return (EXIT_SUCCESS);
+}
 
 void	remove_space(t_token **token)
 {

@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/17 14:13:35 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/17 14:29:39 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static	int	closing_quote(char *line)
 	}
 	if (close_found == 0)
 	{
-		ft_printf("syntax error! Unclosed quotes.\n");
+		ft_printf("minishell: syntax error! Unclosed quotes.\n");
 		return (-1);
 	}
 	return (i);
@@ -56,9 +56,6 @@ static BOOL	quotes_close(char *line)
 	return (TRUE);
 }
 
-//pipes can not be in the begining or the end and pipes should have some text in
-//between themselves or else they are empty pipes
-
 static BOOL	empty_pipe(char *line)
 {
 	int		i;
@@ -74,6 +71,7 @@ static BOOL	empty_pipe(char *line)
 			i++;
 		if (i == -1)
 		{
+			ft_printf("minishell: ");
 			ft_printf("syntax error near unexpected token `newline'\n");
 			return (TRUE);
 		}
@@ -85,8 +83,6 @@ static BOOL	empty_pipe(char *line)
 	}
 	return (FALSE);
 }
-
-//redirections can not be with no text after them
 
 static BOOL	empty_redir(char *line)
 {
@@ -103,7 +99,7 @@ static BOOL	empty_redir(char *line)
 			i++;
 		if (i == -1)
 		{
-			ft_printf("syntax error! Empty unexpected `newline'\n");
+			ft_printf("minishell: syntax error! Empty unexpected `newline'\n");
 			return (TRUE);
 		}
 	}
@@ -119,7 +115,7 @@ BOOL	syntax_check(char *line)
 {
 	if (line[0] == '|')
 	{
-		ft_printf("syntax error near unexpected token `|'\n");
+		ft_printf("minishell: syntax error near unexpected token `|'\n");
 		return (FALSE);
 	}
 	if (!quotes_close(line))

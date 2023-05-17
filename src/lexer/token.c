@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/12 13:01:56 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:33:36 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,11 @@ static int	re_label(t_token **tokens)
 
 	temp = *tokens;
 
-	if (temp->token_type == GREATER_THAN || temp->token_type == LESS_THAN
-		|| temp->token_type == LESS_LESS
-		|| temp->token_type == GREATER_GREATER)
+	if (redir_check(temp))
+	{
+		if (temp->next->next)
 		temp->next->next->token_type = COMMAND;
+	}
 	else
 		temp->token_type = COMMAND;
 	while (temp != NULL)
@@ -57,9 +58,7 @@ static int	re_label(t_token **tokens)
 		if (temp->token_type == PIPE)
 		{
 			temp = temp->next;
-			if (temp->token_type == LESS_LESS || temp->token_type == LESS_THAN
-				|| temp->token_type == GREATER_THAN
-				|| temp->token_type == GREATER_GREATER)
+			if (redir_check(temp))
 			temp->next->next->token_type = COMMAND;
 			else
 				temp->token_type = COMMAND;
@@ -126,6 +125,8 @@ int	retokenize(t_token **tokens, t_env **env)
 		return (EXIT_FAILURE);
 	ft_printf("concat success\n\n");
 	print_token(*tokens);
+	if (remove_quote(tokens) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	remove_space(tokens);
 	ft_printf("after remove space\n");
 	print_token(*tokens);
