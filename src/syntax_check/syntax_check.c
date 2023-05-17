@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/17 13:41:50 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/17 14:13:35 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static	int	closing_quote(char *line)
 	}
 	if (close_found == 0)
 	{
-		ft_printf("syntax error! Unclosed quotes.");
+		ft_printf("syntax error! Unclosed quotes.\n");
 		return (-1);
 	}
 	return (i);
@@ -37,16 +37,21 @@ static	int	closing_quote(char *line)
 static BOOL	quotes_close(char *line)
 {
 	int		i;
+	int		ret;
 
 	i = 0;
+	ret = 0;
 	while (line[i])
 	{
 		if (line[i] == '\"' || line[i] == '\'')
-			i += closing_quote(&line[i]);
+		{
+			ret = closing_quote(&line[i]);
+			if (ret == -1)
+				return (FALSE);
+			i += ret;
+		}
 		else
 			i++;
-		if (i == -1)
-			return (FALSE);
 	}
 	return (TRUE);
 }
