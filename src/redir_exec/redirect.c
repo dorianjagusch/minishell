@@ -109,7 +109,7 @@ int	redirect_exe(t_command *command, t_env *env)
 			do_child(command, fds, i, env_arr);
 		i++;
 	}
-	//close_fds(command, fds, n_cmds, n_cmds);
+	//close_fds(command, n_cmds, n_cmds);
 	ft_wait(env, command, pids, fds); //to do
 	//free_cmds(&command, &pids);
 	return (0);

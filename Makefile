@@ -6,7 +6,7 @@
 #    By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/12 08:45:10 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/17 11:05:29 by asarikha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,9 +57,11 @@ FILES = main \
 	execute \
 	find_command \
 	redirect \
-	utils 
+	utils \
+	syntax_check \
+	syntax_utils
 
-HEADER = minishell.h libft.h parser.h lexer.h ft_error.h
+HEADER = minishell.h libft.h parser.h lexer.h ft_error.h syntax.h
 HEADER := $(addprefix $I/,$(HEADER))
 
 SRCS := $(foreach FILE,$(FILES),$(shell find $S -type f -name '$(FILE).c'))

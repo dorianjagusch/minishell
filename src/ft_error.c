@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/11 15:22:33 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/15 13:03:12 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_error(int error, char *str)
 	{
 		if (error == EACCES)
 			ft_printf_fd(STDERR_FILENO, "%s: %s\n",
-				strerror(error), str);
+				str, strerror(error));
 		else if (error == NOCMMD)
 			ft_printf_fd(STDERR_FILENO, "command not found: %s\n", str);
 		exit(error);
