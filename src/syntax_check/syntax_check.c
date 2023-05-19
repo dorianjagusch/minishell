@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/17 14:13:35 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/19 11:12:40 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static	int	closing_quote(char *line)
 	}
 	if (close_found == 0)
 	{
-		ft_printf("syntax error! Unclosed quotes.\n");
+		ft_printf("minishell: syntax error! Unclosed quotes.\n");
 		return (-1);
 	}
 	return (i);
@@ -37,18 +37,18 @@ static	int	closing_quote(char *line)
 static BOOL	quotes_close(char *line)
 {
 	int		i;
-	int		ret;
+	int		result;
 
 	i = 0;
-	ret = 0;
+	result = 0;
 	while (line[i])
 	{
 		if (line[i] == '\"' || line[i] == '\'')
 		{
-			ret = closing_quote(&line[i]);
-			if (ret == -1)
+			result = closing_quote(&line[i]);
+			if (result == -1)
 				return (FALSE);
-			i += ret;
+			i += result;
 		}
 		else
 			i++;
@@ -56,72 +56,66 @@ static BOOL	quotes_close(char *line)
 	return (TRUE);
 }
 
-//pipes can not be in the begining or the end and pipes should have some text in
-//between themselves or else they are empty pipes
-
 static BOOL	empty_pipe(char *line)
 {
 	int		i;
+	int		result;
 
+	result = 0;
 	i = 0;
 	while (line[i])
 	{
 		if (line[i] == '\"' || line[i] == '\'')
 			i += skip_quoted_text(&line[i]);
 		if ((line[i] == '|' && line[i + 1]))
-			i += skip_pipe(line, i);
+		{
+			result = skip_pipe(line, i);
+			if (result == -1)
+			{
+				ft_printf("minishell: ");
+				ft_printf("syntax error near unexpected token `newline'\n");
+				return (TRUE);
+			}
+			i += result;
+		}
 		else
 			i++;
-		if (i == -1)
-		{
-			ft_printf("syntax error near unexpected token `newline'\n");
-			return (TRUE);
-		}
-	}
-	if (line [i - 1] == '|')
-	{
-		ft_printf("syntax error near unexpected token `|'\n");
-		return (TRUE);
 	}
 	return (FALSE);
 }
 
-//redirections can not be with no text after them
-
 static BOOL	empty_redir(char *line)
 {
 	int		i;
+	int		result;
 
+	result = 0;
 	i = 0;
 	while (line[i])
 	{
 		if (line[i] == '\"' || line[i] == '\'')
 			i += skip_quoted_text(&line[i]);
 		if ((line[i] == '>' || line[i] == '<') && line[i + 1])
-			i += skip_redir(&line[i]);
+		{
+			result = skip_redir(&line[i]);
+			if (result == -1)
+			{
+				ft_printf("minishell: ");
+				ft_printf("syntax error! Empty unexpected `newline'\n");
+				return (TRUE);
+			}
+			i += result;
+		}
 		else
 			i++;
-		if (i == -1)
-		{
-			ft_printf("syntax error! Empty unexpected `newline'\n");
-			return (TRUE);
-		}
-	}
-	if (line[i - 1] == '>' || line[i -1] == '<')
-	{
-		ft_printf("syntax error near unexpected token `newline'\n");
-		return (TRUE);
 	}
 	return (FALSE);
 }
 
 BOOL	syntax_check(char *line)
 {
-	if (line[0] == '|')
-	{
-		ft_printf("syntax error near unexpected token `|'\n");
+	if (check_first_last(line))
 		return (FALSE);
-	}
 	if (!quotes_close(line))
 		return (FALSE);
 	if (empty_pipe(line))
