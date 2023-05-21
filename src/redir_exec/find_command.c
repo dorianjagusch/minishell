@@ -62,11 +62,14 @@ int	get_exe_path(t_env **env, t_command *command)
 	size_t	i;
 
 	i = -1;
-	if (!is_built_in(env, command))
+	while (command)
 	{
-		path = find_env(env, "PATH", 0)->value;
-		find_path(&path, &(command->command));
-		return (0);
+		if (!is_builtin(command))
+		{
+			path = find_env(env, "PATH", 0)->value;
+			find_path(&path, &(command->command));
+		}
+		command = command->next;
 	}
-	return (1);
+	return (0);
 }

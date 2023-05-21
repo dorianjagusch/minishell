@@ -22,13 +22,15 @@ static void	set_pipes(t_command *command, int *pipes)
 	{
 		if (close(pipes[0]) < 0)
 			ft_error(EPIPE, "");
-		dup2(pipes[0], command->fds[0]);
+		pipes[0] = dup(command->fds[0]);
 	}
 	if (command->outfile)
 	{
 		if (close(pipes[1]) < 0)
 			ft_error(EPIPE, "");
-		dup2(pipes[1], command->fds[0]);
+		if (command->fds[1])
+			pipes[1] = dup(command->fds[1]);
+		pipes[1] = dup(STDIN_FILENO);
 	}
 }
 
@@ -37,17 +39,19 @@ static int	*set_up_pipes(t_command *command, int n_cmd)
 	int	i;
 	int	*pipes;
 
-	i = 0;
+	i = 1;
 	pipes = malloc(2 * n_cmd);
+	pipes[0] = command->fds[0];
 	if (pipes)
 	{
-		while (i < 2 * n_cmd)
+		while (i < 2 * n_cmd - 1)
 		{
 			set_pipes(command, pipes + i);
 			i += 2;
 			command = command->next;
 		}
 	}
+	pipes[i] = command->fds[1];
 	return (pipes);
 }
 
@@ -77,8 +81,8 @@ static int	*set_up_exe(t_command *command, t_env *env, int *n_cmds)
 
 	*n_cmds = count_commands(command);
 	pipes = set_up_pipes(command, *n_cmds);
-	if (get_exe_path(&env, command))
-		return (0);
+	close_command_pipes(command);
+	get_exe_path(&env, command);
 	return (pipes);
 }
 
@@ -86,27 +90,28 @@ int	redirect_exe(t_command *command, t_env *env)
 {
 	int		n_cmds;
 	pid_t	*pids;
-	char	**env_arr;
 	int		*fds;
 	int		i;
 
 	n_cmds = 0;
 	if (!command || !env)
 		return (-1);
-	set_up_exe(command, env, &n_cmds);
-	printf("here\n");
+	fds = set_up_exe(command, env, &n_cmds);
 	pids = ft_calloc(n_cmds, sizeof(int));
-	env_arr = ft_env_to_array(env);
-	ft_print_array(env_arr, 1);
-	exit(0);
 	i = 0;
+	ft_print_intarr(fds, n_cmds * 2, 1);
 	while (i < n_cmds)
 	{
 		pids[i] = fork();
+		ft_printf("child %d created\n", pids[i]);
 		if (pids[i] < 0)
 			ft_error(EPIPE, "");
 		if (pids[i] == 0)
-			do_child(command, fds, i, env_arr);
+		{
+			ft_printf("child %d going in\n", i);
+			do_child(command, fds, n_cmds, env);
+		}
+		command = command->next;
 		i++;
 	}
 	//close_fds(command, fds, n_cmds, n_cmds);

@@ -6,14 +6,14 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:29:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/12 09:35:52 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:45:57 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "parser.h"
 #include "lexer.h"
 #include "redirect.h"
-#include "minishell.h"
 
 void	print_token(t_token *token);
 
@@ -66,8 +66,8 @@ int	main(int argc, char **argv, char *envp[])
 	token3.token_type = STRING;
 	token4.content = ft_strdup("-n");
 	token4.token_type = STRING;
-	token5.content = ft_strdup(">");
-	token5.token_type = GREATER_THAN;
+	token5.content = ft_strdup(">>");
+	token5.token_type = GREATER_GREATER;
 	token6.content = ft_strdup("test.txt");
 	token6.token_type = STRING;
 	token7.content = ft_strdup("jhjfgjkosfkdfg");
@@ -96,11 +96,9 @@ int	main(int argc, char **argv, char *envp[])
 	argc = 1;
 	argv = 0;
 
-	print_token(&token1);
-	ft_print_array(envp, 1);
 	head = init_command(&token1);
-	print_parser(head);
 	init_env(envp, &env);
+	ft_env(&env, head);
 	ft_env(&env, head);
 	redirect_exe(head, env);
 	free_env(&env);

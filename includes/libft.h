@@ -138,5 +138,6 @@ long	ft_min(long a, long b);
 double	ft_powerf(double x, int exp);
 void	ft_free(void *ptr);
 void	ft_print_array(char **str, int fd);
+void	ft_print_intarr(int *arr, int size, int fd);
 
 #endif
