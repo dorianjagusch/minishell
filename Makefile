@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
+#    By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
 #    Updated: 2023/05/17 11:05:30 by djagusch         ###   ########.fr        #
@@ -101,18 +101,20 @@ test_builtin:
 	@$(CC) $(CFLAGS) src/printing/token_print.c src/printing/parser_print.c src/free_memory/free_memory.c \
 	$(BUILTIN_F) src/ft_error.c src/tests/builtin_test.c \
 	-Iincludes/ includes/parser.h includes/lexer.h includes/minishell.h \
-	-Llibft -lft -g -fsanitize=address -static-libsan
+	-Llibft -lft -g
 
 test_env:
 	@$(CC) $(CFLAGS) src/printing/token_print.c src/printing/parser_print.c src/free_memory/free_memory.c \
 	$(ENV_F) src/ft_error.c src/tests/env_test.c \
 	-Iincludes/ includes/parser.h includes/lexer.h includes/minishell.h \
-	-Llibft -lft -g -fsanitize=address -static-libsan
+	-Llibft -lft -g
+  
 test_redir:
 	$(CC) $(CFLAGS) src/printing/token_print.c src/printing/parser_print.c src/free_memory/free_memory.c \
 	$(ENV_F) $(REDIR_F) $(BUILTIN_F) $(PARSER_F) src/ft_error.c src/tests/parser_test.c \
 	-Iincludes/ includes/parser.h includes/lexer.h includes/minishell.h \
 	-Llibft -lft -g
+
 ### LIBFT
 
 libft: $(LIBFT)

@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/08 14:03:29 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/12 10:32:47 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ static int	get_string(t_token **tokens, char *line, int quote, int *flag)
 		*flag = -1;
 	}
 	free(str);
-	//ft_printf("return value from string%d\n", i + 2);
-	return (i + 2);
+	return (i + 1);
 }
 
 static int	get_text(t_token **tokens, char *line, int *flag)
@@ -90,7 +89,6 @@ int	init_lexer(char *line, t_token	**tokens)
 	i = 0;
 	while (line[i])
 	{
-		//ft_printf ("line : %s\n",&line[i]);
 		indicator = i;
 		if (line[i] == ' ' || line[i] == '\t')
 			i += skip_white(tokens, &line[i], &indicator);
@@ -108,7 +106,6 @@ int	init_lexer(char *line, t_token	**tokens)
 			i += get_text(tokens, &line[i], &indicator);
 		if (indicator == -1)
 			return (EXIT_FAILURE);
-		//ft_printf("i :%d indicator:%d\n",i,indicator);
 	}
 	return (EXIT_SUCCESS);
 }
