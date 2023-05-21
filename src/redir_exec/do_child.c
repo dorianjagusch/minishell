@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/17 16:03:10 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/21 20:32:59 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,12 @@ void	do_child(t_command *command, int *fds, int n_cmd, t_env *env)
 	char		**env_arr;
 
 	current = command->id;
-	ft_printf("%d\n", current);
 	close_fds(fds, current, n_cmd);
-	if (dup2(fds[current], STDIN_FILENO) < 0
-		|| dup2(fds[current + 1], STDOUT_FILENO) < 0)
+	if (dup2(fds[(current << 1) - 1], STDIN_FILENO) < 0
+		|| dup2(fds[(current + 1) << 1], STDOUT_FILENO) < 0)
 		ft_error(0, "");
-	close(fds[current]);
-	close(fds[current + 1]);
+	close(fds[(current << 1) - 1]);
+	close(fds[(current + 1) << 1]);
 	if (!command->command)
 		ft_error(NOCMMD, "");
 	if (exec_builtin(&env, command))

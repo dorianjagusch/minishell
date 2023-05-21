@@ -22,7 +22,7 @@ static void	set_pipes(t_command *command, int *pipes)
 	{
 		if (close(pipes[0]) < 0)
 			ft_error(EPIPE, "");
-		pipes[0] = dup(command->fds[0]);
+		pipes[0] = dup(command->fds[0]); 
 	}
 	if (command->outfile)
 	{
@@ -30,7 +30,8 @@ static void	set_pipes(t_command *command, int *pipes)
 			ft_error(EPIPE, "");
 		if (command->fds[1])
 			pipes[1] = dup(command->fds[1]);
-		pipes[1] = dup(STDIN_FILENO);
+		else	
+			pipes[1] = dup(STDIN_FILENO);
 	}
 }
 
@@ -55,7 +56,7 @@ static int	*set_up_pipes(t_command *command, int n_cmd)
 	return (pipes);
 }
 
-static void	ft_wait(t_env *env, t_command *cmds, int *pids, int *fds)
+static void	ft_wait(int *pids)
 {
 	int			status;
 	int			i;
@@ -65,13 +66,9 @@ static void	ft_wait(t_env *env, t_command *cmds, int *pids, int *fds)
 	while (wait(&status) > 0)
 		;
 	if (status > 0)
-	{
-		ft_free(pids);
-		ft_free(fds);
-		free_command(&cmds);
-		free_env(&env);
 		ft_error(0, "");
-	}
+	pids = NULL; // Just a place holder for proper checking of status depending on the pid (should not be necessary tho)
+	printf("Waited for all children\n");
 	return ;
 }
 
@@ -99,23 +96,20 @@ int	redirect_exe(t_command *command, t_env *env)
 	fds = set_up_exe(command, env, &n_cmds);
 	pids = ft_calloc(n_cmds, sizeof(int));
 	i = 0;
-	ft_print_intarr(fds, n_cmds * 2, 1);
 	while (i < n_cmds)
 	{
 		pids[i] = fork();
-		ft_printf("child %d created\n", pids[i]);
 		if (pids[i] < 0)
 			ft_error(EPIPE, "");
-		if (pids[i] == 0)
-		{
-			ft_printf("child %d going in\n", i);
+		if (pids[i++] == 0)
 			do_child(command, fds, n_cmds, env);
-		}
 		command = command->next;
-		i++;
 	}
-	//close_fds(command, fds, n_cmds, n_cmds);
-	ft_wait(env, command, pids, fds); //to do
-	//free_cmds(&command, &pids);
+	close_fds(fds, n_cmds, n_cmds);
+	ft_printf("Parent closed fds\n");
+	ft_wait(pids);
+	ft_printf("Free data\n");
+	ft_clear(&command, &pids, &fds);
+	ft_printf("Freed data successfully\n");
 	return (0);
 }

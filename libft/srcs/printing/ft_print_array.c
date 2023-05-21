@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 15:29:33 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/17 12:27:11 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/21 19:15:11 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ void	ft_print_intarr(int *arr, int size, int fd)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	if (!arr || !size || fd < 0)
 		return ;
-	while (++i < size)
-		ft_putnbr_fd(arr[i], fd);
+	ft_printf_fd(fd, "[ ");		
+	while (i < size - 1)
+		ft_printf_fd(fd, "%d ; ", arr[i++]);
+	ft_printf_fd(fd, "%d ]\n", arr[i]);
 }

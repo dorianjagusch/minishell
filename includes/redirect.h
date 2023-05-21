@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:49:46 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/17 12:59:42 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/21 15:04:44 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define REDIRECT_H
 
 # include "minishell.h"
+# include <sys/wait.h>
 
 # define READ 0
 # define WRITE 1

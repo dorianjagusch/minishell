@@ -6,11 +6,13 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:37:54 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/17 13:09:59 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/21 20:42:29 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdio.h>
+#include <sys/time.h>
 
 void	close_command_pipes(t_command *command)
 {
@@ -30,19 +32,16 @@ void	close_fds(int *fds, int cur, int n_cmd)
 	int	pipe;
 
 	pipe = 0;
-	while (pipe <= n_cmd)
+	while (pipe < n_cmd << 1)
 	{
-		if (pipe != cur && pipe != n_cmd)
+		if (!(cur == 0 && pipe == 0)
+			&& !(cur + 1 == n_cmd && pipe == (n_cmd << 1) - 1)
+			&& !((pipe == (cur << 1) - 1 || pipe == ((cur + 1) << 1)) 
+				&& cur != n_cmd))
 		{
-			ft_printf("closed reading FD %d in position %d for command %d\n",
-				fds[pipe], pipe, cur);
-			close(fds[cur + 0]);
-		}
-		if (pipe != cur + 1 && pipe != 0)
-		{
-			ft_printf("closed writing FD %d in position %d for command %d\n",
-				fds[pipe], pipe, cur);
-			close(fds[cur + 1]);
+			if (cur == 0)
+				printf("closing fd %d\n", pipe);
+			close(fds[pipe]);
 		}
 		pipe++;
 	}

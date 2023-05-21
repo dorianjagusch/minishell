@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/03 17:53:31 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/21 20:08:39 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,11 @@ void	free_env(t_env **env)
 		free(tmp->value);
 	free(*env);
 	*env = NULL;
+}
+
+void	ft_clear(t_command **command, int **pids, int **fds)
+{
+	free_command(command);
+	ft_free(pids);
+	ft_free(fds);
 }

@@ -41,12 +41,12 @@ t_token	*get_fds(t_command *command, t_token *token)
 	else if (token->token_type == GREATER_THAN)
 	{
 		command->fds[1] = open(command->outfile,
-				O_RDWR | O_CREAT | O_TRUNC, 0644);
+				O_RDWR | O_CREAT | O_TRUNC, 0665); // check in school, I have the feeling my laptop and school computers give different right
 	}
 	else
 	{
 		command->fds[1] = open(command->outfile,
-				O_RDWR | O_CREAT | O_APPEND, 0644);
+				O_RDWR | O_CREAT | O_APPEND, 0665);
 	}
 	check_file(command, token->token_type);
 	return (token);
