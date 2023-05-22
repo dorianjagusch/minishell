@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:29:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/21 20:38:38 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/22 16:15:44 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	main(int argc, char **argv, char *envp[])
 	t_token		token5;
 	t_token		token6;
 	t_token		token7;
-	// t_token		token8;
-	// t_token		token9;
-	// t_token		token10;
-	// t_token		token11;
-	// t_token		token12;
-	// t_token		token13;
+	t_token		token8;
+	t_token		token9;
+	t_token		token10;
+	t_token		token11;
+	t_token		token12;
+	t_token		token13;
 	// t_token		token14;
 	// t_token		token15;
 	// t_token		token16;
@@ -52,14 +52,13 @@ int	main(int argc, char **argv, char *envp[])
 	token4.next = &token5;
 	token5.next = &token6;
 	token6.next = &token7;
-	token7.next = NULL;
-	// &token8;
-	// token8.next = &token9;
-	// token9.next = &token10;
-	// token10.next = &token11;
-	// token11.next = &token12;
-	// token12.next = &token13;
-	// token13.next = &token14;
+	token7.next = &token8;
+	token8.next = &token9;
+	token9.next = &token10;
+	token10.next = &token11;
+	token11.next = &token12;
+	token12.next = &token13;
+	token13.next = NULL; //&token14;
 	// token14.next = &token15;
 	// token15.next = &token16;
 	// token16.next = &token17;
@@ -75,28 +74,28 @@ int	main(int argc, char **argv, char *envp[])
 	token1.token_type = COMMAND;
 	token2.content = ft_strdup("-nnnn");
 	token2.token_type = STRING;
-	token3.content = ft_strdup("-nnn");
+	token3.content = ft_strdup("-nmn");
 	token3.token_type = STRING;
 	token4.content = ft_strdup("-n");
 	token4.token_type = STRING;
-	token5.content = ft_strdup(">>");
+	token5.content = ft_strdup(">");
 	token5.token_type = GREATER_GREATER;
 	token6.content = ft_strdup("test.txt");
 	token6.token_type = STRING;
 	token7.content = ft_strdup("jhjfgjkosfkdfg");
 	token7.token_type = STRING;
-	// token8.content = ft_strdup("|");
-	// token8.token_type = PIPE;
-	// token9.content = ft_strdup("<");
-	// token9.token_type = LESS_THAN;
-	// token10.content = ft_strdup("src/utils/ft_error.c");
-	// token10.token_type = STRING;
-	// token11.content = ft_strdup("cat");
-	// token11.token_type = COMMAND;
-	// token12.content = ft_strdup(">>");
-	// token12.token_type = GREATER_GREATER;
-	// token13.content = ft_strdup("test.txt");
-	// token13.token_type = STRING;
+	token8.content = ft_strdup("|");
+	token8.token_type = PIPE;
+	token9.content = ft_strdup("<");
+	token9.token_type = LESS_THAN;
+	token10.content = ft_strdup("src/utils/ft_error.c");
+	token10.token_type = STRING;
+	token11.content = ft_strdup("cat");
+	token11.token_type = COMMAND;
+	token12.content = ft_strdup(">>");
+	token12.token_type = GREATER_GREATER;
+	token13.content = ft_strdup("test2.txt");
+	token13.token_type = STRING;
 	// token14.content = ft_strdup("|");
 	// token14.token_type = PIPE;
 	// token15.content = ft_strdup("env");

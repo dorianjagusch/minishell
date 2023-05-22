@@ -6,14 +6,13 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/21 20:08:50 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/22 15:32:43 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-//# include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
 # include <fcntl.h>
@@ -68,5 +67,5 @@ int			print_export(t_env **env, t_command *cmd);
 int			ft_unset(t_env **env, t_command *cmd);
 void		print_token(t_token *token);
 
-void	ft_clear(t_command **command, int **pids, int **fds);
+void		ft_clear(t_command **command, int **pids, int **fds);
 #endif

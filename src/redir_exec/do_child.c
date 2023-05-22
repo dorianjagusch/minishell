@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/21 20:32:59 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/22 16:11:59 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,50 @@
 #include "parser.h"
 #include "minishell.h"
 
+int	dup_fds(int *fds, int n_cmd, int current)
+{
+	if ((current != 0 && dup2(fds[(current << 1) - 1], STDIN_FILENO) < 0)
+		|| dup2(fds[0], STDIN_FILENO) < 0)
+	{
+		ft_error(0, "34frfdyf");
+		return (EPIPE);
+	}
+	if ((dup2(fds[((current + 1) << 1)], STDOUT_FILENO) < 0
+			&& current != n_cmd - 1)
+		|| dup2(fds[(n_cmd << 1) - 1], STDOUT_FILENO) < 0)
+	{
+		ft_error(0, "34ff7uuk67ijhgrujnyby");
+		return (EPIPE);
+	}
+	if (current != 0)
+		close(fds[(current << 1) - 1]);
+	else
+		close(fds[0]);
+	if (current != n_cmd - 1)
+		close(fds[(current + 1) << 1]);
+	else
+		close(fds[(current << 1) - 1]);
+	return (0);
+}
 
-void	do_child(t_command *command, int *fds, int n_cmd, t_env *env)
+int	do_child(t_command *command, int *fds, int n_cmd, t_env *env)
 {
 	int			current;
 	char		**env_arr;
 
 	current = command->id;
 	close_fds(fds, current, n_cmd);
-	if (dup2(fds[(current << 1) - 1], STDIN_FILENO) < 0
-		|| dup2(fds[(current + 1) << 1], STDOUT_FILENO) < 0)
-		ft_error(0, "");
-	close(fds[(current << 1) - 1]);
-	close(fds[(current + 1) << 1]);
+	dup_fds(fds, n_cmd, current);
 	if (!command->command)
 		ft_error(NOCMMD, "");
 	if (exec_builtin(&env, command))
 	{
 		env_arr = ft_env_to_array(env);
+		close_command_pipes(command);
 		execve(command->command, command->params, env_arr);
 		ft_error(NOCMMD, command->command);
+		return (1);
 	}
+	close_command_pipes(command);
+	return (0);
 }
