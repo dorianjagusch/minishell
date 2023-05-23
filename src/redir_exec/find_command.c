@@ -59,15 +59,14 @@ static void	find_path(char **path, char **cmd_name)
 int	get_exe_path(t_env **env, t_command *command)
 {
 	char	*path;
-	size_t	i;
 
-	i = -1;
 	while (command)
 	{
 		if (!is_builtin(command))
 		{
-			path = find_env(env, "PATH", 0)->value;
-			find_path(&path, &(command->command));
+			path = find_value(env, "PATH");
+			if (path)
+				find_path(&path, &(command->command));
 		}
 		command = command->next;
 	}

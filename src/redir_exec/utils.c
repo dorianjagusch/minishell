@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:37:54 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/22 16:21:23 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/23 20:32:40 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,12 @@ void	close_fds(int *fds, int cur, int n_cmd)
 	int	pipe;
 
 	pipe = 0;
-	while (pipe < n_cmd << 1)
-	{
-		if (!(cur == 0 && pipe == 0)
-			&& !(cur + 1 == n_cmd && pipe == (n_cmd << 1) - 1)
-			&& !((pipe == (cur << 1) - 1 || pipe == ((cur + 1) << 1))
-				&& cur != n_cmd))
-		{
-			if (cur == 1)
-				printf("closing fd %d\n", pipe);
+	while (pipe < n_cmd)
+	{	
+		if (pipe != (cur << 1) && cur != n_cmd  - 1)
 			close(fds[pipe]);
-		}
-		pipe++;
+		if (pipe + 3 != (((cur + 1) << 1) + 1) && cur != 0)
+			close(fds[pipe + 2]);
+		pipe += 2;
 	}
 }

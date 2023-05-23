@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 13:29:10 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/22 16:13:24 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:47:25 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	is_builtin(t_command *cmd)
 	int				i;
 
 	i = 0;
-	while (i < 7)
+	while (i < 6)
 	{
 		if (ft_strcmp(cmd->command, builtins[i].name) == 0)
 			return (1);

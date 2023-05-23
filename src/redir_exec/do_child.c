@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/22 16:11:59 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/23 20:37:08 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,20 @@
 
 int	dup_fds(int *fds, int n_cmd, int current)
 {
-	if ((current != 0 && dup2(fds[(current << 1) - 1], STDIN_FILENO) < 0)
-		|| dup2(fds[0], STDIN_FILENO) < 0)
+	if (dup2(fds[(current << 1)], STDIN_FILENO) < 0)
 	{
 		ft_error(0, "34frfdyf");
 		return (EPIPE);
 	}
-	if ((dup2(fds[((current + 1) << 1)], STDOUT_FILENO) < 0
-			&& current != n_cmd - 1)
-		|| dup2(fds[(n_cmd << 1) - 1], STDOUT_FILENO) < 0)
+	if (dup2(fds[((current + 1) << 1) + 1], STDOUT_FILENO) < 0)
 	{
 		ft_error(0, "34ff7uuk67ijhgrujnyby");
 		return (EPIPE);
 	}
-	if (current != 0)
-		close(fds[(current << 1) - 1]);
-	else
-		close(fds[0]);
 	if (current != n_cmd - 1)
-		close(fds[(current + 1) << 1]);
-	else
-		close(fds[(current << 1) - 1]);
+		close(fds[(current << 1)]);
+	if (current != 0)
+		close(fds[((current + 1) << 1) + 1]);
 	return (0);
 }
 
@@ -47,6 +40,7 @@ int	do_child(t_command *command, int *fds, int n_cmd, t_env *env)
 
 	current = command->id;
 	close_fds(fds, current, n_cmd);
+	printf("Here2\n");
 	dup_fds(fds, n_cmd, current);
 	if (!command->command)
 		ft_error(NOCMMD, "");
