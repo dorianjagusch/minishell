@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/15 13:49:48 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:33:41 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	get_params(t_token *token, t_command *command)
 	{
 		if (ft_isredir(token))
 				token = token->next->next;
-		command->params[i] = ft_strdup(token->content);
+		command->params[i] = ft_strdup(token->content); //here segv
 		if (!command->params[i++])
 			free_command(&command);
 		token = token->next;

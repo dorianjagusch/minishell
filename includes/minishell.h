@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/12 14:59:02 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/23 10:34:48 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ typedef struct s_builtin
 	char	*name;
 	int		(*builtin)(t_env **, t_command *);
 }		t_builtin;
+
+typedef struct s_heredoc
+{
+	char				*line;
+	struct s_heredoc	*next;
+}						t_heredoc;
 
 void		rl_replace_line(const char *text, int clear_undo);
 void		init_env(char **envp, t_env **env);

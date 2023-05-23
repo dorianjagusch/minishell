@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/17 15:33:36 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:34:25 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,12 @@ static int	re_label(t_token **tokens)
 	t_token	*temp;
 
 	temp = *tokens;
-
 	if (redir_check(temp))
 	{
-		if (temp->next->next)
-		temp->next->next->token_type = COMMAND;
+		if (temp && temp->next && temp->next->next)
+			temp->next->next->token_type = COMMAND;
 	}
-	else
+	else if (temp)
 		temp->token_type = COMMAND;
 	while (temp != NULL)
 	{
@@ -123,7 +122,6 @@ int	retokenize(t_token **tokens, t_env **env)
 		return (EXIT_FAILURE);
 	if (concatenate(tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	ft_printf("concat success\n\n");
 	print_token(*tokens);
 	if (remove_quote(tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/17 15:32:40 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:48:45 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 BOOL	redir_check(t_token *token)
 {
-	if (token->token_type == GREATER_THAN
-		|| token->token_type == GREATER_GREATER
-		|| token->token_type == LESS_LESS || token->token_type == LESS_THAN)
+	if (token && (token->token_type == GREATER_THAN
+			|| token->token_type == GREATER_GREATER
+			|| token->token_type == LESS_LESS
+			|| token->token_type == LESS_THAN))
 		return (TRUE);
 	return (FALSE);
 }

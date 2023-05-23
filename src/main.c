@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/17 15:52:51 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/22 15:10:27 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ static	int	init_shell(t_env **env)
 				add_history(line);
 			if (syntax_check(line))
 				exit_value = run_line(line, env);
+			else
+				exit_value = 258;
 			//if (exit_value == EXIT_FAILURE)
 				//inform the user that malloc failed?;
 		}
