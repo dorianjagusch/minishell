@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/23 10:34:48 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/24 12:29:14 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ int			init_lexer(char *line, t_token	**tokens);
 int			retokenize(t_token **tokens, t_env **env);
 BOOL		syntax_check(char *line);
 void		free_tokens(t_token **tokens);
+
+//here_doc
+int			here_doc(char	*delim, int is_quote);
 
 // BUILTINS
 int			is_built_in(t_env **env, t_command *cmd);

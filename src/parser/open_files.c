@@ -37,7 +37,11 @@ t_token	*get_fds(t_command *command, t_token *token)
 	if (token->token_type == LESS_THAN)
 		command->fds[0] = open(command->infile, O_RDONLY);
 	else if (token->token_type == LESS_LESS)
-		command->fds[0] = here_doc(command->infile, token->next->content);
+	{
+		command->fds[0] = here_doc(token->next->content, token->next->isquote);
+		// if (command->fds[0] == -1)
+		// 	command->success = 0;
+	}
 	else if (token->token_type == GREATER_THAN)
 	{
 		command->fds[1] = open(command->outfile,
