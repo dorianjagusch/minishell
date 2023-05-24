@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 13:29:10 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/23 18:47:25 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:04:36 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	is_builtin(t_command *cmd)
 	return (0);
 }
 
-int	exec_builtin(t_env **env, t_command *cmd)
+BOOL	exec_builtin(t_env **env, t_command *cmd)
 {
 	const t_builtin	builtins[] = {
 	{"echo", &ft_echo},

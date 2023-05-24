@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/22 15:32:43 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:04:45 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char		*find_value(t_env **env, char *key);
 
 // BUILTINS
 int			is_builtin(t_command *cmd);
-int			exec_builtin(t_env **env, t_command *cmd);
+BOOL		exec_builtin(t_env **env, t_command *cmd);
 int			ft_echo(t_env **env, t_command *cmd);
 int			ft_env(t_env **env, t_command *cmd);
 int			ft_pwd(t_env **env, t_command *cmd);

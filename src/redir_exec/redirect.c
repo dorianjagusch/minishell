@@ -20,18 +20,15 @@ static void	set_pipes(t_command *command, int *pipes)
 		ft_error(EPIPE, "");
 	if (command->infile)
 	{
+		dup2(pipes[0], command->fds[0]);
 		if (close(pipes[0]) < 0)
 			ft_error(EPIPE, "");
-		pipes[0] = dup(command->fds[0]);
 	}
 	if (command->outfile)
 	{
+		dup2(pipes[1], command->fds[1]);
 		if (close(pipes[1]) < 0)
 			ft_error(EPIPE, "");
-		if (command->fds[1])
-			pipes[1] = dup(command->fds[1]);
-		else
-			pipes[1] = dup(STDIN_FILENO);
 	}
 }
 
@@ -93,13 +90,12 @@ int	redirect_exe(t_command *command, t_env *env)
 	pids = ft_calloc(n_cmds, sizeof(int));
 	i = 0;
 	tmp = command;
-	printf("Here\n");
 	while (i < n_cmds)
 	{
 		pids[i] = fork();
 		if (pids[i] < 0)
 			ft_error(EPIPE, "");
-		if (pids[i++] == 0)
+		if (!exec_builtin(&env, tmp) && pids[i++] == 0)
 			do_child(tmp, fds, n_cmds, env);
 		tmp = tmp->next;
 	}
