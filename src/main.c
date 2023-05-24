@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/22 15:10:27 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/24 13:51:24 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ static	int	run_line(char *line, t_env **env)
 	t_token		*tokens;
 	t_command	*commands;
 
-	tokens = (t_token *)ft_calloc(sizeof(t_token), 1);
-	if (!tokens)
-		return (EXIT_FAILURE);
 	tokens = NULL;
 	if (init_lexer(line, &tokens) == EXIT_FAILURE)
 	{

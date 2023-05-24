@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/22 14:34:25 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/24 13:24:57 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,15 @@ static	int	expand(t_token **tokens, t_env **env)
 
 int	retokenize(t_token **tokens, t_env **env)
 {
+ft_printf("in retokenize\n");
+	print_token(*tokens);
 	if (expand(tokens, env) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	ft_printf("after expand\n");
+	print_token(*tokens);
 	if (concatenate(tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	ft_printf("after concat\n");
 	print_token(*tokens);
 	if (remove_quote(tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
