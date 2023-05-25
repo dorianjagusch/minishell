@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/24 13:51:24 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/25 14:29:47 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static	int	run_line(char *line, t_env **env)
 void	sigint_handler(int signo)
 {
 	if (signo)
-		ft_printf("\n\e[34m""MiniShell$>""\x1b[m");
+		ft_printf("\n\e[34m""MiniShell$> ""\x1b[m");
 }
 
 static	int	init_shell(t_env **env)

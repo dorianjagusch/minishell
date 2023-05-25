@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/12 15:04:52 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/25 12:19:09 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ static int	get_text(t_token **tokens, char *line, int *flag)
 	while (line[i] == '-')
 		i++;
 	while (line[i] && line[i] != '\t' && line[i] != ' ' && line[i] != '|'
-		&& line[i] != '\"' && line[i] != '\'')
+		&& line[i] != '\"' && line[i] != '\'' && line[i] != '<'
+		&& line[i] != '>')
 		i++;
 	str = ft_calloc(sizeof(char) * (i + 1), 1);
 	if (!str)

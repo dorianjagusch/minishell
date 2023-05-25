@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/24 13:24:57 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/25 13:52:34 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,28 @@ static int	re_label(t_token **tokens)
 	t_token	*temp;
 
 	temp = *tokens;
-	if (redir_check(temp))
-	{
-		if (temp && temp->next && temp->next->next)
-			temp->next->next->token_type = COMMAND;
-	}
-	else if (temp)
+	if (temp && !redir_check(temp))
+		temp->token_type = COMMAND;
+	else
+		while (temp && redir_check(temp))
+			temp = temp->next->next;
+	if (temp)
 		temp->token_type = COMMAND;
 	while (temp != NULL)
 	{
 		if (temp->token_type == PIPE)
 		{
 			temp = temp->next;
-			if (redir_check(temp))
-			temp->next->next->token_type = COMMAND;
+			if (!redir_check(temp))
+				temp->token_type = COMMAND;
 			else
+				while (temp && redir_check(temp))
+					temp = temp->next->next;
+			if (temp)
 				temp->token_type = COMMAND;
 		}
-		temp = temp->next;
+		if (temp)
+			temp = temp->next;
 	}
 	return (EXIT_SUCCESS);
 }

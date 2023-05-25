@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 12:06:16 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/24 15:57:40 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/25 09:49:17 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	here_doc(char	*delim, int is_quote)
 		line = readline("> ");
 		if (ft_strlen(line) > 0)
 		{
-			ret = process_line(&heredoc, line, fd, delim);
+			ret = process_line(heredoc, line, fd, delim);
 			if (ret == 0)
 				break ;
 			if (ret == -1)

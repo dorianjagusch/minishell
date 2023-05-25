@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/17 13:41:34 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/25 14:29:13 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,21 @@ static int	behind_pipe_empty(char *line, int i)
 	return (FALSE);
 }
 
-static int	after_redir_empty(char *line, int i)
+static int	after_redir_empty(char *line)
 {
+	int		i;
 	char	redir;
 
-	redir = line[i];
+	redir = *line;
+	i = 0;
+	ft_printf("in after redir empty line i : '%c' \n", *line);
 	if (line[i + 1] == redir)
 		i++;
 	while (line[++i])
 	{
-		if (ft_isprint(line [i]) && line[i] != ' ' && line[i] != '\t')
+		if (ft_isprint(line[i]) && line[i] != ' ' && line[i] != '\t')
 		{
+			ft_printf("%d\n",i);
 			if (line[i] == '>' || line[i] == '<' || line[i] == '|')
 				return (TRUE);
 			else
@@ -69,6 +73,7 @@ static int	after_redir_empty(char *line, int i)
 
 int	skip_pipe(char *line, int i)
 {
+	ft_printf("in skip pipe\n");
 	if (behind_pipe_empty(line, i))
 		return (-1);
 	while (line[++i])
@@ -78,7 +83,7 @@ int	skip_pipe(char *line, int i)
 			if (line[i] == '|')
 				return (-1);
 			if ((line[i] == '>' || line[i] == '<')
-				&& after_redir_empty(&line[i], i))
+				&& after_redir_empty(&line[i]))
 				return (-1);
 			else
 				break ;
@@ -105,7 +110,7 @@ int	skip_redir(char *line)
 		i++;
 		redir_count++;
 	}
-	if (after_redir_empty(&line[i], i))
+	if (after_redir_empty(&line[i]))
 		return (-1);
 	return (redir_count);
 }
