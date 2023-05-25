@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/25 14:33:52 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/25 14:40:05 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,8 @@ static int	replace_content(char **content, int start, int rm_end, char *str)
 	return (EXIT_SUCCESS);
 }
 
-static int	re_label(t_token **tokens)
+static int	re_label(t_token *temp)
 {
-	t_token	*temp;
-
-	temp = *tokens;
 	if (temp && !redir_check(temp))
 		temp->token_type = COMMAND;
 	else
@@ -137,7 +134,7 @@ int	retokenize(t_token **tokens, t_env **env)
 	remove_space(tokens);
 	ft_printf("after remove space\n");
 	print_token(*tokens);
-	if (re_label(tokens) == EXIT_FAILURE)
+	if (re_label(*tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	ft_printf("re lable success\n\n");
 	print_token(*tokens);

@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/25 14:33:21 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/25 16:01:33 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,15 @@ static	int	run_line(char *line, t_env **env)
 	return (0); //added because og compaint
 }
 
-void	sigint_handler(int signo)
-{
-	if (signo)
-		ft_printf("\n\e[34m""MiniShell$> ""\x1b[m");
-}
-
 static	int	init_shell(t_env **env)
 {
 	char				*line;
 	int					exit_value;
-	struct sigaction	s;
 
-	s.sa_handler = sigint_handler;
-	sigemptyset(&s.sa_mask);
-	s.sa_flags = SA_RESTART;
 	while (1)
 	{
-		sigaction(SIGINT, &s, NULL);
-		line = readline("\e[34m""MiniShell$>""\x1b[m");
+		init_signal();
+		line = readline("\e[34m""MiniShell$> ""\x1b[m");
 		if (!line) // CTRL D
 		{
 			write(2, "exit\n", 5);
