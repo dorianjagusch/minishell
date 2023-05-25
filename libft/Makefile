@@ -6,13 +6,14 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 15:27:30 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/04 12:26:23 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/21 15:12:15 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I$I -std=c99 -O3
+CFLAGS = -Wall -Wextra -Werror -I$I -std=c99 -O3 \
+	-Wno-unused-result
 
 NAME = libft.a
 
@@ -39,8 +40,8 @@ FILES = ft_atoi ft_bzero ft_calloc ft_isalnum \
 	ft_printf_util_fd get_next_line ft_free ft_atof ft_atol ft_pow \
 	ft_lenbase get_next_line ft_free_array ft_print_array \
 	ft_count_elements ft_abs ft_bits ft_which_extr \
-	add_to_array create_array destroy_array get_elem_array \
-	resize_array
+#	//add_to_array create_array destroy_array get_elem_array \
+#	resize_array
 
 S := srcs
 SRCS := $(foreach FILE,$(FILES),$(shell find $S -type f -name $(FILE).c))

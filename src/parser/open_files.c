@@ -26,7 +26,7 @@ static void	check_file(t_command *command, int token_type)
 		file_type++;
 		file = command->outfile;
 	}
-	if (file && access(file, F_OK))
+	if (file && acces(file, F_OK))
 		ft_error(NOFILE, file);
 	else if (file && command->fds[file_type] < 0 && access(file, F_OK) == 0)
 		ft_error(NOACCESS, file);
