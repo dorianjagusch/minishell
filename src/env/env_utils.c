@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:07:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/11 16:05:55 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:32:17 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,9 @@ static size_t	ft_env_len(t_env *env)
 char	**ft_env_to_array(t_env *env)
 {
 	char	**envp;
-	t_env	*tmp;
 	size_t	env_len;
 	size_t	i;
 
-	tmp = env;
 	i = 0;
 	env_len = ft_env_len(env);
 	envp = ft_calloc(env_len + 1, sizeof(char *));

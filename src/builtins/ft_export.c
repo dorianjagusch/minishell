@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/05 10:43:38 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:08:49 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	invalid_env(char *arg)
 {
-	size_t	i;
-	size_t	eq_pos;
+	int	i;
+	int	eq_pos;
 
 	if (!ft_isalpha(arg[0]) || arg[0] != '_')
 		return (-1);
@@ -55,7 +55,7 @@ int	ft_export(t_env **env, t_command *cmd)
 {
 	size_t	i;
 	size_t	elems;
-	size_t	eq_pos;
+	int		eq_pos;
 	char	**env_str;
 	int		ret;
 
@@ -65,7 +65,7 @@ int	ft_export(t_env **env, t_command *cmd)
 	elems = ft_count_elements(cmd->params);
 	if (elems == 1)
 		return (print_export(env, cmd));
-		env_str = ft_split(cmd->params[i], '=');
+	env_str = ft_split(cmd->params[i], '=');
 	if (!env_str)
 		return (1);
 	while (i < elems)

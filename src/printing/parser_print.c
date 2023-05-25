@@ -6,14 +6,14 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:07:32 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/11 11:35:48 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/21 14:59:10 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-#define PARAMS 5
+#define N_PARAMS 5
 
 void	print_parser(t_command *command)
 {
