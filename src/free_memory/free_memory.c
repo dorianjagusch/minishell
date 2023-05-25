@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/03 17:53:31 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/23 10:39:54 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,17 @@ void	free_env(t_env **env)
 		free(tmp->value);
 	free(*env);
 	*env = NULL;
+}
+
+void	free_hrdc(t_heredoc **hrdc)
+{
+	t_heredoc	*tmp;
+
+	while ((*hrdc) != NULL)
+	{
+		tmp = *hrdc;
+		(*hrdc) = (*hrdc)->next;
+		free(tmp->line);
+		free(tmp);
+	}
 }

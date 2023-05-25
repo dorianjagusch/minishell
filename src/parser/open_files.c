@@ -32,25 +32,16 @@ static void	check_file(t_command *command, int token_type)
 		ft_error(NOACCESS, file);
 }
 
-// static int	here_doc(char *infile, t_token *token)
-// {
-// 	char	*delim;
-// 	int		fd;
-
-	
-// 	fd = open(STDIN_FILENO, O_RDONLY);
-// 	get_delim(fd);
-
-
-// 	return (fd);
-// }
-
 t_token	*get_fds(t_command *command, t_token *token)
 {
 	if (token->token_type == LESS_THAN)
 		command->fds[0] = open(command->infile, O_RDONLY);
-	// else if (token->token_type == LESS_LESS)
-	// 	command->fds[0] = here_doc(command->infile, token);
+	else if (token->token_type == LESS_LESS)
+	{
+		command->fds[0] = here_doc(token->next->content, token->next->isquote);
+		// if (command->fds[0] == -1)
+		// 	command->success = 0;
+	}
 	else if (token->token_type == GREATER_THAN)
 	{
 		command->fds[1] = open(command->outfile,
@@ -64,4 +55,3 @@ t_token	*get_fds(t_command *command, t_token *token)
 	check_file(command, token->token_type);
 	return (token);
 }
- // write for outfiles

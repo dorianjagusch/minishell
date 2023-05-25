@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/17 15:32:40 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/24 12:56:23 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 BOOL	redir_check(t_token *token)
 {
-	if (token->token_type == GREATER_THAN
-		|| token->token_type == GREATER_GREATER
-		|| token->token_type == LESS_LESS || token->token_type == LESS_THAN)
+	if (token && (token->token_type == GREATER_THAN
+			|| token->token_type == GREATER_GREATER
+			|| token->token_type == LESS_LESS
+			|| token->token_type == LESS_THAN))
 		return (TRUE);
 	return (FALSE);
 }
@@ -95,7 +96,7 @@ t_token	*new_token(char *content, int token_type)
 	return (new);
 }
 
-int	add_token(t_token **token, t_token *new, int * flag)
+int	add_token(t_token **token, t_token *new, int *flag)
 {
 	t_token	*tmp;
 
