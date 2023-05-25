@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "ft_error.h"
 
-static void	check_file(t_command *command, int token_type)
+static void	check_file(t_command *command, int token_type, BOOL heredoc)
 {
 	char	*file;
 	int		file_type;
@@ -26,14 +26,18 @@ static void	check_file(t_command *command, int token_type)
 		file_type++;
 		file = command->outfile;
 	}
-	if (file && access(file, F_OK))
+	if (!heredoc && file && access(file, F_OK))
 		ft_error(NOFILE, file);
-	else if (file && command->fds[file_type] < 0 && access(file, F_OK) == 0)
+	else if (!heredoc && file && command->fds[file_type] < 0 
+		&& access(file, F_OK) == 0)
 		ft_error(NOACCESS, file);
 }
 
 t_token	*get_fds(t_command *command, t_token *token)
 {
+	int	heredoc;
+
+	heredoc = 0;
 	if (token->token_type == LESS_THAN)
 		command->fds[0] = open(command->infile, O_RDONLY);
 	else if (token->token_type == LESS_LESS)
@@ -41,6 +45,7 @@ t_token	*get_fds(t_command *command, t_token *token)
 		command->fds[0] = here_doc(token->next->content, token->next->isquote);
 		// if (command->fds[0] == -1)
 		// 	command->success = 0;
+		heredoc = 1;
 	}
 	else if (token->token_type == GREATER_THAN)
 	{
@@ -52,6 +57,6 @@ t_token	*get_fds(t_command *command, t_token *token)
 		command->fds[1] = open(command->outfile,
 				O_RDWR | O_CREAT | O_APPEND, 0644);
 	}
-	check_file(command, token->token_type);
+	check_file(command, token->token_type, heredoc);
 	return (token);
 }

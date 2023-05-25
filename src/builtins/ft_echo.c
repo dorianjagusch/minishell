@@ -6,11 +6,31 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/12 09:06:24 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/22 16:08:27 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	skip_n(t_command *cmd, BOOL *n_flag)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (cmd->params[i] && !ft_strncmp(cmd->params[i], "-n", 2))
+	{
+		j = 2;
+		while (cmd->params[i][j] == 'n')
+			j++;
+		if (!cmd->params[i][j] && i == 1)
+			*n_flag = 1;
+		else if (cmd->params[i][j])
+			break ;
+		i++;
+	}
+	return (i);
+}
 
 int	ft_echo(t_env **env, t_command *cmd)
 {
@@ -21,10 +41,7 @@ int	ft_echo(t_env **env, t_command *cmd)
 	i = 1;
 	if (!env)
 		return (EXIT_FAILURE);
-	if (cmd->params[i] && !ft_strncmp(cmd->params[i], "-n", 2))
-		n_flag = 1;
-	while (cmd->params[i] && !ft_strncmp(cmd->params[i], "-n", 2))
-		i++;
+	i = skip_n(cmd, &n_flag);
 	while (cmd->params[i])
 	{
 		ft_putstr_fd(cmd->params[i], cmd->fds[1]);
@@ -32,7 +49,8 @@ int	ft_echo(t_env **env, t_command *cmd)
 			write(1, " ", 1);
 		i++;
 	}
-	if (n_flag)
+	if (!n_flag)
 		write(cmd->fds[1], "\n", 1);
 	return (EXIT_SUCCESS);
 }
+

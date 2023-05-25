@@ -6,9 +6,10 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/25 14:29:47 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/25 14:33:21 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -92,6 +93,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (argc > 1)
 		return (-1);
+
+	env = NULL;
 	init_env(envp, &env);
 	exit_value = init_shell(&env);
 	

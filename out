@@ -1,0 +1,1 @@
+gcc src/builtins/ft_echo.c -Iincludes includes/libft.h includes/minishell.h includes/parser.h -L./libft -lft
