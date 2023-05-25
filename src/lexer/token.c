@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/24 13:24:57 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/25 10:18:20 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ static	int	expand(t_token **tokens, t_env **env)
 
 int	retokenize(t_token **tokens, t_env **env)
 {
-ft_printf("in retokenize\n");
+	ft_printf("in retokenize\n");
 	print_token(*tokens);
 	if (expand(tokens, env) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
