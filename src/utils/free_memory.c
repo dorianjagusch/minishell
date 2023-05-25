@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/21 20:08:39 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/25 10:09:19 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,17 @@ void	ft_clear(t_command **command, int **pids, int **fds)
 	free_command(command);
 	ft_free(pids);
 	ft_free(fds);
+}
+
+void	free_hrdc(t_heredoc **hrdc)
+{
+	t_heredoc	*tmp;
+
+	while ((*hrdc) != NULL)
+	{
+		tmp = *hrdc;
+		(*hrdc) = (*hrdc)->next;
+		free(tmp->line);
+		free(tmp);
+	}
 }

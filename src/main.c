@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/05/21 17:35:00 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/25 10:10:50 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/25 10:10:53 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -17,9 +18,6 @@ static	int	run_line(char *line, t_env **env)
 	t_token		*tokens;
 	t_command	*commands;
 
-	tokens = (t_token *)ft_calloc(sizeof(t_token), 1);
-	if (!tokens)
-		return (EXIT_FAILURE);
 	tokens = NULL;
 	if (init_lexer(line, &tokens) == EXIT_FAILURE)
 	{
@@ -34,8 +32,8 @@ static	int	run_line(char *line, t_env **env)
 	commands = init_command(tokens); //maybe free tokens inside
 	print_parser(commands);
 	free_tokens(&tokens);
-	//redirect(commands);
-	//executer(env, commands);
+	//redirect_exe(commands, *env);
+	//terminate: free, clear history
 	return (0); //added because og compaint
 }
 
@@ -69,14 +67,18 @@ static	int	init_shell(t_env **env)
 			{
 				write(2, "exit\n", 5);
 				exit_value = 0;
+				free(line);
 				exit(0);
 			}
-			//add_history(line);
-			exit_value = run_line(line, env);
+			if (line && *line)
+				add_history(line);
+			if (syntax_check(line))
+				exit_value = run_line(line, env);
+			else
+				exit_value = 258;
 			//if (exit_value == EXIT_FAILURE)
 				//inform the user that malloc failed?;
 		}
-		//printf("%s\n",line);
 		free(line);
 	}
 	return (exit_value);
@@ -91,13 +93,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (argc > 1)
 		return (-1);
+
 	env = NULL;
-	init_env(envp, &env); //copy envp
-	//ft_env(&env, NULL);
-	//add a level to shell
-	//syntax check
+	init_env(envp, &env);
 	exit_value = init_shell(&env);
-	//terminate: free, clear history
+	
 	//for the purpose of checking for leaks : system("leaks -q minishell");
 	return (exit_value);
 }

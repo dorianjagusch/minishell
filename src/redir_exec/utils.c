@@ -6,9 +6,10 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:37:54 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/23 20:32:40 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/25 10:03:12 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 #include <stdio.h>
@@ -34,10 +35,11 @@ void	close_fds(int *fds, int cur, int n_cmd)
 	pipe = 0;
 	while (pipe < n_cmd)
 	{	
-		if (pipe != (cur << 1) && cur != n_cmd  - 1)
+		if (pipe != (cur << 1) && cur != n_cmd - 1)
 			close(fds[pipe]);
 		if (pipe + 3 != (((cur + 1) << 1) + 1) && cur != 0)
 			close(fds[pipe + 2]);
 		pipe += 2;
 	}
 }
+

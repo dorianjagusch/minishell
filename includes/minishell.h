@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/25 09:44:51 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/25 10:05:26 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <errno.h>
 # include "libft.h"
+# include "syntax.h"
 # include "lexer.h"
 # include "ft_error.h"
 # include "parser.h"
@@ -43,6 +44,12 @@ typedef struct s_builtin
 	int		(*builtin)(t_env **, t_command *);
 }		t_builtin;
 
+typedef struct s_heredoc
+{
+	char				*line;
+	struct s_heredoc	*next;
+}						t_heredoc;
+
 void		rl_replace_line(const char *text, int clear_undo);
 void		init_env(char *envp[], t_env **env);
 int			init_lexer(char *line, t_token	**tokens);
@@ -50,11 +57,20 @@ int			retokenize(t_token **tokens, t_env **env);
 t_env		*find_env(t_env **env, char *variable, int predecessor);
 t_env		*new_env(char *key, char *value);
 void		add_env(t_env **env, t_env *new);
-void		free_tokens(t_token **tokens);
 t_env		*copy_env(t_env **env);
 char		**ft_env_to_array(t_env *env);
 void		free_env(t_env **env);
 char		*find_value(t_env **env, char *key);
+
+//SYNTAX_CHECK AND TOKENIZE
+int			init_lexer(char *line, t_token	**tokens);
+int			retokenize(t_token **tokens, t_env **env);
+BOOL		syntax_check(char *line);
+void		free_tokens(t_token **tokens);
+
+//here_doc
+int			here_doc(char	*delim, int is_quote);
+void		free_hrdc(t_heredoc **hrdc);
 
 // BUILTINS
 int			is_builtin(t_command *cmd);

@@ -17,7 +17,6 @@ static void	check_file(t_command *command, int token_type)
 {
 	char	*file;
 	int		file_type;
-	int		accessnum;
 
 	file_type = 0;
 	if (token_type == LESS_LESS || token_type == LESS_THAN)
@@ -27,8 +26,7 @@ static void	check_file(t_command *command, int token_type)
 		file_type++;
 		file = command->outfile;
 	}
-	accessnum = access(file, F_OK);
-	if (file && accessnum)
+	if (file && acces(file, F_OK))
 		ft_error(NOFILE, file);
 	else if (file && command->fds[file_type] < 0 && access(file, F_OK) == 0)
 		ft_error(NOACCESS, file);
@@ -39,7 +37,11 @@ t_token	*get_fds(t_command *command, t_token *token)
 	if (token->token_type == LESS_THAN)
 		command->fds[0] = open(command->infile, O_RDONLY);
 	else if (token->token_type == LESS_LESS)
-		command->fds[0] = -1;
+	{
+		command->fds[0] = here_doc(token->next->content, token->next->isquote);
+		// if (command->fds[0] == -1)
+		// 	command->success = 0;
+	}
 	else if (token->token_type == GREATER_THAN)
 	{
 		command->fds[1] = open(command->outfile,

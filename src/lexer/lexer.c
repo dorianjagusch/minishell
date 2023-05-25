@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/12 10:32:47 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/12 15:04:52 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static int	skip_white(t_token **tokens, char *line, int *flag)
 	if (add_token(tokens, new_token(" ", SPACE), flag) == EXIT_FAILURE
 		|| *flag == -1)
 		*flag = -1;
-	//ft_printf("return value from skip white%d\n", i);
 	return (i);
 }
 
@@ -77,7 +76,6 @@ static int	get_text(t_token **tokens, char *line, int *flag)
 		*flag = -1;
 	}
 	free(str);
-	//ft_printf("return value from get text%d\n", i);
 	return (i);
 }
 
