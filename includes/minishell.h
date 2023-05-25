@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/24 16:04:45 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/25 09:44:51 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <signal.h>
+# include <unistd.h>
 # include <fcntl.h>
 # include <errno.h>
 # include "libft.h"

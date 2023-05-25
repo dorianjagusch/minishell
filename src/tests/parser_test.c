@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:29:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/22 16:15:44 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/25 09:51:31 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	main(int argc, char **argv, char *envp[])
 	token8.token_type = PIPE;
 	token9.content = ft_strdup("<");
 	token9.token_type = LESS_THAN;
-	token10.content = ft_strdup("src/utils/ft_error.c");
+	token10.content = ft_strdup("Makefile");
 	token10.token_type = STRING;
 	token11.content = ft_strdup("cat");
 	token11.token_type = COMMAND;

@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/24 16:05:33 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/25 09:29:08 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "parser.h"
 #include "minishell.h"
 
-#define CURRENT 0
+#define CURRENT 1
 
 int	dup_fds(int *fds, int n_cmd, int current)
 {
@@ -23,12 +23,11 @@ int	dup_fds(int *fds, int n_cmd, int current)
 		if (current == CURRENT)
 			ft_printf("in bitch failed\n");
 		ft_error(0, "34frfdyf");
-		return (EPIPE);
 	}
 	if (dup2(fds[((current + 1) << 1) + 1], STDOUT_FILENO) < 0)
 	{
 		if (current == CURRENT)
-			ft_printf("in bitch failed\n");
+			ft_printf("in bitch2 failed\n");
 		ft_error(0, "34frfdyiughijhf");
 		return (EPIPE);
 	}
@@ -39,7 +38,7 @@ int	dup_fds(int *fds, int n_cmd, int current)
 	return (0);
 }
 
-int	do_child(t_command *command, int *fds, int n_cmd, t_env *env)
+void	do_child(t_command *command, int *fds, int n_cmd, t_env *env)
 {
 	int			current;
 	char		**env_arr;
@@ -48,12 +47,10 @@ int	do_child(t_command *command, int *fds, int n_cmd, t_env *env)
 	close_fds(fds, current, n_cmd);
 	dup_fds(fds, n_cmd, current);
 	if (!command->command)
-	{
 		ft_error(NOCMMD, "");
-		env_arr = ft_env_to_array(env);
-		close_command_pipes(command);
-		execve(command->command, command->params, env_arr);
-		ft_error(NOCMMD, command->command);
-		return (1);
-	}
+	env_arr = ft_env_to_array(env);
+	close_command_pipes(command);
+	execve(command->command, command->params, env_arr);
+	ft_error(NOCMMD, command->command);
 }
+

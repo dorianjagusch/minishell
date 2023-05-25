@@ -17,6 +17,7 @@ static void	check_file(t_command *command, int token_type)
 {
 	char	*file;
 	int		file_type;
+	int		accessnum;
 
 	file_type = 0;
 	if (token_type == LESS_LESS || token_type == LESS_THAN)
@@ -26,7 +27,8 @@ static void	check_file(t_command *command, int token_type)
 		file_type++;
 		file = command->outfile;
 	}
-	if (file && access(file, F_OK))
+	accessnum = access(file, F_OK);
+	if (file && accessnum)
 		ft_error(NOFILE, file);
 	else if (file && command->fds[file_type] < 0 && access(file, F_OK) == 0)
 		ft_error(NOACCESS, file);
@@ -41,12 +43,12 @@ t_token	*get_fds(t_command *command, t_token *token)
 	else if (token->token_type == GREATER_THAN)
 	{
 		command->fds[1] = open(command->outfile,
-				O_RDWR | O_CREAT | O_TRUNC, 0665); // check in school, I have the feeling my laptop and school computers give different right
+				O_RDWR | O_CREAT | O_TRUNC, 0644);
 	}
 	else
 	{
 		command->fds[1] = open(command->outfile,
-				O_RDWR | O_CREAT | O_APPEND, 0665);
+				O_RDWR | O_CREAT | O_APPEND, 0644);
 	}
 	check_file(command, token->token_type);
 	return (token);
