@@ -71,7 +71,6 @@ int	redirect_exe(t_command *command, t_env *env)
 	close_fds(fds, n_cmd, n_cmd);
 	printf("parent has closed fds\n");
 	ft_wait();
-	//ft_clear(&command, &pids, &fds, n_cmd + 1);
 	return (0);
 }
 
