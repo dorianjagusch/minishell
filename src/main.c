@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/26 15:50:37 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/26 15:50:53 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static	int	run_line(char *line, t_env **env)
 		free_tokens(&g_info.tokens);
 		return (EXIT_FAILURE);
 	}
-	g_info.commands = init_command(g_info.tokens);
+	g_info.commands = init_command(g_info.tokens, 0);
 	print_parser(g_info.commands);
 	ft_clear_everything(g_info);
 	return (0);
