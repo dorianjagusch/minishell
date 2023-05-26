@@ -102,6 +102,6 @@ int	redirect_exe(t_command *command, t_env *env)
 	close_command_pipes(command);
 	close_fds(fds, n_cmds, n_cmds);
 	ft_wait();
-	ft_clear(&command, &pids, &fds);
+	//ft_clear(&command, &pids, &fds);
 	return (0);
 }

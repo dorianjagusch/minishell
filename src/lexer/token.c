@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/25 10:18:20 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/25 14:40:05 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,30 @@ static int	replace_content(char **content, int start, int rm_end, char *str)
 	return (EXIT_SUCCESS);
 }
 
-static int	re_label(t_token **tokens)
+static int	re_label(t_token *temp)
 {
-	t_token	*temp;
-
-	temp = *tokens;
-	if (redir_check(temp))
-	{
-		if (temp && temp->next && temp->next->next)
-			temp->next->next->token_type = COMMAND;
-	}
-	else if (temp)
+	if (temp && !redir_check(temp))
+		temp->token_type = COMMAND;
+	else
+		while (temp && redir_check(temp))
+			temp = temp->next->next;
+	if (temp)
 		temp->token_type = COMMAND;
 	while (temp != NULL)
 	{
 		if (temp->token_type == PIPE)
 		{
 			temp = temp->next;
-			if (redir_check(temp))
-			temp->next->next->token_type = COMMAND;
+			if (!redir_check(temp))
+				temp->token_type = COMMAND;
 			else
+				while (temp && redir_check(temp))
+					temp = temp->next->next;
+			if (temp)
 				temp->token_type = COMMAND;
 		}
-		temp = temp->next;
+		if (temp)
+			temp = temp->next;
 	}
 	return (EXIT_SUCCESS);
 }
@@ -133,7 +134,7 @@ int	retokenize(t_token **tokens, t_env **env)
 	remove_space(tokens);
 	ft_printf("after remove space\n");
 	print_token(*tokens);
-	if (re_label(tokens) == EXIT_FAILURE)
+	if (re_label(*tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	ft_printf("re lable success\n\n");
 	print_token(*tokens);

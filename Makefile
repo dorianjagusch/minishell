@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
+#    By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/25 10:04:03 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/25 16:03:17 by asarikha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,8 @@ FILES = main \
 	syntax_check \
 	syntax_utils \
 	check_utils \
-	here_doc
+	here_doc	\
+	signals
 
 HEADER = minishell.h libft.h parser.h lexer.h ft_error.h syntax.h
 HEADER := $(addprefix $I/,$(HEADER))
@@ -73,7 +74,7 @@ SRCS := $(foreach FILE,$(FILES),$(shell find $S -type f -name '$(FILE).c'))
 OBJS = $(patsubst $S/%,$O/%,$(SRCS:.c=.o))
 O_DIRS = $(dir $(OBJS))
 
-//READLINE = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
+READLINE = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 
 NAME = minishell
 
