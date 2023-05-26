@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/25 10:04:03 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/25 16:35:15 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ FILES = main \
 	ft_unset \
 	env \
 	env_utils \
-	free_memory \
+	free_memor \
 	concat \
 	lexer \
 	lexer_utils \
@@ -55,12 +55,11 @@ FILES = main \
 	parser_utils \
 	parser_print \
 	token_print \
-	count_commands \
 	do_child \
 	execute \
 	find_command \
 	redirect \
-	utils \
+	pipes \
 	syntax_check \
 	syntax_utils \
 	check_utils \
@@ -73,7 +72,7 @@ SRCS := $(foreach FILE,$(FILES),$(shell find $S -type f -name '$(FILE).c'))
 OBJS = $(patsubst $S/%,$O/%,$(SRCS:.c=.o))
 O_DIRS = $(dir $(OBJS))
 
-//READLINE = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
+READLINE = -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 
 NAME = minishell
 

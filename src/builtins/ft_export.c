@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/22 14:08:49 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:21:32 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	replace_env(t_env **env, char *key, char *value)
 	return (0);
 }
 
-int	ft_export(t_env **env, t_command *cmd)
+int	ft_export(t_env **env, t_command *cmd, int out_fd)
 {
 	size_t	i;
 	size_t	elems;
@@ -64,7 +64,7 @@ int	ft_export(t_env **env, t_command *cmd)
 	i = 1;
 	elems = ft_count_elements(cmd->params);
 	if (elems == 1)
-		return (print_export(env, cmd));
+		return (print_export(env, cmd, out_fd));
 	env_str = ft_split(cmd->params[i], '=');
 	if (!env_str)
 		return (1);

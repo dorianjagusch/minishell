@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 15:27:30 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/21 15:12:15 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/25 16:33:14 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ FILES = ft_atoi ft_bzero ft_calloc ft_isalnum \
 	ft_printf_util_fd get_next_line ft_free ft_atof ft_atol ft_pow \
 	ft_lenbase get_next_line ft_free_array ft_print_array \
 	ft_count_elements ft_abs ft_bits ft_which_extr \
+	ft_free_int_array
 #	//add_to_array create_array destroy_array get_elem_array \
 #	resize_array
 

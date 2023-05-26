@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/22 14:07:31 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:21:33 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,17 +83,17 @@ void	sort_env(t_env **env)
 	}
 }
 
-int	print_export(t_env **env, t_command *cmd)
+int	print_export(t_env **env, t_command *cmd, int out_fd)
 {
 	t_env	*cpy;
 
 	cpy = copy_env(env);
-	if (!cpy)
+	if (!cpy || !cmd)
 		return (EXIT_FAILURE);
 	sort_env(&cpy);
 	while (cpy)
 	{
-		ft_printf_fd(cmd->fds[1],
+		ft_printf_fd(out_fd,
 			"declare -x %s=\"%s\"\n",
 			cpy->key, cpy->value);
 		cpy = cpy->next;

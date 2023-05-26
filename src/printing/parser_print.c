@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:07:32 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/21 14:59:10 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/25 11:58:12 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	print_parser(t_command *command)
 		return ;
 	}
 	ft_printf("COMMAND: %s\n", command->command);
+	ft_printf("ID: %d\n", command->id);
 	ft_printf("-----------------------\n");
 	ft_printf("PARAMS:\n");
 	ft_print_array(command->params, STDOUT_FILENO);

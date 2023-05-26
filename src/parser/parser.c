@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/25 10:08:35 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/25 11:29:04 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,9 @@ static t_token	*redir_command(t_token *token, t_command *command)
 	return (token->next);
 }
 
-int	extract_command(t_token *token, t_command *command)
+int	extract_command(t_token *token, t_command *command, int id)
 {
 	t_token		*tmp;
-	static int	i;
 	int			params_flag;
 
 	tmp = token;
@@ -96,13 +95,13 @@ int	extract_command(t_token *token, t_command *command)
 		if (tmp->token_type == COMMAND)
 		{
 			command->command = ft_strdup(tmp->content);
-			command->id = i++;
+			command->id = id++;
 			if (!command->command)
 				return (-1);
 		}
 		else if (tmp->token_type == PIPE)
 		{
-			command->next = init_command(tmp->next);
+			command->next = init_command(tmp->next, id);
 			return (0);
 		}
 		else if (tmp->token_type == STRING && !params_flag)
@@ -118,7 +117,7 @@ int	extract_command(t_token *token, t_command *command)
 	return (0);
 }
 
-t_command	*init_command(t_token *token)
+t_command	*init_command(t_token *token, int id)
 {
 	t_command	*command;
 
@@ -127,7 +126,7 @@ t_command	*init_command(t_token *token)
 	command = ft_calloc(1, sizeof(t_command));
 	if (!command)
 		return (NULL);
-	if (extract_command(token, command) < 0)
+	if (extract_command(token, command, id) < 0)
 	{
 		free_command(&command);
 		return (NULL);

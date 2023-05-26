@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/25 10:05:26 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:21:48 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_env
 typedef struct s_builtin
 {
 	char	*name;
-	int		(*builtin)(t_env **, t_command *);
+	int		(*builtin)(t_env **, t_command *, int out_fd);
 }		t_builtin;
 
 typedef struct s_heredoc
@@ -74,15 +74,15 @@ void		free_hrdc(t_heredoc **hrdc);
 
 // BUILTINS
 int			is_builtin(t_command *cmd);
-BOOL		exec_builtin(t_env **env, t_command *cmd);
-int			ft_echo(t_env **env, t_command *cmd);
-int			ft_env(t_env **env, t_command *cmd);
-int			ft_pwd(t_env **env, t_command *cmd);
-int			ft_cd(t_env **env, t_command *cmd);
-int			ft_export(t_env **env, t_command *cmd);
-int			print_export(t_env **env, t_command *cmd);
-int			ft_unset(t_env **env, t_command *cmd);
+BOOL		exec_builtin(t_env **env, t_command *cmd, int out_fd);
+int			ft_echo(t_env **env, t_command *cmd, int out_fd);
+int			ft_env(t_env **env, t_command *cmd, int out_fd);
+int			ft_pwd(t_env **env, t_command *cmd, int out_fd);
+int			ft_cd(t_env **env, t_command *cmd, int out_fd);
+int			ft_export(t_env **env, t_command *cmd, int out_fd);
+int			print_export(t_env **env, t_command *cmd, int out_fd);
+int			ft_unset(t_env **env, t_command *cmd, int out_fd);
 void		print_token(t_token *token);
 
-void		ft_clear(t_command **command, int **pids, int **fds);
+void		ft_clear(t_command **command, int **pids, int ***fds, int n_cmd);
 #endif

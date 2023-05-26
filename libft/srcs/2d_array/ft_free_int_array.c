@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   count_commands.c                                   :+:      :+:    :+:   */
+/*   ft_free_int_array.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/04 18:10:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/05 09:18:48 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/25 15:38:50 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/25 16:34:03 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-size_t	count_commands(t_command *commands)
+void	ft_free_int_array(int ***array, size_t n_elems)
 {
-	t_command	*tmp;
-	size_t		count;
+	size_t	i;
 
-	tmp = commands;
-	count = 0;
-	while (tmp)
-	{
-		count++;
-		tmp = tmp->next;
-	}
-	return (count);
+	i = 0;
+	while (i < n_elems)
+		free((*array)[i]);
+	free(*array);
+	*array = NULL;
 }

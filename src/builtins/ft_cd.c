@@ -6,18 +6,18 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:05 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/22 14:12:27 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:21:38 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_cd(t_env **env, t_command *cmd)
+int	ft_cd(t_env **env, t_command *cmd, int out_fd)
 {
 	t_env	*oldpwd;
 	t_env	*pwd;
 
-	if (!cmd->params[1])
+	if (!cmd->params[1] || out_fd < 0)
 		return (EXIT_FAILURE);
 	if (chdir(cmd->params[1]))
 	{
