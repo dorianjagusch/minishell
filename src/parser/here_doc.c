@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 12:06:16 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/25 14:34:28 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:52:57 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,26 +49,30 @@ static	t_heredoc	*new_doc(char *str)
 }
 
 //expand if is not quote
-static	void	write_to_pipe(t_heredoc *hrdc, int fd, int is_quote)
+static	int	write_to_pipe(t_heredoc *hrdc, int is_quote)
 {
+	int			fd[2];
+
+	if (pipe(fd) < 0)
+		ft_error(EPIPE, "");
 	is_quote = 0;
 	while (hrdc)
 	{
-		write(fd, (hrdc->line), ft_strlen(hrdc->line));
-		write(fd, "\n", 1);
+		write(fd[1], (hrdc->line), ft_strlen(hrdc->line));
+		write(fd[1], "\n", 1);
 		hrdc = hrdc->next;
 	}
 	free_hrdc(&hrdc);
+	close (fd[1]);
+	return (fd[0]);
 }
 
-static	int	process_line(t_heredoc	*heredoc, char *line, int *fd, char	*delim)
+static	int	process_line(t_heredoc	*heredoc, char *line, char	*delim)
 {
 	if (ft_strncmp(delim, line, ft_strlen(line)) != 0)
 	{
 		if (add_line(&heredoc, new_doc(line)) == EXIT_FAILURE)
 		{
-			close(fd[0]);
-			close(fd[1]);
 			return (-1);
 		}
 	}
@@ -84,26 +88,23 @@ static	int	process_line(t_heredoc	*heredoc, char *line, int *fd, char	*delim)
 //signal break
 int	here_doc(char	*delim, int is_quote)
 {
-	int			fd[2];
 	char		*line;
 	t_heredoc	*heredoc;
 	int			ret;
 
-	if (pipe(fd) < 0)
-		ft_error(EPIPE, "");
 	heredoc = NULL;
 	while (1)
 	{
+		heredoc_signal();
 		line = readline("> ");
 		if (ft_strlen(line) > 0)
 		{
-			ret = process_line(heredoc, line, fd, delim);
+			ret = process_line(heredoc, line, delim);
 			if (ret == 0)
 				break ;
 			if (ret == -1)
 				return (-1);
 		}
 	}
-	write_to_pipe(heredoc, fd[1], is_quote);
-	return (fd[0]);
+	return (write_to_pipe(heredoc, is_quote));
 }

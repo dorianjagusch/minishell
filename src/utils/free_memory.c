@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/25 10:09:19 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/26 13:34:18 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,12 @@ void	free_env(t_env **env)
 	*env = NULL;
 }
 
-void	ft_clear(t_command **command, int **pids, int **fds)
-{
-	free_command(command);
-	ft_free(pids);
-	ft_free(fds);
-}
-
 void	free_hrdc(t_heredoc **hrdc)
 {
 	t_heredoc	*tmp;
 
+	if (!hrdc)
+		return ;
 	while ((*hrdc) != NULL)
 	{
 		tmp = *hrdc;
@@ -85,4 +80,24 @@ void	free_hrdc(t_heredoc **hrdc)
 		free(tmp->line);
 		free(tmp);
 	}
+	*hrdc = NULL;
+}
+
+void	ft_clear_everything(t_info g_info)
+{
+	if (g_info.tokens)
+		free_tokens(&g_info.tokens);
+	printf("1\n");
+	if (g_info.commands)
+		free_command(&g_info.commands);
+	printf("2\n");
+	if (g_info.line)
+		free(g_info.line);
+	printf("3\n");
+	//if (g_info.fds)
+		//free_int_array(g_info.fds);
+	if (g_info.pids)
+		free(g_info.pids);
+	printf("4\n");
+	 //exit_value =
 }

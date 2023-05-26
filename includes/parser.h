@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:55:20 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/11 11:24:21 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/26 15:41:07 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef struct s_command
 {
 	char				*command;
 	char				**params;
-	char				n_params;
+	int					n_params;
 	int					in_redirect;
 	int					out_redirect;
 	char				*infile;
