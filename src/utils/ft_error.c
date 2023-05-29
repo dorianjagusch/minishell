@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/25 12:08:27 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/26 16:09:19 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_error(int error, char *str)
 	if (error == 0)
 	{
 		ft_printf_fd(STDERR_FILENO, "%s\n", str);
-		exit(1);
+		//exit(1);
 	}
 	ft_printf_fd(STDERR_FILENO, "MiniShell&>: ");
 	if (error == NOFILE)
@@ -32,6 +32,6 @@ void	ft_error(int error, char *str)
 				str, strerror(error));
 		else if (error == NOCMMD)
 			ft_printf_fd(STDERR_FILENO, "command not found: %s\n", str);
-		exit(error);
+	//	exit(error);
 	}
 }

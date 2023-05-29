@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/26 15:48:26 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/26 16:06:08 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,12 @@
 # include "lexer.h"
 # include "ft_error.h"
 # include "parser.h"
+# include "redirect.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 
 # define TRUE 1
 # define FALSE 0
-
-
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	BOOL			eq;
-	struct s_env	*next;
-}				t_env;
 
 typedef struct s_builtin
 {
@@ -82,7 +74,6 @@ int			init_lexer(char *line, t_token	**tokens);
 int			retokenize(t_token **tokens, t_env **env);
 BOOL		syntax_check(char *line);
 
-
 //free
 void		ft_clear_everything(t_info g_info);
 void		free_tokens(t_token **tokens);
@@ -95,6 +86,8 @@ void		free_hrdc(t_heredoc **hrdc);
 //signal
 void		init_signal(void);
 void		heredoc_signal(void);
+
+int			redirect_exe(t_command *command, t_env *env);
 
 // BUILTINS
 int			is_builtin(t_command *cmd);

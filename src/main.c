@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/26 15:50:53 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/29 16:48:31 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,22 @@ static	int	run_line(char *line, t_env **env)
 	}
 	g_info.commands = init_command(g_info.tokens, 0);
 	print_parser(g_info.commands);
+	redirect_exe(g_info.commands, *env);
+	printf("MOOOOOOIIIIIII\n");
 	ft_clear_everything(g_info);
+	printf("MOOOOOOIIIIIII2\n");
 	return (0);
 }
 
 static int	init_shell(t_env **env)
 {
+	char	*line;
+	
 	while (1)
 	{
-		init_signal();
-		g_info.line = readline("\e[34m""MiniShell$> ""\x1b[m");
+		//init_signal();
+		line = readline("\e[34m""MiniShell$> ""\x1b[m");
+		printf("%s\n", line);
 		if (!g_info.line)
 		{
 			if (g_info.env)
@@ -44,27 +50,27 @@ static int	init_shell(t_env **env)
 			write(2, "exit\n", 5);
 			exit(1);
 		}
-		if (ft_strlen(g_info.line) > 0)
+		if (ft_strlen(line) > 0)
 		{
-			if (ft_strcmp(g_info.line, "exit") == 0)
+			if (ft_strcmp(line, "exit") == 0)
 			{
-				if (g_info.env)
+				if (env)
 					free_env(&g_info.env);
 				write(2, "exit\n", 5);
 				g_info.exit_value = 0;
 				free(g_info.line);
 				exit(0);
 			}
-			if (g_info.line && *g_info.line)
-				add_history(g_info.line);
-			if (syntax_check(g_info.line))
-				g_info.exit_value = run_line(g_info.line, env);
+			if (line && *line)
+				add_history(line);
+			if (syntax_check(line))
+				g_info.exit_value = run_line(line, env);
 			else
 			{
 				g_info.exit_value = 258;
-				free(g_info.line);
 			}
 		}
+		free(line);
 	}
 	return (g_info.exit_value);
 }

@@ -14,15 +14,19 @@
 #include "redirect.h"
 #include <stdio.h>
 
-static void	ft_wait(void)
+static void	ft_wait(int *pids, int n_cmd)
 {
 	int			status;
+	int			i;
 
 	status = 0;
-	while (wait(&status) > 0)
-		;
-	if (status > 0)
-		ft_error(0, "STATUS ERROR");
+	i = 0;
+	while (i < n_cmd && pids[i] != 0)
+	{
+		waitpid(pids[i++], &status, 0);
+		if (status > 0)
+			ft_error(0, "STATUS ERROR");
+	}
 	return ;
 }
 
@@ -64,13 +68,11 @@ int	redirect_exe(t_command *command, t_env *env)
 			if (pids[i] == 0)
 				do_child(command, fds, i, env);
 		}
-		printf("command: %s\n", tmp->command);
 		tmp = tmp->next;
 	}
-	printf("parent closes fds\n");
+	ft_printf_fd(2, "n_cmd %d\n", n_cmd);
 	close_fds(fds, n_cmd, n_cmd);
-	printf("parent has closed fds\n");
-	ft_wait();
+	ft_wait(pids, n_cmd);
 	return (0);
 }
 

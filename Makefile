@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/26 15:49:33 by djagusch         ###   ########.fr        #
+#    Updated: 2023/05/26 15:55:10 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ FILES = main \
 	ft_unset \
 	env \
 	env_utils \
-	free_memor \
+	free_memory \
 	concat \
 	lexer \
 	lexer_utils \

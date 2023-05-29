@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/26 15:51:18 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/29 12:35:29 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ void	ft_clear_everything(t_info g_info)
 	if (g_info.commands)
 		free_command(&g_info.commands);
 	printf("2\n");
-	if (g_info.line)
-		free(g_info.line);
+	// if (g_info.line)
+	// 	free(g_info.line);
 	printf("3\n");
-	//if (g_info.fds)
-		//free_int_array(g_info.fds);
+	// if (g_info.fds)
+	// 	free_int_array(g_info.fds);
 	if (g_info.pids)
 		free(g_info.pids);
 	printf("4\n");
