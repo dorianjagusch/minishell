@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 15:47:58 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/30 10:26:42 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/30 12:11:38 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ static void	enter_file_fds(t_command *command, int **pipes, int i)
 		if (close(pipes[i][0]) < 0)
 			ft_error(EPIPE, "");
 		pipes[i][0] = command->fds[0];
+		printf("%d\n", pipes[i][0]);
 	}
 	if (command->outfile)
 	{
 		if (close(pipes[i + 1][1]) < 0)
 			ft_error(EPIPE, "");
 		pipes[i + 1][1] = command->fds[1];
+		printf("%d\n", pipes[i + 1][1]);
 	}
 	else
 		pipes[i + 1][1] = 1;
@@ -42,7 +44,6 @@ static void	set_pipes(int **pipes, int n_cmd)
 			ft_error(EPIPE, "");
 		i++;
 	}
-	ft_print_fds(pipes, n_cmd + 1);
 }
 
 static int	**create_fd_arr(size_t n_elements, size_t n_entries)
@@ -88,27 +89,17 @@ int	**set_up_pipes(t_command *command, int n_cmd)
 	return (pipes);
 }
 
-# define CURRENT 1
-
 void	close_fds(int **fds, int cur, int n_cmd)
 {
 	int	pipe;
 
 	pipe = 0;
-	while (pipe < n_cmd)
+	while (pipe <= n_cmd)
 	{	
 		if (pipe != cur && pipe != n_cmd && fds[pipe][0] != 0)
-		{
-			if (cur == CURRENT)
-				ft_printf_fd(2, "close fd %d in process %d\n", fds[pipe][0], cur);
 			close(fds[pipe][0]);
-		}
 		if (pipe != cur + 1 && pipe != 0 && fds[pipe][1] != 1)
-		{
-			if (cur == CURRENT)
-				ft_printf_fd(2, "close fd %d in process %d\n", fds[pipe][1], cur);
 			close(fds[pipe][1]);
-		}
 		pipe++;
 	}
 }

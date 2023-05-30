@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/26 16:09:19 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/30 11:49:50 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,5 @@ void	ft_error(int error, char *str)
 			ft_printf_fd(STDERR_FILENO, "command not found: %s\n", str);
 	//	exit(error);
 	}
+	g_info.exit_value = 1;
 }

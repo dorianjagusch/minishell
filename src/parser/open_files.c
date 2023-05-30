@@ -39,7 +39,7 @@ t_token	*get_fds(t_command *command, t_token *token)
 
 	heredoc = 0;
 	if (token->token_type == LESS_THAN)
-		command->fds[0] = open(command->infile, O_RDONLY);
+		command->fds[0] = open(command->infile, O_RDONLY | O_CLOEXEC);
 	else if (token->token_type == LESS_LESS)
 	{
 		command->fds[0] = -1; //here_doc(command->infile, token->next->isquote);
@@ -50,12 +50,12 @@ t_token	*get_fds(t_command *command, t_token *token)
 	else if (token->token_type == GREATER_THAN)
 	{
 		command->fds[1] = open(command->outfile,
-				O_RDWR | O_CREAT | O_TRUNC, 0644);
+				O_RDWR | O_CREAT | O_TRUNC | O_CLOEXEC, 0644);
 	}
 	else
 	{
 		command->fds[1] = open(command->outfile,
-				O_RDWR | O_CREAT | O_APPEND, 0644);
+				O_RDWR | O_CREAT | O_APPEND | O_CLOEXEC, 0644);
 	}
 	check_file(command, token->token_type, heredoc);
 	return (token);

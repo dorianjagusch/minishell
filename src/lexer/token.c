@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/26 15:51:56 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/30 10:57:38 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,6 @@ int	retokenize(t_token **tokens, t_env **env)
 	if (remove_quote(tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	remove_space(tokens);
-	ft_printf("after remove space\n");
-	print_token(*tokens);
 	if (re_label(*tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
