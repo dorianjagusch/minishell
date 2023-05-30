@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/29 16:48:31 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/30 10:34:57 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ static int	init_shell(t_env **env)
 			if (line && *line)
 				add_history(line);
 			if (syntax_check(line))
+			{
+				printf("do stuff\n");
 				g_info.exit_value = run_line(line, env);
+			}
 			else
 			{
 				g_info.exit_value = 258;
