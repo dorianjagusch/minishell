@@ -21,11 +21,11 @@ static void	ft_wait(void)
 	status = 0;
 	if (g_info.exit_value == 0)
 	{
-		while (wait(&status))
+		while (wait(&status) > 0)
 			;
-		if (status > 0)
+		if (status > 0 && !g_info.exit_value)
 			g_info.exit_value = 130;
-		else if (status < 0)
+		else if (status < 0 && !g_info.exit_value)
 			g_info.exit_value = 1;
 	}
 	return ;
@@ -61,6 +61,7 @@ int	redirect_exe(t_command *command, t_env *env)
 	tmp = command;
 	while (++i < n_cmd)
 	{
+		ft_printf("Hello from parent before split\n");
 		if (exec_builtin(&env, tmp, fds[i + 1][1]) < 0)
 		{
 			pids[i] = fork();

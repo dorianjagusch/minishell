@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/30 11:39:59 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:54:53 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static int	init_shell(t_env **env)
 			}
 		}
 		free(g_info.line);
+		printf("ready for next command\n");
 	}
 	return (g_info.exit_value);
 }

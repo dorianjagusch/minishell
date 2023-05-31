@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 15:47:58 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/30 12:11:38 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:56:17 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	close_fds(int **fds, int cur, int n_cmd)
 
 	pipe = 0;
 	while (pipe <= n_cmd)
-	{	
+	{
 		if (pipe != cur && pipe != n_cmd && fds[pipe][0] != 0)
 			close(fds[pipe][0]);
 		if (pipe != cur + 1 && pipe != 0 && fds[pipe][1] != 1)

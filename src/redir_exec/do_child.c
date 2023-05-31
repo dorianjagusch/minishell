@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/30 11:45:44 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:08:16 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	do_child(t_command *command, int **fds, int cur, t_env *env)
 	t_command	*tmp;
 
 	n_cmd = count_commands(command);
+	ft_printf("Hello from child\n");
 	close_fds(fds, cur, n_cmd);
 	dup_fds(fds, cur);
 	tmp = get_command(command, cur);
