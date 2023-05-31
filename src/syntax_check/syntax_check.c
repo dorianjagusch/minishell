@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/19 11:12:40 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/31 13:13:17 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static	int	closing_quote(char *line)
 	}
 	if (close_found == 0)
 	{
-		ft_printf("minishell: syntax error! Unclosed quotes.\n");
+		ft_putstr_fd("GayAsHell: syntax error! Unclosed quotes.\n", 2);
 		return (-1);
 	}
 	return (i);
@@ -72,8 +72,8 @@ static BOOL	empty_pipe(char *line)
 			result = skip_pipe(line, i);
 			if (result == -1)
 			{
-				ft_printf("minishell: ");
-				ft_printf("syntax error near unexpected token `newline'\n");
+				ft_putstr_fd("GayAsHell: syntax error ", 2);
+				ft_putstr_fd("near unexpected token `newline'\n", 2);
 				return (TRUE);
 			}
 			i += result;
@@ -100,8 +100,8 @@ static BOOL	empty_redir(char *line)
 			result = skip_redir(&line[i]);
 			if (result == -1)
 			{
-				ft_printf("minishell: ");
-				ft_printf("syntax error! Empty unexpected `newline'\n");
+				ft_putstr_fd("GayAsHell: syntax error ", 2);
+				ft_putstr_fd("near Empty unexpected `newline'\n", 2);
 				return (TRUE);
 			}
 			i += result;
@@ -114,6 +114,7 @@ static BOOL	empty_redir(char *line)
 
 BOOL	syntax_check(char *line)
 {
+	g_info.exit_value = 258;
 	if (check_first_last(line))
 		return (FALSE);
 	if (!quotes_close(line))
@@ -122,5 +123,6 @@ BOOL	syntax_check(char *line)
 		return (FALSE);
 	if (empty_redir(line))
 		return (FALSE);
+	g_info.exit_value = 0;
 	return (TRUE);
 }

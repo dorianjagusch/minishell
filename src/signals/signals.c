@@ -6,15 +6,16 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/26 15:36:17 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/31 16:04:14 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	void	sigint_handler(int sig)
+static	void	sigint_handler(int sig, siginfo_t *info, void *s)
 {
-	if (sig == SIGINT)
+	(void)s;
+	if (sig == SIGINT && info->si_pid != 0)
 	{
 		rl_replace_line("", 1);
 		write(1, "\n", 1);
@@ -58,15 +59,9 @@ void	init_signal(void)
 
 static	void	heredoc_handler(int sig)
 {
-	ft_clear_everything(g_info);
+	//ft_clear_everything(g_info);
 	if (sig == SIGINT)
-	{
-		rl_replace_line("", 1);
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_redisplay();
-		g_info.exit_value = 1;
-	}
+		exit(1);
 }
 
 void	heredoc_signal(void)

@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/26 13:47:02 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:17:52 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 # define TRUE 1
 # define FALSE 0
 
+# define NAME "\e[34mGayAsHell$> \x1b[m"
+
+# define ON 1
+# define OFF 0
 
 typedef struct s_env
 {
@@ -59,7 +63,6 @@ typedef struct s_info
 	int			**fds;
 	int			*pids;
 	int			exit_value;
-	t_heredoc	*heredoc;
 	t_env		*env;
 }		t_info;
 
@@ -95,6 +98,7 @@ void		free_hrdc(t_heredoc **hrdc);
 //signal
 void		init_signal(void);
 void		heredoc_signal(void);
+void		switch_echoctl(struct termios *t, int toggle);
 
 // BUILTINS
 int			is_builtin(t_command *cmd);

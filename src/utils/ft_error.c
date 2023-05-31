@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/25 10:09:37 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/31 13:11:10 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_error(int error, char *str)
 		ft_printf_fd(STDERR_FILENO, "%s\n", str);
 		exit(1);
 	}
-	ft_printf_fd(STDERR_FILENO, "MiniShell&>: ");
+	ft_printf_fd(STDERR_FILENO, NAME);
 	if (error == NOFILE)
 		ft_printf_fd(STDERR_FILENO, "no such file or directory: %s\n",
 			str);
