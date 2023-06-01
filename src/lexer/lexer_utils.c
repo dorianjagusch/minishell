@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/24 12:56:23 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/01 14:47:02 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ int	add_token(t_token **token, t_token *new, int *flag)
 			tmp = tmp->next;
 		tmp->next = new;
 	}
-	ft_printf("node's content : %s, node's type :%d\n", new->content, new->token_type);
 	if (new->token_type == PIPE || new->token_type == LESS_THAN
 		|| new->token_type == GREATER_THAN)
 		return (1);

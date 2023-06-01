@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/31 15:51:29 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:44:16 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static	int	run_line(char *line, t_env **env)
 		return (EXIT_FAILURE);
 	}
 	g_info.commands = init_command(g_info.tokens);
-	//print_parser(g_info.commands);
 	ft_clear_everything(g_info);
 	return (0);
 }

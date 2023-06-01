@@ -42,7 +42,7 @@ t_token	*get_fds(t_command *command, t_token *token)
 		command->fds[0] = open(command->infile, O_RDONLY);
 	else if (token->token_type == LESS_LESS)
 	{
-		command->fds[0] = here_doc(token->next->content, token->next->isquote);
+		command->fds[0] = here_doc(token->next->content);
 		// if (command->fds[0] == -1)
 		// 	command->success = 0;
 		heredoc = 1;

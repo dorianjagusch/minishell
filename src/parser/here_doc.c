@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 12:06:16 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/31 15:45:32 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:20:34 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,24 @@ static	int	add_line(t_heredoc **hrdc, t_heredoc *new_hrdc)
 	return (EXIT_SUCCESS);
 }
 
-static	t_heredoc	*new_doc(char *str)
+static	t_heredoc	*new_doc(char *line)
 {
 	t_heredoc	*new;
 
 	new = malloc(sizeof(t_heredoc));
 	if (!new)
 	{
-		free(str);
+		free(line);
 		return (NULL);
 	}
-	new->line = ft_strdup(str);
+	new->line = ft_strdup(line);
 	new->next = NULL;
 	return (new);
 }
 
 //expand if is not quote
-static	int	write_to_pipe(t_heredoc *hrdc, int is_quote, int fd[2])
+static	int	write_to_pipe(t_heredoc *hrdc, int fd[2])
 {
-	is_quote = 0;
 	while (hrdc)
 	{
 		write(fd[1], (hrdc->line), ft_strlen(hrdc->line));
@@ -64,35 +63,42 @@ static	int	write_to_pipe(t_heredoc *hrdc, int is_quote, int fd[2])
 	return (0);
 }
 
-static	int	process_line(t_heredoc	*heredoc, char *line, char	*delim)
-{
-	if (ft_strncmp(delim, line, ft_strlen(line)) != 0)
-	{
-		if (add_line(&heredoc, new_doc(line)) == EXIT_FAILURE)
-		{
-			return (-1);
-		}
-	}
-	else
-	{
-		free(line);
-		return (0);
-	}
-	free(line);
-	return (1);
-}
-
-//signal break
-int	here_doc(char	*delim, int is_quote)
+static	void	process_hrdc(char	*delim, int fd[2])
 {
 	char		*line;
 	t_heredoc	*heredoc;
-	int			ret;
-	int			fd[2];
-	int			pid;
-	struct termios	t;
 
 	heredoc = NULL;
+	while (1)
+	{
+		heredoc_signal();
+		line = readline("> ");
+		if (ft_strlen(line) > 0)
+		{
+			if (ft_strncmp(delim, line, ft_strlen(line)) != 0)
+			{
+				if (add_line(&heredoc, new_doc(line)) == EXIT_FAILURE)
+					exit (-1);
+			}
+			else
+			{
+				free(line);
+				break ;
+			}
+		}
+		free(line);
+	}
+	write_to_pipe(heredoc, fd);
+	ft_clear_everything(g_info);
+}
+
+int	here_doc(char	*delim)
+{
+	struct termios	t;
+	int				ret;
+	int				fd[2];
+	int				pid;
+
 	if (pipe(fd) < 0)
 		ft_error(EPIPE, "");
 	switch_echoctl(&t, OFF);
@@ -101,25 +107,8 @@ int	here_doc(char	*delim, int is_quote)
 		ft_error(EPIPE, "");
 	if (pid == 0)
 	{
-		while (1)
-		{
-			heredoc_signal();
-			line = readline("> ");
-			if (ft_strlen(line) > 0)
-			{
-				ret = process_line(heredoc, line, delim);
-				if (ret == 0)
-					break ;
-				if (ret == -1)
-				{
-					//ft_clear_everything(g_info);
-					exit (-1);
-				}
-			}
-		}
-		write_to_pipe(heredoc, is_quote, fd);
-		//ft_clear_everything(g_info);
-		exit (0);
+		process_hrdc(delim, fd);
+		exit(0);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/31 14:17:52 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:05:58 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void		free_tokens(t_token **tokens);
 void		free_env(t_env **env);
 
 //here_doc
-int			here_doc(char	*delim, int is_quote);
+int			here_doc(char	*delim);
 void		free_hrdc(t_heredoc **hrdc);
 
 //signal

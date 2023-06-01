@@ -6,19 +6,15 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/01 12:45:29 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:44:00 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	void	ctlc_handler(int sig)
+static	void	sigint_handler(int sig)
 {
-	pid_t	pid;
-	int		status;
-
-	pid = waitpid(-1, &status, WNOHANG);
-	if (sig == SIGINT && pid != 0)
+	if (sig == SIGINT)
 	{
 		rl_replace_line("", 1);
 		write(1, "\n", 1);
@@ -28,39 +24,35 @@ static	void	ctlc_handler(int sig)
 	}
 }
 
-static void	ctl_backslash_handler(int sig)
-{
-	pid_t	pid;
-	int		status;
+// static void	child_sig_handler(int sig, siginfo_t *info, void *context)
+// {
+// 	pid_t	pid;
+// 	int		status;
 
-	pid = waitpid(-1, &status, WNOHANG);
-	if (sig == SIGQUIT)
-	{
-		if (pid == 0)
-		{
-			ft_putstr_fd("Quit: 3\n", 2);
-			g_info.exit_value = 131;
-		}
-	}
-}
+// 	(void) context;
+// 	(void) info;
+// 	pid = waitpid(-1, &status, WNOHANG);
+// 	if (sig == SIGQUIT)
+// 	{
+// 		if (pid == 0)
+// 		{
+// 			ft_putstr_fd("Quit: 3\n", 2);
+// 			g_info.exit_value = 131;
+// 		}
+// 	}
+// }
 
 void	init_signal(void)
 {
 	struct sigaction	s_act;
 	struct sigaction	s_quit;
-	pid_t				pid;
-	int					status;
 
-	pid = waitpid(-1, &status, WNOHANG);
-	s_act.sa_handler = ctlc_handler;
+	s_act.sa_handler = sigint_handler;
 	sigemptyset(&s_act.sa_mask);
 	s_act.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &s_act, NULL);
 	sigemptyset(&s_quit.sa_mask);
-	if (pid != 0)
-		s_quit.sa_handler = SIG_IGN;
-	else
-		s_quit.sa_handler = ctl_backslash_handler;
+	s_quit.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &s_quit, NULL);
 }
 
