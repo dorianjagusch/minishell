@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 13:22:58 by djagusch          #+#    #+#             */
-/*   Updated: 2023/01/13 07:34:31 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/31 13:33:28 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,15 @@ static char	*ft_prep_buffer(char *buf)
 
 char	*get_next_line(int fd)
 {
-	static char	*buf;
+	static char	*buf[1000];
 	char		*cur_line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buf, 0))
 		return (NULL);
-	buf = ft_fill_buffer(fd, buf);
-	if (!buf)
+	buf[fd] = ft_fill_buffer(fd, buf[fd]);
+	if (!buf[fd])
 		return (NULL);
-	cur_line = ft_get_line(buf);
-	buf = ft_prep_buffer(buf);
+	cur_line = ft_get_line(buf[fd]);
+	buf[fd] = ft_prep_buffer(buf[fd]);
 	return (cur_line);
 }

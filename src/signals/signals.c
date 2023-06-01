@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/26 15:36:17 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:44:00 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,9 @@ void	init_signal(void)
 
 static	void	heredoc_handler(int sig)
 {
-	ft_clear_everything(g_info);
+	//ft_clear_everything(g_info);
 	if (sig == SIGINT)
-	{
-		rl_replace_line("", 1);
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_redisplay();
-		g_info.exit_value = 1;
-	}
+		exit(1);
 }
 
 void	heredoc_signal(void)

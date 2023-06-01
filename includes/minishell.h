@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/01 11:00:38 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
+/*   Updated: 2023/06/01 16:11:46 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,21 @@
 # include "lexer.h"
 # include "ft_error.h"
 # include "parser.h"
-# include "redirect.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 
 # define TRUE 1
 # define FALSE 0
 
+# define NAME "\e[34mGayAsHell$> \x1b[m"
+
+# define ON 1
+# define OFF 0
+
 typedef struct s_builtin
 {
 	char	*name;
-	int		(*builtin)(t_env **, t_command *, int out_fd);
+	int		(*builtin)(t_env **, t_command *);
 }		t_builtin;
 
 typedef struct s_heredoc
@@ -47,12 +51,10 @@ typedef struct s_info
 {
 	t_token		*tokens;
 	t_command	*commands;
-	int			n_cmd;
 	char		*line;
 	int			**fds;
 	int			*pids;
 	int			exit_value;
-	t_heredoc	*heredoc;
 	t_env		*env;
 }		t_info;
 
@@ -82,12 +84,13 @@ void		free_tokens(t_token **tokens);
 void		free_env(t_env **env);
 
 //here_doc
-int			here_doc(char	*delim, int is_quote);
+int			here_doc(char	*delim);
 void		free_hrdc(t_heredoc **hrdc);
 
 //signal
 void		init_signal(void);
 void		heredoc_signal(void);
+void		switch_echoctl(struct termios *t, int toggle);
 
 int			redirect_exe(t_command *command, t_env *env);
 

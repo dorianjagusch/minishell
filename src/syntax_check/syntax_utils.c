@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/25 14:29:13 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/01 14:50:44 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,12 @@ static int	after_redir_empty(char *line)
 
 	redir = *line;
 	i = 0;
-	ft_printf("in after redir empty line i : '%c' \n", *line);
 	if (line[i + 1] == redir)
 		i++;
 	while (line[++i])
 	{
 		if (ft_isprint(line[i]) && line[i] != ' ' && line[i] != '\t')
 		{
-			ft_printf("%d\n",i);
 			if (line[i] == '>' || line[i] == '<' || line[i] == '|')
 				return (TRUE);
 			else
