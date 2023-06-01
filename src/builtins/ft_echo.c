@@ -6,11 +6,12 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/22 16:08:27 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/30 10:51:42 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <unistd.h>
 
 static int	skip_n(t_command *cmd, BOOL *n_flag)
 {
@@ -32,7 +33,7 @@ static int	skip_n(t_command *cmd, BOOL *n_flag)
 	return (i);
 }
 
-int	ft_echo(t_env **env, t_command *cmd)
+int	ft_echo(t_env **env, t_command *cmd, int out_fd)
 {
 	BOOL	n_flag;
 	int		i;
@@ -44,13 +45,12 @@ int	ft_echo(t_env **env, t_command *cmd)
 	i = skip_n(cmd, &n_flag);
 	while (cmd->params[i])
 	{
-		ft_putstr_fd(cmd->params[i], cmd->fds[1]);
-		if (cmd->params[i + 1] && cmd->params[i][0])
-			write(1, " ", 1);
-		i++;
+		ft_putstr_fd(cmd->params[i++], out_fd);
+		if (cmd->params[i] && cmd->params[i][0])
+			write(out_fd, " ", 1);
 	}
 	if (!n_flag)
-		write(cmd->fds[1], "\n", 1);
+		write(out_fd, "\n", 1);
 	return (EXIT_SUCCESS);
 }
 

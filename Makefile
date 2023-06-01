@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+         #
+#    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/25 16:03:17 by asarikha         ###   ########.fr        #
+#    Updated: 2023/05/26 15:55:10 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,12 +55,11 @@ FILES = main \
 	parser_utils \
 	parser_print \
 	token_print \
-	count_commands \
 	do_child \
 	execute \
 	find_command \
 	redirect \
-	utils \
+	pipes \
 	syntax_check \
 	syntax_utils \
 	check_utils \

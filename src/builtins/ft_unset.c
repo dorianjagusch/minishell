@@ -6,19 +6,19 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:22 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/22 14:12:40 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:21:28 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_unset(t_env **env, t_command *cmd)
+int	ft_unset(t_env **env, t_command *cmd, int out_fd)
 {
 	t_env	*remove;
 	size_t	elements;
 	size_t	i;
 
-	if (!env || !*env)
+	if (!env || !*env || out_fd < 0)
 		return (EXIT_FAILURE);
 	i = 0;
 	elements = ft_count_elements(cmd->params);
