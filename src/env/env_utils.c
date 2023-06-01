@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:07:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/22 17:32:17 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/01 09:48:11 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	copy_env_to_arr(t_env *env, char *envp)
 		env->value, ft_strlen(env->value));
 }
 
-static size_t	ft_env_len(t_env *env)
+size_t	ft_env_len(t_env *env)
 {
 	size_t	len;
 
@@ -50,11 +50,12 @@ char	**ft_env_to_array(t_env *env)
 				sizeof(char));
 		if (!envp[i])
 		{
-			ft_free_array(&envp, i++);
+			ft_free_array(&envp, i);
 			return (NULL);
 		}
 		copy_env_to_arr(env, envp[i]);
 		env = env->next;
+		i++;
 	}
 	return (envp);
 }

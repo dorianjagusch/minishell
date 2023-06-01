@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/25 11:29:04 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/01 10:18:30 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	get_params(t_token *token, t_command *command)
 	if (!command->params)
 	{
 		free_command(&command);
-		ft_error(MEMERR, "");
+		ft_error(ENOMEM, "");
 	}
 	while (token && token->token_type != PIPE && i < command->n_params)
 	{
@@ -67,7 +67,7 @@ static t_token	*redir_command(t_token *token, t_command *command)
 			ft_free(command->infile);
 		command->infile = ft_strdup(token->next->content);
 		if (!command->infile)
-			ft_error(MEMERR, "");
+			ft_error(ENOMEM, "");
 		command->in_redirect = token->token_type;
 	}
 	else
@@ -76,7 +76,7 @@ static t_token	*redir_command(t_token *token, t_command *command)
 			free(command->outfile);
 		command->outfile = ft_strdup(token->next->content);
 		if (!command->outfile)
-			ft_error(MEMERR, "");
+			ft_error(ENOMEM, "");
 		command->out_redirect = token->token_type;
 	}
 	get_fds(command, token);
@@ -92,6 +92,12 @@ int	extract_command(t_token *token, t_command *command, int id)
 	params_flag = 0;
 	while (tmp)
 	{
+		if ((tmp->token_type == STRING || tmp->token_type == COMMAND)
+			&& !params_flag)
+		{
+			get_params(token, command);
+			params_flag = 1;
+		}
 		if (tmp->token_type == COMMAND)
 		{
 			command->command = ft_strdup(tmp->content);
@@ -103,11 +109,6 @@ int	extract_command(t_token *token, t_command *command, int id)
 		{
 			command->next = init_command(tmp->next, id);
 			return (0);
-		}
-		else if (tmp->token_type == STRING && !params_flag)
-		{
-			get_params(token, command);
-			params_flag = 1;
 		}
 		else if (tmp->token_type != STRING && tmp->token_type != COMMAND)
 			tmp = redir_command(tmp, command);

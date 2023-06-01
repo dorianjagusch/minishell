@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/26 15:34:30 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/01 09:31:20 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,21 @@
 
 static int	dup_fds(int **fds, int current)
 {
-	if (fds[current] != 0 && dup2(fds[current][0], STDIN_FILENO) < 0)
+	if (fds[current] != 0) 
 	{
-		ft_error(0, "dup in failed\n");
-		return (EPIPE);
+		if (dup2(fds[current][0], STDIN_FILENO) < 0)
+		{
+			ft_error(0, "dup in failed\n");
+			return (EPIPE);
+		}
 	}
-	if (fds[current + 1][1] != 1
-		&& dup2(fds[current + 1][1], STDOUT_FILENO) < 0)
+	if (fds[current + 1][1] != 1)
 	{
-		ft_error(0, "dup out failed\n");
-		return (EPIPE);
+		if (dup2(fds[current + 1][1], STDOUT_FILENO) < 0)
+		{
+			ft_error(0, "dup out failed\n");
+			return (EPIPE);
+		}
 	}
 	ft_printf_fd(2, "dup success\n");
 	return (0);
@@ -53,26 +58,21 @@ t_command	*get_command(t_command *command, int cur)
 	return (command);
 }
 
+size_t	ft_env_len(t_env *env);
 
 void	do_child(t_command *command, int **fds, int cur, t_env *env)
 {
 	char		**env_arr;
-	size_t		n_cmd;
 	t_command	*tmp;
 
-	n_cmd = count_commands(command);
-	ft_printf_fd(STDERR_FILENO, "in child %d\n", cur);
-	close_fds(fds, cur, n_cmd);
-	ft_printf_fd(STDERR_FILENO, "in child %d\n", cur);
+	close_fds(fds, cur, g_info.n_cmd);
 	dup_fds(fds, cur);
-	ft_printf_fd(STDERR_FILENO, "in child %d\n", cur);
 	tmp = get_command(command, cur);
-	ft_printf_fd(STDERR_FILENO, "child %d do %s\n", cur, tmp->command);
 	if (!tmp->command)
 		ft_error(NOCMMD, "");
 	env_arr = ft_env_to_array(env);
 	execve(tmp->command, tmp->params, env_arr);
-	ft_printf_fd(STDERR_FILENO, "HELLO from child end\n");
 	ft_error(NOCMMD, tmp->command);
+	exit (1) ;
 }
 

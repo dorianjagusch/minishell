@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/26 10:21:33 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:41:12 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ t_env	*copy_env(t_env **env)
 	list = NULL;
 	add_env(&list, new_env((*env)->key, (*env)->value));
 	if (!list)
-		return (list);
-	tmp = list->next;
+		return (NULL);
+	tmp = (*env)->next;
 	while (tmp)
 	{
 		new = new_env(tmp->key, tmp->value);
@@ -34,6 +34,8 @@ t_env	*copy_env(t_env **env)
 			return (NULL);
 		}
 		add_env(&list, new);
+		if (tmp->next && ft_strcmp(tmp->next->value, "?") == 0)
+			tmp = tmp->next;
 		tmp = tmp->next;
 	}
 	return (list);
@@ -91,6 +93,7 @@ int	print_export(t_env **env, t_command *cmd, int out_fd)
 	if (!cpy || !cmd)
 		return (EXIT_FAILURE);
 	sort_env(&cpy);
+	out_fd = 1;
 	while (cpy)
 	{
 		ft_printf_fd(out_fd,

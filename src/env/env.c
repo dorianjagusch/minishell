@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/21 18:36:56 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/01 12:00:07 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	add_env(t_env **env, t_env *new)
 	}
 }
 
-static char	**split_env(char *envp)
+char	**split_env(char *envp)
 {
 	char	**tmp;
 	char	*eq;
@@ -62,9 +62,13 @@ static char	**split_env(char *envp)
 	{
 		tmp[0] = ft_substr(envp, 0, eq - envp);
 		tmp[1] = ft_strdup(eq + 1);
+		tmp[2] = 0;
 	}
 	if (!tmp[0])
+	{
+		ft_free_array(&tmp, 3);
 		return (NULL);
+	}
 	if (tmp && ft_strcmp(tmp[0], "SHLVL") == 0)
 		tmp[1] = ft_itoa(ft_atoi(tmp[1]) + 1);
 	return (tmp);
@@ -80,11 +84,14 @@ void	init_env(char *envp[], t_env **env)
 		tmp = split_env(*envp);
 		if (!tmp)
 			break ;
-		new = new_env(tmp[0], tmp[1]);
+		if (ft_strcmp(tmp[0], "OLDPWD"))
+		{
+			new = new_env(tmp[0], tmp[1]);
+			if (!new)
+				break ;
+			add_env(env, new);
+		}
 		ft_free_array(&tmp, 2);
-		if (!new)
-			break ;
-		add_env(env, new);
 		envp++;
 	}
 }

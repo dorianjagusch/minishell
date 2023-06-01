@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/26 16:06:08 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/01 11:00:38 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_info
 {
 	t_token		*tokens;
 	t_command	*commands;
+	int			n_cmd;
 	char		*line;
 	int			**fds;
 	int			*pids;
@@ -62,6 +63,7 @@ void		init_env(char *envp[], t_env **env);
 int			init_lexer(char *line, t_token	**tokens);
 int			retokenize(t_token **tokens, t_env **env);
 t_env		*find_env(t_env **env, char *variable, int predecessor);
+char		**split_env(char *envp);
 t_env		*new_env(char *key, char *value);
 void		add_env(t_env **env, t_env *new);
 t_env		*copy_env(t_env **env);

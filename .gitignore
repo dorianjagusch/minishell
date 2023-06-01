@@ -3,3 +3,4 @@ test*
 *dSYM
 a.out
 .gitignore
+*.gch
