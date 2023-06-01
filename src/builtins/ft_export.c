@@ -6,13 +6,13 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/01 15:07:43 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:32:37 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	invalid_env(char *arg)
+static int	invalid_env(char *arg)
 {
 	int	i;
 	int	eq_pos;
@@ -28,19 +28,19 @@ int	invalid_env(char *arg)
 	return (i);
 }
 
-int	replace_env(t_env **env, char *key, char *value)
+static int	replace_env(t_env **env, char *key, char *value)
 {
 	t_env	*tmp;
 
 	if (!env || !*env
 		|| !key || !*key)
-		return (1);
+		return (-1);
 	tmp = find_env(env, key, 0);
 	if (!tmp)
 	{
 		tmp = new_env(key, value);
 		if (!tmp)
-			return (1);
+			return (-1);
 		add_env(env, tmp);
 	}
 	else

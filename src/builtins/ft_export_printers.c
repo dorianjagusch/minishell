@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/01 15:23:08 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:41:12 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_env	*copy_env(t_env **env)
 	list = NULL;
 	add_env(&list, new_env((*env)->key, (*env)->value));
 	if (!list)
-		return (list);
+		return (NULL);
 	tmp = (*env)->next;
 	while (tmp)
 	{
@@ -34,11 +34,10 @@ t_env	*copy_env(t_env **env)
 			return (NULL);
 		}
 		add_env(&list, new);
-		if (ft_strcmp(tmp->next->value, "?") == 0)
+		if (tmp->next && ft_strcmp(tmp->next->value, "?") == 0)
 			tmp = tmp->next;
 		tmp = tmp->next;
 	}
-	ft_printf("%s\n", list->key);
 	return (list);
 }
 
@@ -91,11 +90,9 @@ int	print_export(t_env **env, t_command *cmd, int out_fd)
 	t_env	*cpy;
 
 	cpy = copy_env(env);
-	ft_printf("siurrbgjkdfk\n");
 	if (!cpy || !cmd)
 		return (EXIT_FAILURE);
 	sort_env(&cpy);
-	//ft_env(&cpy, NULL, 1);
 	out_fd = 1;
 	while (cpy)
 	{
