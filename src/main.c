@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/31 14:54:53 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/01 15:24:58 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ static int	init_shell(t_env **env)
 			{
 				printf("do stuff\n");
 				g_info.exit_value = run_line(g_info.line, env);
+				printf("here3234\n");
 			}
 			else
 			{
 				g_info.exit_value = 258;
 			}
 		}
-		free(g_info.line);
-		printf("ready for next command\n");
+		//free(g_info.line);
 	}
 	return (g_info.exit_value);
 }

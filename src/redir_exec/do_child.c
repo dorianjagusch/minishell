@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/31 16:08:16 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/01 09:31:20 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,14 @@ t_command	*get_command(t_command *command, int cur)
 	return (command);
 }
 
+size_t	ft_env_len(t_env *env);
 
 void	do_child(t_command *command, int **fds, int cur, t_env *env)
 {
 	char		**env_arr;
-	size_t		n_cmd;
 	t_command	*tmp;
 
-	n_cmd = count_commands(command);
-	ft_printf("Hello from child\n");
-	close_fds(fds, cur, n_cmd);
+	close_fds(fds, cur, g_info.n_cmd);
 	dup_fds(fds, cur);
 	tmp = get_command(command, cur);
 	if (!tmp->command)
@@ -75,6 +73,6 @@ void	do_child(t_command *command, int **fds, int cur, t_env *env)
 	env_arr = ft_env_to_array(env);
 	execve(tmp->command, tmp->params, env_arr);
 	ft_error(NOCMMD, tmp->command);
-	return ;
+	exit (1) ;
 }
 

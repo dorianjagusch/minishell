@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/30 11:49:50 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/01 10:13:27 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,16 @@
 
 void	ft_error(int error, char *str)
 {	
-	if (error == 0)
-	{
-		ft_printf_fd(STDERR_FILENO, "%s\n", str);
-		//exit(1);
-	}
-	ft_printf_fd(STDERR_FILENO, "MiniShell&>: ");
-	if (error == NOFILE)
-		ft_printf_fd(STDERR_FILENO, "no such file or directory: %s\n",
-			str);
+	ft_printf_fd(STDERR_FILENO, "minishell: ");
+	if (error == NOCMMD)
+		ft_printf_fd(STDERR_FILENO, "%s: command not found\n", str);
+	else if (error == EACCES)
+		ft_printf_fd(STDERR_FILENO, "%s: Permission denied %s\n", str);
 	else
-	{
-		if (error == EACCES)
-			ft_printf_fd(STDERR_FILENO, "%s: %s\n",
-				str, strerror(error));
-		else if (error == NOCMMD)
-			ft_printf_fd(STDERR_FILENO, "command not found: %s\n", str);
-	//	exit(error);
-	}
-	g_info.exit_value = 1;
+		ft_printf_fd(STDERR_FILENO, "%s: %s\n",
+			str, strerror(error));
+	if (error == ENOENT || error == NOCMMD | error == EACCES)
+		g_info.exit_value = 1;
+	else
+		g_info.exit_value = error;
 }

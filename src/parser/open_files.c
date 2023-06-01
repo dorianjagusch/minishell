@@ -27,10 +27,10 @@ static void	check_file(t_command *command, int token_type, BOOL heredoc)
 		file = command->outfile;
 	}
 	if (!heredoc && file && access(file, F_OK))
-		ft_error(NOFILE, file);
-	else if (!heredoc && file && command->fds[file_type] < 0 
+		ft_error(ENOENT, file);
+	else if (!heredoc && file && command->fds[file_type] < 0
 		&& access(file, F_OK) == 0)
-		ft_error(NOACCESS, file);
+		ft_error(EACCES, file);
 }
 
 t_token	*get_fds(t_command *command, t_token *token)
