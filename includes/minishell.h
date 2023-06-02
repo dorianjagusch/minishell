@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/01 16:11:46 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/02 11:51:40 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <errno.h>
 # include "libft.h"
 # include "syntax.h"
+# include "redirect.h"
 # include "lexer.h"
 # include "ft_error.h"
 # include "parser.h"
@@ -38,7 +39,7 @@
 typedef struct s_builtin
 {
 	char	*name;
-	int		(*builtin)(t_env **, t_command *);
+	int		(*builtin)(t_env **, t_command *, int);
 }		t_builtin;
 
 typedef struct s_heredoc
@@ -56,6 +57,7 @@ typedef struct s_info
 	int			*pids;
 	int			exit_value;
 	t_env		*env;
+	int			n_cmd;
 }		t_info;
 
 t_info		g_info;
