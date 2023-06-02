@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/02 11:51:40 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/02 13:46:09 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@
 # define TRUE 1
 # define FALSE 0
 
-# define NAME "\e[34mGayAsHell$> \x1b[m"
+# define NAME "\e[38;2;228;3;3mG\e[38;2;255;140;0ma\e[38;2;255;237;0my\
+\e[38;2;0;128;38mA\e[38;2;36;64;182ms\e[38;2;120;61;150mH\x1b[m\
+\e[38;2;245;169;184mel\x1b[ml\e[38;2;91;206;250m$>\x1b[m "
 
 # define ON 1
 # define OFF 0

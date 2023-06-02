@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "redirect.h"
 
-static void	ft_wait(void)
+void	ft_wait(void)
 {
 	int	status;
 
@@ -26,6 +26,8 @@ static void	ft_wait(void)
 			g_info.exit_value = 130;
 		else if (status < 0 && !g_info.exit_value)
 			g_info.exit_value = WEXITSTATUS(status);
+		while (wait(&status) > 0)
+			;
 	}
 	return ;
 }
@@ -45,29 +47,26 @@ static int	**set_up_exe(t_command *command, t_env *env)
 int	redirect_exe(t_command *command, t_env *env)
 {
 	t_command	*tmp;	
-	pid_t		*pids;
-	int			**fds;
 	int			i;
 
 	if (!command || !env)
 		return (-1);
-	fds = set_up_exe(command, env);
-	pids = ft_calloc(g_info.n_cmd, sizeof(int));
+	g_info.fds = set_up_exe(command, env);
+	g_info.pids = ft_calloc(g_info.n_cmd, sizeof(int));
 	i = -1;
 	tmp = command;
 	while (++i < g_info.n_cmd)
 	{
-		if (exec_builtin(&env, tmp, fds[i + 1][1]) < 0)
+		if (exec_builtin(&env, tmp, g_info.fds[i + 1][1]) < 0)
 		{
-			pids[i] = fork();
-			if (pids[i] < 0)
+			g_info.pids[i] = fork();
+			if (g_info.pids[i] < 0)
 				ft_error(EPIPE, "");
-			if (pids[i] == 0)
-				do_child(command, fds, i, env);
+			if (g_info.pids[i] == 0)
+				exe_child(command, g_info.fds, i, env);
 		}
 		tmp = tmp->next;
 	}
-	close_fds(fds, g_info.n_cmd, g_info.n_cmd);
-	ft_wait();
+	close_fds(g_info.fds, g_info.n_cmd, g_info.n_cmd);
 	return (0);
 }

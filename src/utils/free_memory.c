@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/01 16:01:22 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/02 17:10:03 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	ft_clear_everything(t_info g_info)
 	g_info.line = NULL;
 	if (g_info.fds)
 		ft_free_int_array(&g_info.fds, g_info.n_cmd + 1);
+	g_info.fds = NULL;
 	if (g_info.pids)
 		free(g_info.pids);
 	g_info.pids = NULL;

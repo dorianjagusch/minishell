@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 15:47:58 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/02 11:49:07 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/02 16:44:42 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	**set_up_pipes(t_command *command, int n_cmd)
 	return (pipes);
 }
 
-#define CURRENT 1
+#define CURRENT 2
 
 void	close_fds(int **fds, int cur, int n_cmd)
 {
@@ -96,10 +96,13 @@ void	close_fds(int **fds, int cur, int n_cmd)
 	pipe = 0;
 	while (pipe <= n_cmd)
 	{
-		if (pipe != cur && pipe != n_cmd && fds[pipe][0] != 0)
+		if (pipe != cur && pipe != n_cmd && fds[pipe][0] > 0)
 			close(fds[pipe][0]);
-		if (pipe - 1!= cur && pipe != 0 && fds[pipe][1] != 1)
+		if (pipe != cur + 1 && fds[pipe][1] > 1)
 			close(fds[pipe][1]);
 		pipe++;
 	}
+	if (cur == n_cmd)
+		ft_wait();
 }
+

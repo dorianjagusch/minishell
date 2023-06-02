@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/01 15:32:37 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/02 17:40:53 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,22 @@ int	ft_export(t_env **env, t_command *cmd, int out_fd)
 	char	**env_str;
 	int		ret;
 
-	if (!cmd->params)
+	printf("We're in\n");
+	if (!cmd || !cmd->params)
 		return (1);
 	i = 0;
 	elems = ft_count_elements(cmd->params);
 	if (elems == 1)
 		return (print_export(env, cmd, out_fd));
-	while (i++ < elems)
+	printf("hello\n");
+	while (++i < elems)
 	{
 		eq_pos = invalid_env(cmd->params[i]);
 		env_str = split_env(cmd->params[i]);
 		if (!env_str)
 			return (1);
 		ret = replace_env(env, env_str[0], env_str[1]);
+		printf("hello\n");
 	}
 	ft_free_array(&env_str, 2);
 	return (ret);

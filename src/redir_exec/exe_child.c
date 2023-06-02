@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   do_child.c                                         :+:      :+:    :+:   */
+/*   exe_child.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/01 09:31:20 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/02 15:26:06 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 
 static int	dup_fds(int **fds, int current)
 {
-	if (fds[current] != 0) 
+	if (fds[current][0] != 0)
 	{
 		if (dup2(fds[current][0], STDIN_FILENO) < 0)
 		{
-			ft_error(0, "dup in failed\n");
+			ft_error(EBADF, "");
 			return (EPIPE);
 		}
 	}
@@ -30,11 +30,10 @@ static int	dup_fds(int **fds, int current)
 	{
 		if (dup2(fds[current + 1][1], STDOUT_FILENO) < 0)
 		{
-			ft_error(0, "dup out failed\n");
+			ft_error(EBADF, "");
 			return (EPIPE);
 		}
 	}
-	ft_printf_fd(2, "dup success\n");
 	return (0);
 }
 
@@ -60,7 +59,7 @@ t_command	*get_command(t_command *command, int cur)
 
 size_t	ft_env_len(t_env *env);
 
-void	do_child(t_command *command, int **fds, int cur, t_env *env)
+void	exe_child(t_command *command, int **fds, int cur, t_env *env)
 {
 	char		**env_arr;
 	t_command	*tmp;
@@ -73,6 +72,5 @@ void	do_child(t_command *command, int **fds, int cur, t_env *env)
 	env_arr = ft_env_to_array(env);
 	execve(tmp->command, tmp->params, env_arr);
 	ft_error(NOCMMD, tmp->command);
-	exit (1) ;
+	exit (1);
 }
-

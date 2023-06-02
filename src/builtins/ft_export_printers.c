@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/01 15:41:12 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/02 17:47:33 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_env	*copy_env(t_env **env)
 	return (list);
 }
 
+// BUUUUUUUUUGGGED
 t_env	**swap_env(t_env **env, t_env *e1, t_env *e2)
 {
 	t_env	*tmp;
@@ -78,7 +79,11 @@ void	sort_env(t_env **env)
 		while (tmp2)
 		{
 			if (ft_strcmp(tmp1->key, tmp2->key) > 0)
+			{
+				printf("about to swap\n");
 				head = swap_env(head, tmp1, tmp2);
+				printf("swapped\n");
+			}
 			tmp2 = tmp2->next;
 		}
 		tmp1 = tmp1->next;
@@ -92,6 +97,7 @@ int	print_export(t_env **env, t_command *cmd, int out_fd)
 	cpy = copy_env(env);
 	if (!cpy || !cmd)
 		return (EXIT_FAILURE);
+	ft_env(&cpy, NULL, 1);
 	sort_env(&cpy);
 	out_fd = 1;
 	while (cpy)
@@ -101,6 +107,7 @@ int	print_export(t_env **env, t_command *cmd, int out_fd)
 			cpy->key, cpy->value);
 		cpy = cpy->next;
 	}
+	printf("Get used to it\n");
 	free_env(&cpy);
 	return (EXIT_SUCCESS);
 }
