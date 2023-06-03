@@ -6,17 +6,34 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/05 10:48:37 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:05:42 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <unistd.h>
 
-// Assuming that the string is already parsed and the variables are expanded.
-// Execve will give us the COMMAND as the first entry in the array.
-// That's why i starts at 1.
+static int	skip_n(t_command *cmd, BOOL *n_flag)
+{
+	int	i;
+	int	j;
 
-int	ft_echo(t_env **env, t_command *cmd)
+	i = 1;
+	while (cmd->params[i] && !ft_strncmp(cmd->params[i], "-n", 2))
+	{
+		j = 2;
+		while (cmd->params[i][j] == 'n')
+			j++;
+		if (!cmd->params[i][j] && i == 1)
+			*n_flag = 1;
+		else if (cmd->params[i][j])
+			break ;
+		i++;
+	}
+	return (i);
+}
+
+int	ft_echo(t_env **env, t_command *cmd, int out_fd)
 {
 	BOOL	n_flag;
 	int		i;
@@ -25,18 +42,14 @@ int	ft_echo(t_env **env, t_command *cmd)
 	i = 1;
 	if (!env)
 		return (EXIT_FAILURE);
-	if (cmd->params[i] && ft_strcmp(cmd->params[i], "-n"))
-		n_flag = 1;
-	while (cmd->params[i] && ft_strcmp(cmd->params[i], "-n"))
-		i++;
+	i = skip_n(cmd, &n_flag);
 	while (cmd->params[i])
 	{
-		ft_putstr_fd(cmd->params[i], cmd->fds[1]);
-		if (cmd->params[i + 1] && cmd->params[i][0])
-			write(1, " ", 1);
-		i++;
+		ft_putstr_fd(cmd->params[i++], out_fd);
+		if (cmd->params[i] && cmd->params[i][0])
+			write(out_fd, " ", 1);
 	}
-	if (n_flag)
-		write(cmd->fds[1], "\n", 1);
+	if (!n_flag)
+		write(out_fd, "\n", 1);
 	return (EXIT_SUCCESS);
 }

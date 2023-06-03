@@ -1,84 +1,72 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 14:26:33 by djagusch          #+#    #+#             */
-/*   Updated: 2023/02/10 13:34:32 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/25 10:07:44 by djagusch          #+#    #+#             */
+/*   Updated: 2023/05/25 10:07:44 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "redirect.h"
 
-static void	set_up_pipes(t_command *command, int *pipes)
+void	ft_wait(void)
 {
-	int	i;
-
-	i = 1;
-	while (i < pipes)
-	{
-		if (pipe(pipes) < 0)
-			ft_error(EPIPE, "");
-		i++;
-	}
-}
-
-static void	ft_wait(t_command *cmds, int *pids)
-{
-	int			status;
-	int			i;
+	int	status;
 
 	status = 0;
-	i = 0;
-	while (wait(&status) > 0)
-		;
-	if (status > 0)
+	if (g_info.exit_value == 0)
 	{
-		free_cmds(&cmds, &pids);
-		ft_error(0, "");
+		while (wait(&status) > 0)
+			;
+		if (status > 0 && !g_info.exit_value)
+			g_info.exit_value = 130;
+		else if (status < 0 && !g_info.exit_value)
+			g_info.exit_value = WEXITSTATUS(status);
+		while (wait(&status) > 0)
+			;
 	}
 	return ;
 }
 
-static char	**set_up_exe(t_command *command, t_env *env, size_t *n_cmds)
+static int	**set_up_exe(t_command *command, t_env *env)
 {
-	char	**env_arr;
+	int	**pipes;
 
-	*n_cmds = count_commands(command);
-	set_up_pipes(command, *n_cmds);
-	get_exe_path(command, env);
-	env_arr = ft_env_to_array(env);
+	g_info.n_cmd = count_commands(command);
+	pipes = set_up_pipes(command, g_info.n_cmd);
+	if (!pipes)
+		return (NULL);
+	get_exe_path(&env, command);
+	return (pipes);
 }
-
-//set_up_pipes is not taking the array yet. Need to work out how to let the already open files go in there.
-// Also need to remember to close the files that were opened and then closed in parser.c
 
 int	redirect_exe(t_command *command, t_env *env)
 {
-	size_t	n_cmds;
-	pid_t	*pids;
-	char	**env_arr;
-	int		*fds[2];
-	int		i;
+	t_command	*tmp;	
+	int			i;
 
-	n_cmds = 0;
-	env_arr = set_up_exe(command, env, &n_cmds);
-	pids = ft_calloc(n_cmds, sizeof(int));
-	i = 0;
-	while (i < n_cmds)
+	if (!command || !env)
+		return (-1);
+	g_info.fds = set_up_exe(command, env);
+	g_info.pids = ft_calloc(g_info.n_cmd, sizeof(int));
+	i = -1;
+	tmp = command;
+	while (++i < g_info.n_cmd)
 	{
-		pids[i] = fork();
-		if (pids[i] < 0)
-			ft_error(EPIPE, "");
-		if (pids[i] == 0)
-			do_child(command, i, env);
-		i++;
-		command = command->next;
+		if (exec_builtin(&env, tmp, g_info.fds[i + 1][1]) < 0)
+		{
+			g_info.pids[i] = fork();
+			if (g_info.pids[i] < 0)
+				ft_error(EPIPE, "");
+			if (g_info.pids[i] == 0)
+				exe_child(command, g_info.fds, i, env);
+		}
+		tmp = tmp->next;
 	}
-	close_fds(command, n_cmds);
-	ft_wait(command, pids); //to do
-	free_cmds(&command, &pids);
+	close_fds(g_info.fds, g_info.n_cmd, g_info.n_cmd);
 	return (0);
 }

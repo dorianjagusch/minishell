@@ -91,6 +91,8 @@ int		ft_toupper(int c);
 int		ft_lenbase(int n, int base);
 size_t	ft_count_elements(char **array);
 void	*ft_free_array(char ***array, size_t elements);
+void	ft_free_int_array(int ***array, size_t n_elems);
+void	ft_print_matrix(int **row_array, size_t row, size_t col);
 // linked list
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstadd_front(t_list **lst, t_list *new);
@@ -138,5 +140,6 @@ long	ft_min(long a, long b);
 double	ft_powerf(double x, int exp);
 void	ft_free(void *ptr);
 void	ft_print_array(char **str, int fd);
+void	ft_print_intarr(int *arr, int size, int fd);
 
 #endif

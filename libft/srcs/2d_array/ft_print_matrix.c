@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_print_matrix.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 14:37:54 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/08 15:17:14 by djagusch         ###   ########.fr       */
+/*   Created: 2023/06/02 15:29:25 by djagusch          #+#    #+#             */
+/*   Updated: 2023/06/02 15:38:56 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	close_fds(t_command *head, int *(fds[2]), int cur, int n_cmd)
+void	ft_print_matrix(int **row_array, size_t row, size_t col)
 {
-	size_t	pipe;
+	size_t	i;
+	size_t	j;
 
-	pipe = 0;
-	while (pipe <= n_cmd)
+	i = -1;
+	while (++i < row)
 	{
-		if (pipe != cur && pipe != n_cmd)
-			close(fds[pipe][0]);
-		if (pipe != cur + 1 && pipe != 0)
-			close(fds[pipe][1]);
-		pipe++;
+		j = 0;
+		while (j < col)
+			ft_printf("%d ", row_array[i][j++]);
+		ft_printf("\n");
 	}
 }
-

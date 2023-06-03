@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/05/08 15:31:18 by djagusch         ###   ########.fr        #
+#    Updated: 2023/06/02 17:35:21 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,10 @@ COLOUR_END=\033[0m
 
 ### SET UP ###
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$I
+CFLAGS = -Wall -Wextra -Werror -I$I \
+#	-Wno-unused-but-set-parameter
+#	Wno-unused-result
+
 
 RM = /bin/rm -f
 RMDIR = /bin/rmdir -p
@@ -52,13 +55,18 @@ FILES = main \
 	parser_utils \
 	parser_print \
 	token_print \
-#	count_commands \
-#	do_child \
-#	find_command \
-#	redirect \
-#	utils 
+	exe_child \
+	execute \
+	find_command \
+	redirect \
+	pipes \
+	syntax_check \
+	syntax_utils \
+	check_utils \
+	here_doc	\
+	signals
 
-HEADER = minishell.h libft.h parser.h lexer.h ft_error.h
+HEADER = minishell.h libft.h parser.h lexer.h ft_error.h syntax.h
 HEADER := $(addprefix $I/,$(HEADER))
 
 SRCS := $(foreach FILE,$(FILES),$(shell find $S -type f -name '$(FILE).c'))
@@ -73,7 +81,7 @@ NAME = minishell
 all: $(NAME)
 
 print:
-	@echo $(SRCS)
+	@echo $(PARSER_F)
 
 $(NAME): $(OBJS) $(LIBFT)
 	@$(CC) $(CFLAGS) $(OBJS) $(READLINE) -Llibft -lft -o $(NAME)

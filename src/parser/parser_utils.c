@@ -6,33 +6,17 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 12:55:42 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/08 15:24:49 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/02 12:38:35 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "parser.h"
 
-
 BOOL	ft_isredir(t_token *token)
 {
-	if (token->token_type == GREATER_THAN
-		|| token->token_type == GREATER_GREATER
-		|| token->token_type == LESS_THAN
-		|| token->token_type == LESS_LESS)
+	if (token->token_type >= greater_than
+		&& token->token_type <= less_less)
 		return (1);
 	return (0);
-}
-
-t_command	*set_command(t_command *head, size_t id)
-{
-	t_command	*tmp;
-
-	tmp = head;
-	if (tmp)
-	{
-		while (tmp->id != id)
-			tmp = tmp->next;
-	}
-	return (tmp);
 }

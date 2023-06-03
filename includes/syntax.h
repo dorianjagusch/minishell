@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   syntax.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/27 15:36:37 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/22 15:04:48 by djagusch         ###   ########.fr       */
+/*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
+/*   Updated: 2023/05/19 11:07:40 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef SYNTAX_H
+# define SYNTAX_H
 
-void	ft_putstr_fd(char *s, int fd)
-{
-	if (s && fd >= 0)
-		write(fd, s, ft_strlen(s));
-}
+# include "lexer.h"
+
+int		skip_quoted_text(char *line);
+int		skip_pipe(char *line, int i);
+int		skip_redir(char *line);
+BOOL	check_first_last(char *line);
+
+#endif
