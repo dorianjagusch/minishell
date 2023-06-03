@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/02 17:47:33 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/03 09:51:54 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,34 @@ t_env	*copy_env(t_env **env)
 }
 
 // BUUUUUUUUUGGGED
-t_env	**swap_env(t_env **env, t_env *e1, t_env *e2)
+void	swap_env(t_env **env, t_env *e1, t_env *e2)
 {
 	t_env	*tmp;
 	t_env	*tmp2;
-	t_env	**head;
 
 	if (!e1 || !e2 || e1 == e2)
-		return (NULL);
-	head = env;
-	if (e1 == *head)
-		head = &e2;
+		return ;
+	ft_printf("head: %s\n", (*env)->key);
+	if (e1 == *env)
+		*env = e2;
 	tmp = find_env(env, e1->key, 1);
+	ft_printf("tmp: %s\n", tmp->key);
 	tmp2 = find_env(env, e2->key, 1);
+	ft_printf("tmp2: %s\n", tmp2->key);
 	tmp2->next = e1;
-	tmp->next = e2;
+	ft_printf("e1: %s\n", e1->key);
+	if (tmp != e1)
+		tmp->next = e2;
+	ft_printf("e2: %s\n", e2->key);
 	tmp2 = e2->next;
-	e2->next = e1->next;
+	ft_printf("tmp2: %s\n", tmp2->key);
+	if (e2 != (*env))
+		e2->next = e1;
+	else
+		e2->next = e1->next;
+	ft_printf("e2: %s\n", e2->key);
 	e1->next = tmp2;
-	return (head);
+	ft_printf("e1: %s\n", e1->key);
 }
 
 void	sort_env(t_env **env)
@@ -81,7 +90,7 @@ void	sort_env(t_env **env)
 			if (ft_strcmp(tmp1->key, tmp2->key) > 0)
 			{
 				printf("about to swap\n");
-				head = swap_env(head, tmp1, tmp2);
+				swap_env(head, tmp1, tmp2);
 				printf("swapped\n");
 			}
 			tmp2 = tmp2->next;

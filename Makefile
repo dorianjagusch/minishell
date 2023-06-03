@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/06/02 17:35:21 by djagusch         ###   ########.fr        #
+#    Updated: 2023/06/03 11:09:07 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,6 +100,11 @@ libft: $(LIBFT)
 $(LIBFT):
 	@$(MAKE) -C libft
 	@echo "$(COLOUR_GREEN) $(LIBFT) created$(COLOUR_END)"
+
+ENV_FILES := $(foreach FILE,$(FILES),$(shell find $S/env -type f -name '$(FILE).c'))
+
+env_test:
+	$(CC) $(CFLAGS) $(ENV_FILES) src/builtins/ft_env.c test.c $(HEADER) -Llibft -lft
 
 ### CLEANING
 
