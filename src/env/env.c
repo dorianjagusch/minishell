@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/02 16:58:58 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/05 10:13:38 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	init_env(char *envp[], t_env **env)
 		tmp = split_env(*envp);
 		if (!tmp)
 			break ;
+		ft_printf("%s = %s\n", tmp[0], tmp[1]);
 		if (ft_strcmp(tmp[0], "OLDPWD"))
 		{
 			new = new_env(tmp[0], tmp[1]);
