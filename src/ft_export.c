@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/03 08:56:23 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/03 08:59:48 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	ft_export(t_env **env, t_command *cmd, int out_fd)
 	elems = ft_count_elements(cmd->params);
 	if (elems == 1)
 		return (print_export(env, cmd, out_fd));
-	printf("hello\n");
 	while (++i < elems)
 	{
 		eq_pos = invalid_env(cmd->params[i]);
@@ -73,7 +72,6 @@ int	ft_export(t_env **env, t_command *cmd, int out_fd)
 		if (!env_str)
 			return (1);
 		ret = replace_env(env, env_str[0], env_str[1]);
-		printf("hello\n");
 	}
 	ft_free_array(&env_str, 2);
 	return (ret);

@@ -6,15 +6,13 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/02 15:26:06 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/05 10:21:22 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redirect.h"
 #include "parser.h"
 #include "minishell.h"
-
-#define CURRENT 3
 
 static int	dup_fds(int **fds, int current)
 {
@@ -56,8 +54,6 @@ t_command	*get_command(t_command *command, int cur)
 		command = command->next;
 	return (command);
 }
-
-size_t	ft_env_len(t_env *env);
 
 void	exe_child(t_command *command, int **fds, int cur, t_env *env)
 {

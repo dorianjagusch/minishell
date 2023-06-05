@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/06/02 17:35:21 by djagusch         ###   ########.fr        #
+#    Updated: 2023/06/05 10:04:26 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,6 +101,11 @@ $(LIBFT):
 	@$(MAKE) -C libft
 	@echo "$(COLOUR_GREEN) $(LIBFT) created$(COLOUR_END)"
 
+ENV_FILES := $(foreach FILE,$(FILES),$(shell find $S/env -type f -name '$(FILE).c'))
+
+env_test:
+	$(CC) $(CFLAGS) $(ENV_FILES) src/builtins/ft_env.c test.c $(HEADER) -Llibft -lft -g
+
 ### CLEANING
 
 clean:
@@ -114,6 +119,6 @@ fclean : clean
 	@$(RM) $(NAME)
 	@echo "$(COLOUR_RED) $(NAME) removed$(COLOUR_END)"
 
-re: fclean $(NAME) bonus
+re: fclean $(NAME)
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
