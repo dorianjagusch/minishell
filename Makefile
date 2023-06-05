@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/06/05 10:04:26 by djagusch         ###   ########.fr        #
+#    Updated: 2023/06/05 17:20:58 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,8 @@ FILES = main \
 	syntax_utils \
 	check_utils \
 	here_doc	\
-	signals
+	signals \
+	exit_value
 
 HEADER = minishell.h libft.h parser.h lexer.h ft_error.h syntax.h
 HEADER := $(addprefix $I/,$(HEADER))

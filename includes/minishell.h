@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/02 13:46:09 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:16:37 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,6 @@ typedef struct s_builtin
 	int		(*builtin)(t_env **, t_command *, int);
 }		t_builtin;
 
-typedef struct s_heredoc
-{
-	char				*line;
-	struct s_heredoc	*next;
-}						t_heredoc;
-
 typedef struct s_info
 {
 	t_token		*tokens;
@@ -66,16 +60,15 @@ t_info		g_info;
 
 void		rl_replace_line(const char *text, int clear_undo);
 void		init_env(char *envp[], t_env **env);
-int			init_lexer(char *line, t_token	**tokens);
-int			retokenize(t_token **tokens, t_env **env);
 t_env		*find_env(t_env **env, char *variable, int predecessor);
 char		**split_env(char *envp);
 t_env		*new_env(char *key, char *value);
 void		add_env(t_env **env, t_env *new);
 t_env		*copy_env(t_env **env);
 char		**ft_env_to_array(t_env *env);
-
 char		*find_value(t_env **env, char *key);
+int			replace_env(t_env **env, char *key, char *value);
+void		set_exit_value(t_env **env);
 
 //SYNTAX_CHECK AND TOKENIZE
 int			init_lexer(char *line, t_token	**tokens);
@@ -89,12 +82,11 @@ void		free_env(t_env **env);
 
 //here_doc
 int			here_doc(char	*delim);
-void		free_hrdc(t_heredoc **hrdc);
 
 //signal
-void		init_signal(void);
 void		heredoc_signal(void);
 void		switch_echoctl(struct termios *t, int toggle);
+void		global_signal(int toggle);
 
 int			redirect_exe(t_command *command, t_env *env);
 
@@ -110,5 +102,4 @@ int			print_export(t_env **env, t_command *cmd, int out_fd);
 int			ft_unset(t_env **env, t_command *cmd, int out_fd);
 void		print_token(t_token *token);
 
-void		ft_clear(t_command **command, int **pids, int ***fds, int n_cmd);
 #endif

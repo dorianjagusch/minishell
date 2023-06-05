@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.h                                         :+:      :+:    :+:   */
+/*   exit_value.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/15 15:29:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/05 16:48:05 by djagusch         ###   ########.fr       */
+/*   Created: 2023/06/05 14:13:43 by djagusch          #+#    #+#             */
+/*   Updated: 2023/06/05 17:25:57 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_ERROR_H
-# define FT_ERROR_H
+#include "minishell.h"
 
-# include "minishell.h"
+void	set_exit_value(t_env **env)
+{
+	char	*exit_str;
 
-# define EPATH 127 /* No such file or directory */
-# define NOCMMD 127
-# define CTRL_EXIT 130
-# define BSLASH_EXIT 131
-# define SYN_ERR 258
-
-void	ft_error(int error, char *str);
-
-#endif
+	exit_str = ft_itoa(g_info.exit_value);
+	ft_printf("%p\n", exit_str);
+	if (!exit_str)
+	{
+		ft_error(ENOMEM, "");
+		free_env(env);
+		exit(1);
+	}
+	ft_printf("%p\n", exit_str);
+	replace_env(env, "?", exit_str);
+	ft_printf("%p\n", exit_str);
+	free(exit_str);
+	ft_printf("penis\n");
+	g_info.exit_value = 0;
+}

@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/03 08:59:48 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:24:58 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	invalid_env(char *arg)
 	return (i);
 }
 
-static int	replace_env(t_env **env, char *key, char *value)
+int	replace_env(t_env **env, char *key, char *value)
 {
 	t_env	*tmp;
 
@@ -46,6 +46,7 @@ static int	replace_env(t_env **env, char *key, char *value)
 	else
 	{
 		free(tmp->value);
+		printf("%p\n", value);
 		tmp->value = value;
 	}
 	return (0);
