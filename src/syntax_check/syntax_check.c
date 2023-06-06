@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/02 13:36:12 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/06 11:17:05 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static BOOL	empty_pipe(char *line)
 			if (result == -1)
 			{
 				ft_putstr_fd("\033[1m\e[31mGayAsHell\x1b[m:  syntax error ", 2);
-				ft_putstr_fd("near unexpected token `newline', sis 💅\n", 2);
+				ft_putstr_fd("near unexpected token `|', sis 💅\n", 2);
 				return (TRUE);
 			}
 			i += result;
@@ -100,8 +100,9 @@ static BOOL	empty_redir(char *line)
 			result = skip_redir(&line[i]);
 			if (result == -1)
 			{
-				ft_putstr_fd("\033[1m\e[31mGayAsHell\x1b[m:  syntax error ", 2);
-				ft_putstr_fd("near Empty unexpected `newline', sis 💅\n", 2);
+				if (line[i] != line[i + 1])
+					line[i + 1] = '\n';
+				print_synt_error(line[i + 1]);
 				return (TRUE);
 			}
 			i += result;
@@ -115,13 +116,15 @@ static BOOL	empty_redir(char *line)
 BOOL	syntax_check(char *line)
 {
 	g_info.exit_value = 258;
-	if (check_first_last(line))
+	if (check_first(line))
 		return (FALSE);
 	if (!quotes_close(line))
 		return (FALSE);
 	if (empty_pipe(line))
 		return (FALSE);
 	if (empty_redir(line))
+		return (FALSE);
+	if (check_last(line))
 		return (FALSE);
 	g_info.exit_value = 0;
 	return (TRUE);

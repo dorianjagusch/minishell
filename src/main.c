@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/05 17:38:11 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/06 11:31:09 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,7 @@ static void	init_shell(t_env **env)
 	{
 		switch_echoctl(&t, OFF);
 		global_signal(ON);
-		printf("hello\n");
 		g_info.line = readline(NAME);
-		printf("hello2\n");
 		if (!g_info.line || ft_strcmp(g_info.line, "exit") == 0)
 			handle_exit(g_info.line);
 		switch_echoctl(&t, ON);
@@ -86,7 +84,7 @@ static void	init_shell(t_env **env)
 			if (g_info.exit_value == ENOMEM)
 				exit(1);
 		}
-	//	set_exit_value(env);
+		//set_exit_value(env);
 	}
 }
 
