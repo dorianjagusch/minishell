@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/06/05 17:20:58 by djagusch         ###   ########.fr        #
+#    Updated: 2023/06/06 11:45:56 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,6 @@ FILES = main \
 	ft_echo \
 	ft_env \
 	ft_export \
-	ft_export_printers \
 	ft_pwd \
 	ft_unset \
 	env \

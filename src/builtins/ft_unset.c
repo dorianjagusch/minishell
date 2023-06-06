@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:22 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/05 10:17:36 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/06 11:04:42 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_unset(t_env **env, t_command *cmd, int out_fd)
 
 	if (!env || !*env || out_fd < 0)
 		return (EXIT_FAILURE);
-	i = 0;
+	i = 1;
 	elements = ft_count_elements(cmd->params);
 	while (i < elements && elements > 1)
 	{
