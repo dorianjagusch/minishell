@@ -6,11 +6,29 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/06 13:32:00 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/06 13:34:22 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	print_export(t_env **env, t_command *cmd, int out_fd)
+{
+	t_env	*tmp;
+
+	(void) cmd;
+	tmp = *env;
+	while (tmp)
+	{
+		if (tmp->key[0] != '?')
+		{
+			ft_printf_fd(out_fd, "declare -x %s=\"%s\"\n",
+				tmp->key, tmp->value);
+		}
+		tmp = tmp->next;
+	}
+	return (EXIT_SUCCESS);
+}
 
 static int	invalid_env(char *arg)
 {

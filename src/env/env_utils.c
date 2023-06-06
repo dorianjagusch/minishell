@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:07:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/03 10:12:49 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/06 11:37:11 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,19 @@ t_env	*find_env(t_env **env, char *key, int predecessor)
 	if (!env || !*env || !key || !(*key))
 		return (NULL);
 	tmp = *env;
-	if (!predecessor)
+	if (predecessor == 0)
 	{
 		while (tmp && ft_strcmp(key, tmp->key) != 0)
 			tmp = tmp->next;
 	}
-	else if (ft_strcmp(key, tmp->key) == 0)
-		return (tmp);
 	else
 	{
+		if (ft_strcmp(key, tmp->key) == 0)
+			return (tmp);
 		while (tmp->next && ft_strcmp(key, tmp->next->key) != 0)
 			tmp = tmp->next;
+		if (ft_strcmp(key, tmp->key) != 0 && !tmp->next)
+			return (NULL);
 	}
 	return (tmp);
 }
