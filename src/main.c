@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/06 11:31:09 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/06 12:53:10 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,14 @@ static void	init_shell(t_env **env)
 
 	while (1)
 	{
+		//ft_printf("1\n");
 		switch_echoctl(&t, OFF);
+		//ft_printf("2\n");
 		global_signal(ON);
+		//ft_printf("3\n");
 		g_info.line = readline(NAME);
+		//ft_printf("4\n");
+		//ft_printf("%s\n",g_info.line);
 		if (!g_info.line || ft_strcmp(g_info.line, "exit") == 0)
 			handle_exit(g_info.line);
 		switch_echoctl(&t, ON);
@@ -84,7 +89,7 @@ static void	init_shell(t_env **env)
 			if (g_info.exit_value == ENOMEM)
 				exit(1);
 		}
-		//set_exit_value(env);
+		set_exit_value(env);
 	}
 }
 

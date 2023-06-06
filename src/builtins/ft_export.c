@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/05 17:24:58 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/06 13:32:00 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,11 @@ int	replace_env(t_env **env, char *key, char *value)
 	}
 	else
 	{
-		free(tmp->value);
-		printf("%p\n", value);
+		if (tmp->value)
+		{
+			free(tmp->value);
+			tmp->value = NULL;
+		}
 		tmp->value = value;
 	}
 	return (0);
