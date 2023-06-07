@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:07:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/06 11:37:11 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:42:38 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ size_t	ft_env_len(t_env *env)
 	len = 0;
 	while (env)
 	{
-		len++;
+		if (env->value)
+			len++;
 		env = env->next;
 	}
 	return (len);
@@ -42,18 +43,19 @@ char	**ft_env_to_array(t_env *env)
 	i = 0;
 	env_len = ft_env_len(env);
 	envp = ft_calloc(env_len + 1, sizeof(char *));
-	if (!envp)
-		return (NULL);
-	while (env)
+	while (envp && env)
 	{
-		envp[i] = ft_calloc(ft_strlen(env->key) + ft_strlen(env->value) + 2,
-				sizeof(char));
-		if (!envp[i])
+		if (env->value)
 		{
-			ft_free_array(&envp, i);
-			return (NULL);
+			envp[i] = ft_calloc(ft_strlen(env->key) + ft_strlen(env->value) + 2,
+					sizeof(char));
+			if (!envp[i])
+			{
+				ft_free_array(&envp, i);
+				return (NULL);
+			}
+			copy_env_to_arr(env, envp[i]);
 		}
-		copy_env_to_arr(env, envp[i]);
 		env = env->next;
 		i++;
 	}

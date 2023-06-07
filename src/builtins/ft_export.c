@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 09:30:52 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/07 15:09:06 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ static int	print_export(t_env **env, t_command *cmd, int out_fd)
 	{
 		if (tmp->key[0] != '?')
 		{
-			ft_printf_fd(out_fd, "declare -x %s=\"%s\"\n",
-				tmp->key, tmp->value);
+			ft_printf_fd(out_fd, "declare -x %s", tmp->key);
+			if (tmp->value)
+				ft_printf_fd(out_fd, "=\"%s\"", tmp->value);
+			ft_printf_fd(2, "\n");
 		}
 		tmp = tmp->next;
 	}
@@ -63,10 +65,10 @@ int	replace_env(t_env **env, char *key, char *value)
 	}
 	else
 	{
-		if (tmp->value && value && *value)
+		if (value)
 		{
-			free(tmp->value);
-			tmp->value = NULL;
+			if (tmp->value)
+				free(tmp->value);
 			tmp->value = value;
 		}
 	}
