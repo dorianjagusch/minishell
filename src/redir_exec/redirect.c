@@ -15,19 +15,24 @@
 
 void	ft_wait(void)
 {
-	int	status;
+	int				status;
+	struct termios	t;
 
 	status = 0;
 	if (g_info.exit_value == 0)
 	{
 		while (wait(&status) > 0)
 			;
+		if (status == CTRL_EXIT || status == BSLASH_EXIT)
+			g_info.exit_value = status;
 		if (status > 0 && !g_info.exit_value)
 			g_info.exit_value = NOCMMD;
 		else if (status < 0 && !g_info.exit_value)
 			g_info.exit_value = WEXITSTATUS(status);
 		while (wait(&status) > 0)
 			;
+		global_signal(ON);
+		switch_echoctl(&t, ON);
 	}
 	return ;
 }

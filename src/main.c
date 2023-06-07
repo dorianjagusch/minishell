@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/07 15:07:41 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/07 15:15:38 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,32 @@ static void	run_line(char *line, t_env **env)
 		redirect_exe(g_info.commands, *env);
 	ft_printf("here2\n");
 	ft_clear_everything(g_info);
-	ft_printf("here3\n");
+	if (g_info.exit_value == ENOMEM)
+		exit(1);
 }
 
-static	void	handle_exit(char *line)
+static	int	handle_exit(char *line, t_env **env)
 {
+	size_t		i;
+	char		str[5];
+
+	i = 0;
+	ft_strlcpy(str, "exit", 5);
 	if (!line)
 	{
 		free_env(&g_info.env);
 		ft_printf_fd(2, "\e[38;2;255;105;180mSashay away 💃\x1b[m \n");
-		exit(1);
-	}
-	if (ft_strcmp(line, "exit") == 0)
-	{
-		free_env(&g_info.env);
-		ft_printf_fd(2, "\e[38;2;255;105;180mSashay away 💃\x1b[m\n");
-		free(line);
 		exit(0);
 	}
+	while (line[i] == str[i] && line[i] != '\0' && str[i] != '\0' && i < 4)
+		i++;
+	if (i == 4 && line[i] != '\0')
+		return (handle_exit_arg(line, i, env));
+	free(line);
+	free_env(&g_info.env);
+	write(2, "Sashay away\n", 12);
+	exit(0);
+	return (0);
 }
 
 void	switch_echoctl(struct termios *t, int toggle)
@@ -73,8 +81,12 @@ static void	init_shell(t_env **env)
 		switch_echoctl(&t, OFF);
 		global_signal(ON);
 		g_info.line = readline(NAME);
-		if (!g_info.line || ft_strcmp(g_info.line, "exit") == 0)
-			handle_exit(g_info.line);
+		if ((!g_info.line || ft_strncmp(g_info.line, "exit", 4) == 0)
+			&& (handle_exit(g_info.line, env) == 1))
+		{
+			add_history(g_info.line);
+			continue ;
+		}
 		switch_echoctl(&t, ON);
 		if (ft_strlen(g_info.line) > 0)
 		{
@@ -84,8 +96,6 @@ static void	init_shell(t_env **env)
 				run_line(g_info.line, env);
 			else if (g_info.exit_value == SYN_ERR)
 				free(g_info.line);
-			if (g_info.exit_value == ENOMEM)
-				exit(1);
 		}
 		set_exit_value(env);
 	}

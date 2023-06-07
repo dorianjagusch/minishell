@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 07:51:49 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:56:30 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <errno.h>
+# include "ft_error.h"
 # include "libft.h"
 # include "syntax.h"
 # include "redirect.h"
@@ -75,6 +76,7 @@ void		set_exit_value(t_env **env);
 int			init_lexer(char *line, t_token	**tokens);
 int			retokenize(t_token **tokens, t_env **env);
 BOOL		syntax_check(char *line);
+int			handle_exit_arg(char *line, size_t i, t_env **env);
 
 //free
 void		ft_clear_everything(t_info g_info);
@@ -88,6 +90,7 @@ int			here_doc(char	*delim);
 void		heredoc_signal(void);
 void		switch_echoctl(struct termios *t, int toggle);
 void		global_signal(int toggle);
+void		child_signal(void);
 
 int			redirect_exe(t_command *command, t_env *env);
 

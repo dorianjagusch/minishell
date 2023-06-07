@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/06/07 11:29:04 by djagusch         ###   ########.fr        #
+#    Updated: 2023/06/07 15:16:31 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,8 +64,9 @@ FILES = main \
 	check_utils \
 	here_doc	\
 	signals \
-	exit_value \
-	print_greeting
+	exit_utils \
+	print_greeting \
+	child_signal
 
 HEADER = minishell.h libft.h parser.h lexer.h ft_error.h syntax.h
 HEADER := $(addprefix $I/,$(HEADER))
