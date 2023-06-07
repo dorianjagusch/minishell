@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/02 13:36:22 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/06 15:01:37 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_error(int error, char *str)
 	if (error == NOCMMD)
 		ft_printf_fd(STDERR_FILENO, "%s: command not found", str);
 	else if (error == EACCES)
-		ft_printf_fd(STDERR_FILENO, "%s: Permission denied %s", str);
+		ft_printf_fd(STDERR_FILENO, "%s: Permission denied", str);
 	else
 		ft_printf_fd(STDERR_FILENO, "%s: %s",
 			str, strerror(error));

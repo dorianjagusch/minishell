@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 15:47:58 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/06 12:53:15 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/07 09:14:37 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ int	**set_up_pipes(t_command *command, int n_cmd)
 	}
 	return (pipes);
 }
-
-#define CURRENT 2
 
 void	close_fds(int **fds, int cur, int n_cmd)
 {
