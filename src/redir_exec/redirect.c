@@ -33,6 +33,16 @@ void	ft_wait(void)
 	return ;
 }
 
+// static int scan_fds(t_command *command)
+// {
+// 	while (command)
+// 	{
+	
+
+// 		command = command->next;
+// 	}
+// }
+
 static int	**set_up_exe(t_command *command, t_env *env)
 {
 	int	**pipes;
@@ -58,6 +68,7 @@ int	redirect_exe(t_command *command, t_env *env)
 	tmp = command;
 	while (++i < g_info.n_cmd)
 	{
+		//	scan_fds(tmp);
 		if (exec_builtin(&env, tmp, g_info.fds[i + 1][1]) < 0)
 		{
 			g_info.pids[i] = fork();

@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/07 12:29:50 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:30:13 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ static void	run_line(char *line, t_env **env)
 		g_info.exit_value = ENOMEM;
 	if (g_info.exit_value == 0)
 		g_info.commands = init_command(g_info.tokens, 0);
+	ft_printf("here\n");
 	if (g_info.exit_value == 0)
 		redirect_exe(g_info.commands, *env);
+	ft_printf("here2\n");
 	ft_clear_everything(g_info);
 	if (g_info.exit_value == ENOMEM)
 		exit(1);
@@ -39,7 +41,7 @@ static	int	handle_exit(char *line, t_env **env)
 	if (!line)
 	{
 		free_env(&g_info.env);
-		write(2, "Sashay away\n", 12);
+		ft_printf_fd(2, "\e[38;2;255;105;180mSashay away 💃\x1b[m \n");
 		exit(0);
 	}
 	while (line[i] == str[i] && line[i] != '\0' && str[i] != '\0' && i < 4)
@@ -101,12 +103,15 @@ static void	init_shell(t_env **env)
 	}
 }
 
+
+
 int	main(int argc, char **argv, char **envp)
 {
 	ft_bzero(&g_info, sizeof(t_info));
 	(void)argv;
 	if (argc > 1)
 		return (-1);
+	print_greeting_2();
 	init_env(envp, &g_info.env);
 	if (!g_info.env)
 		return (1);

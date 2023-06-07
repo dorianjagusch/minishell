@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:27:30 by djagusch          #+#    #+#             */
-/*   Updated: 2022/11/15 13:29:15 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:52:34 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_putptr_c(unsigned long long ptr)
 {
-	char		*hex_add;
-	int			length;
+	char	*hex_add;
+	int				length;
 
 	ft_putstr("0x");
 	if (!ptr)

@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/05 16:54:08 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/07 09:38:40 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,14 @@ char	**split_env(char *envp)
 	tmp = ft_calloc(2, sizeof(char *));
 	if (!tmp)
 		return (NULL);
-	if (eq)
+	if (!eq)
 	{
 		tmp[0] = ft_substr(envp, 0, eq - envp);
 		tmp[1] = ft_strdup(eq + 1);
 	}
+	else
+		tmp[0] = ft_strdup(envp);
+		tmp[1] = ft_strdub("");
 	if (!tmp[0])
 	{
 		ft_free_array(&tmp, 2);
