@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/07 14:30:13 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:33:35 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ static	int	handle_exit(char *line, t_env **env)
 	while (line[i] == str[i] && line[i] != '\0' && str[i] != '\0' && i < 4)
 		i++;
 	if (i == 4 && line[i] != '\0')
-	{
 		return (handle_exit_arg(line, i, env));
-	}
 	free(line);
 	free_env(&g_info.env);
 	write(2, "Sashay away\n", 12);

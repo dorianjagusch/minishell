@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/07 09:38:40 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/07 15:03:23 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**split_env(char *envp)
 	}
 	else
 		tmp[0] = ft_strdup(envp);
-		tmp[1] = ft_strdub("");
+		tmp[1] = ft_strdup("");
 	if (!tmp[0])
 	{
 		ft_free_array(&tmp, 2);
