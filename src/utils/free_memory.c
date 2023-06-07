@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/07 09:16:38 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/07 15:37:29 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,10 @@ void	ft_clear_everything(t_info g_info)
 		free(g_info.line);
 	g_info.line = NULL;
 	ft_printf("about to free fds %p\n", g_info.fds);
-	ft_print_matrix(g_info.fds, g_info.n_cmd + 1, 2);
 	if (g_info.fds)
 		ft_free_int_array(&g_info.fds, g_info.n_cmd + 1);
 	g_info.fds = NULL;
-	ft_printf("feed fds %p\n", g_info.fds);
-	ft_printf("freed fds\n");
+	ft_printf("feed pids %p\n", g_info.pids);
 	if (g_info.pids)
 		free(g_info.pids);
 	g_info.pids = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 14:56:30 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:41:52 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ t_info		g_info;
 
 void		rl_replace_line(const char *text, int clear_undo);
 void		print_greeting(void);
-void		print_greeting_2(void);
 void		init_env(char *envp[], t_env **env);
 t_env		*find_env(t_env **env, char *variable, int predecessor);
 char		**split_env(char *envp);

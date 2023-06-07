@@ -40,11 +40,22 @@ static int	check_file(t_command *command, int token_type, BOOL heredoc)
 	return (command->fds[file_type]);
 }
 
+static void	close_unused_fd(t_command *command, t_token *token)
+{
+	if ((token->token_type == less_than || token->token_type == less_less)
+		&& command->fds[0])
+		close(command->fds[0]);
+	if ((token->token_type == greater_than || token->token_type == greater_than)
+		&& command->fds[1])
+		close(command->fds[1]);
+}
+
 t_token	*get_fds(t_command *command, t_token *token)
 {
 	int	heredoc;
 
 	heredoc = 0;
+	close_unused_fd(command, token);
 	if (token->token_type == less_than && command->fds[0] >= 0)
 		command->fds[0] = open(command->infile, O_RDONLY);
 	else if (token->token_type == less_less && command->fds[0] >= 0)

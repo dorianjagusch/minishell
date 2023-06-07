@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 15:47:58 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 09:14:37 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:09:20 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ static void	enter_file_fds(t_command *command, int **pipes, int i)
 {
 	if (command->infile && (pipes[i][0] != 0 || i == 0))
 	{
-		if (i != 0 && close(pipes[i][0]) < 0)
-			ft_error(EPIPE, "");
+		if (i != 0)
+			close(pipes[i][0]);
 		pipes[i][0] = command->fds[0];
 	}
 	if (command->outfile && (pipes[i + 1][1] != 0 || i == g_info.n_cmd - 1))
 	{
-		if (i != g_info.n_cmd - 1 && close(pipes[i + 1][1]) < 0)
-			ft_error(EPIPE, "");
+		if (i != g_info.n_cmd - 1) 
+			close(pipes[i + 1][1]);
 		pipes[i + 1][1] = command->fds[1];
 	}
 	else if (pipes[i + 1][1] == 0)
@@ -84,6 +84,7 @@ int	**set_up_pipes(t_command *command, int n_cmd)
 		i++;
 		command = command->next;
 	}
+	ft_print_matrix(pipes, n_cmd + 1, 2);
 	return (pipes);
 }
 

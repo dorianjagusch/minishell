@@ -6,81 +6,13 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:07:15 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 08:49:09 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:44:21 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-
-static void	first_greeting(void)
-{
-	ft_printf_fd(2, "\e[38;2;255;3;3m#######################################");
-	ft_printf_fd(2, "#######################################################");
-	ft_printf_fd(2, "##############\n#######################################");
-	ft_printf_fd(2, "#######################################################");
-	ft_printf_fd(2, "##############\x1b[m\n");
-	ft_printf_fd(2, "\e[38;2;255;120;0m#####                                ");
-	ft_printf_fd(2, "                                                       ");
-	ft_printf_fd(2, "           #####\n");
-	ft_printf_fd(2, "#####                                                  ");
-	ft_printf_fd(2, "                                                #####");
-	ft_printf_fd(2, "\x1b[m\n");
-	ft_printf_fd(2, "\e[38;2;255;237;0m#####     ##      ##  #########  ##  ");
-	ft_printf_fd(2, "      #######      ##        ##    ########        ##  ");
-	ft_printf_fd(2, "           #####\x1b[m\n");
-	ft_printf_fd(2, "\e[38;2;255;237;0m#####     ##      ##  #########  ##  ");
-	ft_printf_fd(2, "    ##      ##     ##        ##    ##      ##      ##   ");
-	ft_printf_fd(2, "          #####\x1b[m\n");
-	ft_printf_fd(2, "\e[38;2;0;220;38m#####     ##      ##  ##         ##    ");
-	ft_printf_fd(2, " ##        ##    ##        ##    ##        ##    ##  ");
-	ft_printf_fd(2, "           #####\x1b[m\n");
-	ft_printf_fd(2, "\e[38;2;0;220;38m#####     ##      ##  ##         ##   ");
-	ft_printf_fd(2, " ##               ##        ##    ##        ##    ##   ");
-	ft_printf_fd(2, "          #####\x1b[m\n");
-}
-
-static void	second_greeting(void)
-{
-	ft_printf_fd(2, "\e[38;2;36;34;222m#####     ##########  #########  ##   ");
-	ft_printf_fd(2, " ##               ##        ##    ##      ##      ##");
-	ft_printf_fd(2, "             #####\x1b[m\n");
-	ft_printf_fd(2, "\e[38;2;36;34;222m#####     ##########  #########  ##  ");
-	ft_printf_fd(2, "  ##               ##        ##    #########       ##  ");
-	ft_printf_fd(2, "           #####\x1b[m\n");
-	ft_printf_fd(2, "\e[38;2;150;61;180m#####     ##      ##  ##         ## ");
-	ft_printf_fd(2, "   ##      #####    ##        ##    ##  ##          ## ");
-	ft_printf_fd(2, "            #####\x1b[m\n");
-	ft_printf_fd(2, "\e[38;2;150;61;180m#####     ##      ##  ##         ## ");
-	ft_printf_fd(2, "    ##        ##     ##      ##     ##    ##        ## ");
-	ft_printf_fd(2, "            #####\x1b[m\n#####     ##      ##  ########");
-	ft_printf_fd(2, "#  ##      ###    ###   ");
-	ft_printf_fd(2, "    ##    ##      ##      ##      ###########    #####");
-	ft_printf_fd(2, "\x1b[m\n#####     ##      ##  #########  ##        ##");
-	ft_printf_fd(2, "####           ####        ##       ##     ###########");
-	ft_printf_fd(2, "    #####\x1b[m\n");
-	ft_printf_fd(2, "\e[38;2;255;169;184m#####                            ");
-	ft_printf_fd(2, "                                                       ");
-	ft_printf_fd(2, "               #####\x1b[m\n");
-	ft_printf_fd(2, "\e[38;2;255;169;184m#####                             ");
-	ft_printf_fd(2, "                                                      ");
-	ft_printf_fd(2, "               #####\x1b[m\n");
-}
-
-
-void	print_greeting(void)
-{
-	first_greeting();
-	second_greeting();
-	ft_printf_fd(2, "\e[38;2;91;206;250m###################################");
-	ft_printf_fd(2, "######################################################");
-	ft_printf_fd(2, "###################\x1b[m\n");
-	ft_printf_fd(2, "\e[38;2;91;206;250m#################################");
-	ft_printf_fd(2, "#####################################################");
-	ft_printf_fd(2, "######################\x1b[m\n");
-}
-
-static void	print_geeting2_1(void)
+static void	print_geeting1(void)
 {
 	ft_printf_fd(2, "\e[38;2;255;3;3m#####################################");
 	ft_printf_fd(2, "####################################################");
@@ -105,7 +37,7 @@ static void	print_geeting2_1(void)
 
 }
 
-static void	print_geeting2_2(void)
+static void	print_geeting2(void)
 {
 	ft_printf_fd(2, "\e[38;2;26;24;242m##    I8dP\" \"8I  i8\" \"8i  I8     ");
 	ft_printf_fd(2, "8I       dP\"  \"Y8I  I8      8I  I8      8I   dP\"\"\"");
@@ -127,10 +59,10 @@ static void	print_geeting2_2(void)
 	ft_printf_fd(2, "                                           ##\n");
 }
 
-void print_greeting_2(void)
+void	print_greeting(void)
 {
-	print_geeting2_1();
-	print_geeting2_2();
+	print_geeting1();
+	print_geeting2();
 	ft_printf_fd(2, "\e[38;2;255;169;184m##      ");
 	ft_printf_fd(2, "                    I8   8I         I8   8I            ");
 	ft_printf_fd(2, "                                                       ");
