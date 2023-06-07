@@ -28,6 +28,7 @@ void	ft_wait(void)
 			g_info.exit_value = WEXITSTATUS(status);
 		while (wait(&status) > 0)
 			;
+		global_signal(ON);
 	}
 	return ;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_child.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/05 10:21:22 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/07 14:08:49 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	exe_child(t_command *command, int **fds, int cur, t_env *env)
 	char		**env_arr;
 	t_command	*tmp;
 
+	global_signal(OFF);
+	//child_signal();
 	close_fds(fds, cur, g_info.n_cmd);
 	dup_fds(fds, cur);
 	tmp = get_command(command, cur);

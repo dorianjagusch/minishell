@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/06 12:53:10 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/07 12:29:50 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,34 @@ static void	run_line(char *line, t_env **env)
 	if (g_info.exit_value == 0)
 		redirect_exe(g_info.commands, *env);
 	ft_clear_everything(g_info);
+	if (g_info.exit_value == ENOMEM)
+		exit(1);
 }
 
-static	void	handle_exit(char *line)
+static	int	handle_exit(char *line, t_env **env)
 {
+	size_t		i;
+	char		str[5];
+
+	i = 0;
+	ft_strlcpy(str, "exit", 5);
 	if (!line)
 	{
 		free_env(&g_info.env);
 		write(2, "Sashay away\n", 12);
-		exit(1);
-	}
-	if (ft_strcmp(line, "exit") == 0)
-	{
-		free_env(&g_info.env);
-		write(2, "Sashay away\n", 12);
-		free(line);
 		exit(0);
 	}
+	while (line[i] == str[i] && line[i] != '\0' && str[i] != '\0' && i < 4)
+		i++;
+	if (i == 4 && line[i] != '\0')
+	{
+		return (handle_exit_arg(line, i, env));
+	}
+	free(line);
+	free_env(&g_info.env);
+	write(2, "Sashay away\n", 12);
+	exit(0);
+	return (0);
 }
 
 void	switch_echoctl(struct termios *t, int toggle)
@@ -67,16 +78,15 @@ static void	init_shell(t_env **env)
 
 	while (1)
 	{
-		//ft_printf("1\n");
 		switch_echoctl(&t, OFF);
-		//ft_printf("2\n");
 		global_signal(ON);
-		//ft_printf("3\n");
 		g_info.line = readline(NAME);
-		//ft_printf("4\n");
-		//ft_printf("%s\n",g_info.line);
-		if (!g_info.line || ft_strcmp(g_info.line, "exit") == 0)
-			handle_exit(g_info.line);
+		if ((!g_info.line || ft_strncmp(g_info.line, "exit", 4) == 0)
+			&& (handle_exit(g_info.line, env) == 1))
+		{
+			add_history(g_info.line);
+			continue ;
+		}
 		switch_echoctl(&t, ON);
 		if (ft_strlen(g_info.line) > 0)
 		{
@@ -86,8 +96,6 @@ static void	init_shell(t_env **env)
 				run_line(g_info.line, env);
 			else if (g_info.exit_value == SYN_ERR)
 				free(g_info.line);
-			if (g_info.exit_value == ENOMEM)
-				exit(1);
 		}
 		set_exit_value(env);
 	}

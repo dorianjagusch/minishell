@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
+#    By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/06/06 11:45:56 by djagusch         ###   ########.fr        #
+#    Updated: 2023/06/07 12:08:02 by asarikha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ FILES = main \
 	check_utils \
 	here_doc	\
 	signals \
-	exit_value
+	exit_utils
 
 HEADER = minishell.h libft.h parser.h lexer.h ft_error.h syntax.h
 HEADER := $(addprefix $I/,$(HEADER))
