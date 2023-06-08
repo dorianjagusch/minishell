@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:05 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 13:22:53 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:50:20 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	manage_wd_vars(t_env **env, t_env *pwd, t_env *oldpwd, char *cur_dir)
 		pwd->value = ft_strdup(getcwd(cur_dir, PATH_MAX));
 	}
 }
-
 
 int	ft_cd(t_env **env, t_command *cmd, int out_fd)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_util.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:22:19 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/06 14:52:43 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:44:30 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	ft_strrev(char *str)
 {
-	size_t			i;
+	size_t	i;
 	char	tmp;
-	size_t			len;
+	size_t	len;
 
 	if (!str)
 		return ;
@@ -55,10 +55,10 @@ size_t	ft_len16(unsigned long long n)
 
 char	*ft_dec_hexstr(unsigned long n)
 {
-	char		*hex;
-	size_t				i;
-	unsigned long		remainder;
-	unsigned long		quotient;
+	char			*hex;
+	size_t			i;
+	unsigned long	remainder;
+	unsigned long	quotient;
 
 	i = 0;
 	if (!n)

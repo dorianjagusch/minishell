@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 15:47:58 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 14:19:24 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:41:40 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ int	**set_up_pipes(t_command *command, int n_cmd)
 
 void	close_fds(int **fds, int cur, int n_cmd)
 {
-	int	pipe;
+	int				pipe;
+	struct termios	t;
 
 	pipe = 0;
 	while (pipe <= n_cmd)
@@ -106,4 +107,5 @@ void	close_fds(int **fds, int cur, int n_cmd)
 	}
 	if (cur == n_cmd)
 		ft_wait();
+	switch_echoctl(&t, ON);
 }

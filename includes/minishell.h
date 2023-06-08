@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 14:17:43 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:51:35 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ t_env		*find_env(t_env **env, char *variable, int predecessor);
 char		**split_env(char *envp);
 t_env		*new_env(char *key, char *value);
 void		add_env(t_env **env, t_env *new);
-void		sort_env(t_env **env);
-t_env		*copy_env(t_env **env);
 char		**ft_env_to_array(t_env *env);
 char		*find_value(t_env **env, char *key);
 int			replace_env(t_env **env, char *key, char *value);
@@ -92,7 +90,6 @@ void		heredoc_signal(void);
 void		switch_echoctl(struct termios *t, int toggle);
 void		global_signal(int toggle);
 void		child_signal(void);
-void		parent_signal(void);
 
 int			redirect_exe(t_command *command, t_env *env);
 

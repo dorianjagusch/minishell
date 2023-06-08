@@ -113,7 +113,7 @@ int				ft_putnbr_c(int n);
 int				ft_putunbr_c(unsigned int n);
 void			ft_strrev(char *str);
 size_t			ft_len16(unsigned long long n);
-char	*ft_dec_hexstr(unsigned long n);
+char			*ft_dec_hexstr(unsigned long n);
 int				ft_puthex_c(unsigned int n, int c);
 int				ft_putptr_c(unsigned long long ptr);
 int				return_null(void);

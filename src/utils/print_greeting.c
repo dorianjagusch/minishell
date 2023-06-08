@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_greeting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 16:07:15 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 16:44:21 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:56:46 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void	print_geeting1(void)
 	ft_printf_fd(2, "                   I8  8'   ##\n##    I8 dPgg,    ,ggg");
 	ft_printf_fd(2, ",   gg     gg        ,gggg,gg  gg      gg  gg      gg ");
 	ft_printf_fd(2, "  ,gggggg,   ,gggggg,   ,gggggg,  I8 dP    ##\n");
-
 }
 
 static void	print_geeting2(void)
