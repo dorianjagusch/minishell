@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/05/08 14:40:28 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:19:38 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,22 @@ t_env	*new_env(char *key, char *value)
 
 	if (!key)
 		return (NULL);
-	new = malloc(sizeof(t_env));
+	new = ft_calloc(1, sizeof(t_env));
 	if (!new)
 		return (NULL);
 	new->key = ft_strdup(key);
 	if (!new->key)
 		return (NULL);
-	new->value = ft_strdup(value);
-	if (!new)
-		return (NULL);
+	if (value)
+	{
+		new->value = ft_strdup(value);
+		if (!new->value)
+		{
+			free(&new);
+			return (NULL);
+		}
+		new->print = 1;
+	}
 	new->next = NULL;
 	return (new);
 }
@@ -37,7 +44,10 @@ void	add_env(t_env **env, t_env *new)
 
 	tmp = *env;
 	if (*env == NULL)
+	{
 		*env = new;
+		(*env)->next = NULL;
+	}
 	else
 	{
 		while (tmp->next != NULL)
@@ -46,47 +56,87 @@ void	add_env(t_env **env, t_env *new)
 	}
 }
 
-static char	**split_env(char *envp)
+char	**get_content(char *envp, char *eq)
 {
 	char	**tmp;
-	char	*hold;
-	char	*eq;
 
-	eq = ft_strchr(envp, '=');
-	*eq = 0;
-	tmp = malloc(sizeof(char *) * 2);
+	tmp = ft_calloc(2, sizeof(char *));
 	if (!tmp)
 		return (NULL);
-	tmp[0] = ft_strdup(envp);
-	tmp[1] = ft_strdup(eq + 1);
-	if (!tmp[0] || !tmp[1])
-		return (NULL);
-	if (tmp && ft_strcmp(tmp[0], "SHLVL") == 0)
+	if (eq)
 	{
-		hold = tmp[1];
-		tmp[1] = ft_itoa(ft_atoi(tmp[1]) + 1);
-		free(hold);
+		tmp[0] = ft_substr(envp, 0, eq - envp);
+		ft_printf("key: %s\t", tmp[0]);
+		if (*(eq + 1))
+		{
+			tmp[1] = ft_strdup(eq + 1);
+			ft_printf("value: %s\n", tmp[1]);
+		}
+		else
+		{
+			tmp[1] = ft_strdup("");
+			ft_printf("value1: %s\n", tmp[1]);
+		}
+	}
+	else
+	{
+		tmp[0] = ft_strdup(envp);
+		tmp[1] = NULL;
+	}
+	if (!tmp[0])
+	{
+		ft_free_array(&tmp, 2);
+		return (NULL);
 	}
 	return (tmp);
 }
 
-void	init_env(char **envp, t_env **env)
+char	**split_env(char *envp)
 {
-	int		i;
+	char	*temp;
+	char	**tmp;
+	int		shell_lvl;
+	char	*eq;
+
+	eq = ft_strchr(envp, '=');
+	tmp = get_content(envp, eq);
+	if (tmp && ft_strcmp(tmp[0], "SHLVL") == 0)
+	{
+		temp = tmp[1];
+		shell_lvl = ft_atoi(tmp[1]) + 1;
+		if (shell_lvl < 0)
+			tmp[1] = ft_itoa(shell_lvl);
+		else
+			tmp[1] = ft_strdup("0");
+		free(temp);
+	}
+	return (tmp);
+}
+
+void	init_env(char *envp[], t_env **env)
+{
 	char	**tmp;
 	t_env	*new;
 
-	i = 0;
-	while (envp[i])
+	while (*envp)
 	{
-		tmp = split_env(envp[i]);
+		tmp = split_env(*envp);
 		if (!tmp)
 			break ;
-		new = new_env(tmp[0], tmp[1]);
-		if (!new)
-			break ;
-		add_env(env, new);
-		i++;
+		if (!ft_strcmp(tmp[0], "OLDPWD"))
+			add_env(env, NULL);
+		else
+		{
+			new = new_env(tmp[0], tmp[1]);
+			if (!new)
+				break ;
+			add_env(env, new);
+		}
 		ft_free_array(&tmp, 2);
+		envp++;
 	}
+	new = new_env("?", "0");
+	if (!new)
+		ft_error(ENOMEM, "");
+	add_env(env, new);
 }

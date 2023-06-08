@@ -3,98 +3,113 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/05/04 17:28:04 by djagusch         ###   ########.fr       */
+/*   Created: 2023/04/01 11:31:11 by asarikha          #+#    #+#             */
+/*   Updated: 2023/06/08 15:50:02 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	int	run_line(char *line, t_env **env)
+static void	run_line(char *line, t_env **env)
 {
-	t_token		*tokens;
-	t_command	*commands;
-
-	tokens = (t_token *)ft_calloc(sizeof(t_token), 1);
-	if (!tokens)
-		return (EXIT_FAILURE);
-	if (!init_lexer(line, &tokens))
+	g_info.tokens = NULL;
+	if (init_lexer(line, &g_info.tokens) == EXIT_FAILURE)
+		g_info.exit_value = ENOMEM;
+	if (g_info.exit_value == ENOMEM
+		|| retokenize(&g_info.tokens, env) == EXIT_FAILURE)
+		g_info.exit_value = ENOMEM;
+	if (g_info.exit_value == 0)
 	{
-		free_tokens(&tokens);
-		return (EXIT_FAILURE);
+		g_info.commands = init_command(g_info.tokens, 0);
+		redirect_exe(g_info.commands, *env);
 	}
-	if (!retokenize(&tokens, env))
-	{
-		free_tokens(&tokens);
-		return (EXIT_FAILURE);
-	}
-	commands = init_command(tokens); //maybe free tokens inside
-	print_parser(&commands);
-	free_tokens(&tokens);
-	//redirect(commands);
-	//executer(env, commands);
-	return (0); //added because og compaint
+	ft_clear_everything(&g_info);
+	if (g_info.exit_value == ENOMEM)
+		exit(1);
 }
 
-void	sigint_handler(int signo)
+static	int	handle_exit(char *line, t_env **env)
 {
-	if (signo)
-		ft_printf("\n\e[34m""MiniShell$>""\x1b[m");
+	size_t		i;
+	char		str[5];
+
+	i = 0;
+	ft_strlcpy(str, "exit", 5);
+	if (!line)
+	{
+		free_env(&g_info.env);
+		ft_printf_fd(2, "\e[38;2;255;105;180mSashay away 💃\x1b[m \n");
+		exit(0);
+	}
+	while (line[i] == str[i] && line[i] != '\0' && str[i] != '\0' && i < 4)
+		i++;
+	if (i == 4 && line[i] != '\0')
+		return (handle_exit_arg(line, i, env));
+	free(line);
+	free_env(&g_info.env);
+	ft_printf_fd(2, "\e[38;2;255;105;180mSashay away 💃\x1b[m \n");
+	exit(0);
+	return (0);
 }
 
-static	int	init_shell(t_env **env)
+void	switch_echoctl(struct termios *t, int toggle)
 {
-	char				*line;
-	int					exit_value;
-	struct sigaction	s;
+	tcgetattr(STDIN_FILENO, t);
+	if (toggle == OFF)
+	{
+		t->c_lflag &= ~(ECHOCTL);
+		if (tcsetattr(STDIN_FILENO, TCSANOW, t) == -1)
+			ft_putstr_fd("error in tcsetattr()\n", 2);
+	}
+	if (toggle == ON)
+	{
+		t->c_lflag |= ECHOCTL;
+		if (tcsetattr(STDIN_FILENO, TCSANOW, t) == -1)
+			ft_putstr_fd("error in tcsetattr()\n", 2);
+	}
+}
 
-	s.sa_handler = sigint_handler;
-	sigemptyset(&s.sa_mask);
-	s.sa_flags = SA_RESTART;
+static void	init_shell(t_env **env)
+{
+	struct termios	t;
+
 	while (1)
 	{
-		sigaction(SIGINT, &s, NULL);
-		line = readline("\e[34m""MiniShell$>""\x1b[m");
-		if (!line) // CTRL D
+		switch_echoctl(&t, OFF);
+		global_signal(ON);
+		g_info.line = readline(NAME);
+		if ((!g_info.line || ft_strncmp(g_info.line, "exit", 4) == 0)
+			&& (handle_exit(g_info.line, env) == 1))
 		{
-			write(2, "exit\n", 5);
-			exit(1);
+			add_history(g_info.line);
+			continue ;
 		}
-		if (ft_strlen(line) > 0)
+		switch_echoctl(&t, ON);
+		if (ft_strlen(g_info.line) > 0)
 		{
-			if (ft_strcmp(line, "exit") == 0)
-			{
-				write(2, "exit\n", 5);
-				exit_value = 0;
-				exit(0);
-			}
-			//add_history(line);
-			exit_value = run_line(line, env);
-			//if (exit_value == EXIT_FAILURE)
-				//inform the user that malloc failed?;
+			if (g_info.line && *g_info.line)
+				add_history(g_info.line);
+			if (syntax_check(g_info.line))
+				run_line(g_info.line, env);
+			else if (g_info.exit_value == SYN_ERR)
+				free(g_info.line);
 		}
-		printf("%s\n",line);
-		free(line);
+		set_exit_value(env);
 	}
-	return (exit_value);
 }
-
 
 int	main(int argc, char **argv, char **envp)
 {
-	int		exit_value;
-	t_env	*env;
-
+	ft_bzero(&g_info, sizeof(t_info));
 	(void)argv;
 	if (argc > 1)
 		return (-1);
-	init_env(envp, &env); //copy envp
-	//add a level to shell
-	//syntax check
-	exit_value = init_shell(&env);
-	//terminate: free, clear history
-	//for the purpose of checking for leaks : system("leaks -q minishell");
-	return (exit_value);
+	print_greeting();
+	init_env(envp, &g_info.env);
+	if (!g_info.env)
+		return (1);
+	init_shell(&g_info.env);
+	return (0);
 }

@@ -13,40 +13,66 @@
 #include "minishell.h"
 #include "ft_error.h"
 
-static void	check_file(t_command *command, int token_type)
+static int	check_file(t_command *command, int token_type, BOOL heredoc)
 {
 	char	*file;
 	int		file_type;
 
 	file_type = 0;
-	if (token_type == GREATER_GREATER || token_type == GREATER_THAN)
+	if (token_type == less_less || token_type == less_than)
 		file = command->infile;
 	else
 	{
 		file_type++;
 		file = command->outfile;
 	}
-	if (access(file, F_OK))
-		ft_error(NOFILE, file);
-	else if (command->fds[file_type] < 0 && access(file, F_OK) == 0)
-		ft_error(NOACCESS, file);
+	if (!heredoc && file && access(file, F_OK))
+	{
+		ft_error(ENOENT, file);
+		return (-1);
+	}
+	else if (!heredoc && file && command->fds[file_type] < 0
+		&& access(file, F_OK) == 0)
+	{
+		ft_error(EACCES, file);
+		return (-1);
+	}
+	return (command->fds[file_type]);
+}
+
+static void	close_unused_fd(t_command *command, t_token *token)
+{
+	if ((token->token_type == less_than || token->token_type == less_less)
+		&& command->fds[0])
+		close(command->fds[0]);
+	if ((token->token_type == greater_than || token->token_type == greater_than)
+		&& command->fds[1])
+		close(command->fds[1]);
 }
 
 t_token	*get_fds(t_command *command, t_token *token)
 {
-	if (command->infile
-		&& (token->token_type == GREATER_GREATER
-			|| token->token_type == GREATER_THAN))
-		command->fds[0] = open(command->infile, O_RDONLY | O_CLOEXEC);
-	else
-		command->fds[0] = -1;
-	if (command->outfile)
+	int	heredoc;
+
+	heredoc = 0;
+	close_unused_fd(command, token);
+	if (token->token_type == less_than && command->fds[0] >= 0)
+		command->fds[0] = open(command->infile, O_RDONLY);
+	else if (token->token_type == less_less && command->fds[0] >= 0)
+	{
+		command->fds[0] = here_doc(token->next->content);
+		heredoc = 1;
+	}
+	else if (token->token_type == greater_than && command->fds[1] >= 0)
 	{
 		command->fds[1] = open(command->outfile,
-				O_RDWR | O_CREAT | O_TRUNC | O_CLOEXEC, 0644);
+				O_RDWR | O_CREAT | O_TRUNC, 0644);
 	}
-	else
-		command->fds[1] = -1;
-	check_file(command, token->token_type);
-	return (token->next);
+	else if (command->fds[1] >= 0)
+	{
+		command->fds[1] = open(command->outfile,
+				O_RDWR | O_CREAT | O_APPEND, 0644);
+	}
+	command->success = check_file(command, token->token_type, heredoc);
+	return (token);
 }

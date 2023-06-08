@@ -6,21 +6,21 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:22 by djagusch          #+#    #+#             */
-/*   Updated: 2023/04/28 18:01:20 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:42:17 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_unset(t_env **env, t_command *cmd)
+int	ft_unset(t_env **env, t_command *cmd, int out_fd)
 {
 	t_env	*remove;
 	size_t	elements;
 	size_t	i;
 
-	if (!env || !*env)
+	if (!env || !*env || out_fd < 0)
 		return (EXIT_FAILURE);
-	i = 0;
+	i = 1;
 	elements = ft_count_elements(cmd->params);
 	while (i < elements && elements > 1)
 	{
@@ -30,6 +30,8 @@ int	ft_unset(t_env **env, t_command *cmd)
 			ft_free(remove->value);
 			remove->value = ft_calloc(1, sizeof(char));
 		}
+		remove->print = 0;
+		i++;
 	}
 	return (0);
 }

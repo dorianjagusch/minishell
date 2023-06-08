@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_hex.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:24:34 by djagusch          #+#    #+#             */
-/*   Updated: 2022/11/15 13:24:35 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:43:32 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_puthex_c(unsigned int n, int c)
 {
-	char	*hex;
-	int		length;
+	char		*hex;
+	int			length;
 
 	if (n == 0)
 		return (ft_putchar_c('0'));
@@ -23,7 +23,7 @@ int	ft_puthex_c(unsigned int n, int c)
 	if (!hex)
 		return (return_null());
 	if ('a' <= c && c <= 'z')
-		ft_strlower(hex);
+		ft_strlower((char *)hex);
 	length = ft_putstr_c(hex);
 	free(hex);
 	return (length);

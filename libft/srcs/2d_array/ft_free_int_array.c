@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_free_int_array.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 14:37:54 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/08 15:17:14 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/25 15:38:50 by djagusch          #+#    #+#             */
+/*   Updated: 2023/06/08 12:50:57 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	close_fds(t_command *head, int *(fds[2]), int cur, int n_cmd)
+void	ft_free_int_array(int ***array, size_t n_elems)
 {
-	size_t	pipe;
+	size_t	i;
 
-	pipe = 0;
-	while (pipe <= n_cmd)
+	i = 0;
+	while (i < n_elems)
 	{
-		if (pipe != cur && pipe != n_cmd)
-			close(fds[pipe][0]);
-		if (pipe != cur + 1 && pipe != 0)
-			close(fds[pipe][1]);
-		pipe++;
+		if ((*array)[i++])
+			ft_free((*array)[i]);
 	}
+	ft_free(*array);
+	*array = NULL;
+	array = NULL;
 }
-

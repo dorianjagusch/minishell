@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_pointer.c                                :+:      :+:    :+:   */
+/*   syntax.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 13:27:30 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 15:43:47 by asarikha         ###   ########.fr       */
+/*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
+/*   Updated: 2023/06/06 11:06:04 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef SYNTAX_H
+# define SYNTAX_H
 
-int	ft_putptr_c(unsigned long long ptr)
-{
-	char	*hex_add;
-	int		length;
+# include "lexer.h"
 
-	ft_putstr("0x");
-	if (!ptr)
-		return (ft_putchar_c('0') + 2);
-	hex_add = ft_dec_hexstr(ptr);
-	if (!hex_add)
-		return (return_null());
-	ft_strlower(hex_add);
-	length = ft_putstr_c(hex_add);
-	free(hex_add);
-	return (length + 2);
-}
+int		skip_quoted_text(char *line);
+int		skip_pipe(char *line, int i);
+int		skip_redir(char *line);
+BOOL	check_first(char *line);
+BOOL	check_last(char *line);
+void	print_synt_error(char c);
+
+#endif

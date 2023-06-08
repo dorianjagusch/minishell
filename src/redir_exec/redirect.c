@@ -1,84 +1,111 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 14:26:33 by djagusch          #+#    #+#             */
-/*   Updated: 2023/02/10 13:34:32 by djagusch         ###   ########.fr       */
+/*   Created: 2023/05/25 15:47:58 by djagusch          #+#    #+#             */
+/*   Updated: 2023/06/08 15:41:40 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "redirect.h"
 
-static void	set_up_pipes(t_command *command, int *pipes)
+static void	enter_file_fds(t_command *command, int **pipes, int i)
+{
+	if (command->infile && (pipes[i][0] != 0 || i == 0))
+	{
+		if (i != 0)
+			close(pipes[i][0]);
+		if (command->fds[0] < 0)
+			command->success = -1;
+		pipes[i][0] = command->fds[0];
+	}
+	if (command->outfile && (pipes[i + 1][1] != 0 || i == g_info.n_cmd - 1))
+	{
+		if (i != g_info.n_cmd - 1)
+			close(pipes[i + 1][1]);
+		if (command->fds[1] < 0)
+			command->success = -1;
+		pipes[i + 1][1] = command->fds[1];
+	}
+	else if (pipes[i + 1][1] == 0)
+		pipes[i + 1][1] = 1;
+}
+
+static void	set_pipes(int **pipes, int n_cmd)
 {
 	int	i;
 
 	i = 1;
-	while (i < pipes)
+	while (i < n_cmd)
 	{
-		if (pipe(pipes) < 0)
+		if (pipe(pipes[i]) < 0)
 			ft_error(EPIPE, "");
 		i++;
 	}
 }
 
-static void	ft_wait(t_command *cmds, int *pids)
+static int	**create_int_matrix(size_t n_elements, size_t n_entries)
 {
-	int			status;
-	int			i;
+	int		**fds;
+	size_t	i;
 
-	status = 0;
+	fds = ft_calloc(n_elements, sizeof(int *));
+	if (!fds)
+		return (NULL);
 	i = 0;
-	while (wait(&status) > 0)
-		;
-	if (status > 0)
+	while (i < n_elements)
 	{
-		free_cmds(&cmds, &pids);
-		ft_error(0, "");
+		fds[i] = ft_calloc(n_entries, sizeof(int));
+		if (!fds)
+		{
+			ft_free_int_array(&fds, i);
+			return (NULL);
+		}
+		i++;
 	}
-	return ;
+	return (fds);
 }
 
-static char	**set_up_exe(t_command *command, t_env *env, size_t *n_cmds)
+int	**set_up_pipes(t_command *command, int n_cmd)
 {
-	char	**env_arr;
+	int	i;
+	int	**pipes;
 
-	*n_cmds = count_commands(command);
-	set_up_pipes(command, *n_cmds);
-	get_exe_path(command, env);
-	env_arr = ft_env_to_array(env);
-}
-
-//set_up_pipes is not taking the array yet. Need to work out how to let the already open files go in there.
-// Also need to remember to close the files that were opened and then closed in parser.c
-
-int	redirect_exe(t_command *command, t_env *env)
-{
-	size_t	n_cmds;
-	pid_t	*pids;
-	char	**env_arr;
-	int		*fds[2];
-	int		i;
-
-	n_cmds = 0;
-	env_arr = set_up_exe(command, env, &n_cmds);
-	pids = ft_calloc(n_cmds, sizeof(int));
 	i = 0;
-	while (i < n_cmds)
+	if (!command)
+		return (NULL);
+	pipes = create_int_matrix(n_cmd + 1, 2);
+	if (!pipes)
+		return (NULL);
+	set_pipes(pipes, n_cmd);
+	while (i < n_cmd)
 	{
-		pids[i] = fork();
-		if (pids[i] < 0)
-			ft_error(EPIPE, "");
-		if (pids[i] == 0)
-			do_child(command, i, env);
+		enter_file_fds(command, pipes, i);
 		i++;
 		command = command->next;
 	}
-	close_fds(command, n_cmds);
-	ft_wait(command, pids); //to do
-	free_cmds(&command, &pids);
-	return (0);
+	return (pipes);
+}
+
+void	close_fds(int **fds, int cur, int n_cmd)
+{
+	int				pipe;
+	struct termios	t;
+
+	pipe = 0;
+	while (pipe <= n_cmd)
+	{
+		if (pipe != cur && pipe != n_cmd && fds[pipe][0] > 0)
+			close(fds[pipe][0]);
+		if (pipe != cur + 1 && fds[pipe][1] > 1)
+			close(fds[pipe][1]);
+		pipe++;
+	}
+	if (cur == n_cmd)
+		ft_wait();
+	switch_echoctl(&t, ON);
 }

@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   count_commands.c                                   :+:      :+:    :+:   */
+/*   ft_print_matrix.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/04 18:10:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/05/05 09:18:48 by djagusch         ###   ########.fr       */
+/*   Created: 2023/06/02 15:29:25 by djagusch          #+#    #+#             */
+/*   Updated: 2023/06/08 12:50:51 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-size_t	count_commands(t_command *commands)
+void	ft_print_matrix(int **row_array, size_t row, size_t col)
 {
-	t_command	*tmp;
-	size_t		count;
+	size_t	i;
+	size_t	j;
 
-	tmp = commands;
-	count = 0;
-	while (tmp)
+	i = 0;
+	j = 0;
+	if (!row_array || !*row_array || row <= 0 || col <= 0)
+		return ;
+	while (i < row)
 	{
-		count++;
-		tmp = tmp->next;
+		j = 0;
+		while (j < col)
+			ft_printf("%d ", row_array[i][j++]);
+		ft_printf("\n");
+		i++;
 	}
-	return (count);
 }
