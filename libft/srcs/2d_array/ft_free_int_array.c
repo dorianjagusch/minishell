@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 15:38:50 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 15:32:27 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:50:57 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ void	ft_free_int_array(int ***array, size_t n_elems)
 	i = 0;
 	while (i < n_elems)
 	{
-		if ((*array)[i])
-			free((*array)[i++]);
+		if ((*array)[i++])
+			ft_free((*array)[i]);
 	}
-	free(*array);
+	ft_free(*array);
 	*array = NULL;
+	array = NULL;
 }

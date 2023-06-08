@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:12:53 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/06 14:36:54 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 11:44:25 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static	void	process_hrdc(char	*delim, int fd[2])
 	}
 	close (fd[1]);
 	close (fd[0]);
-	ft_clear_everything(g_info);
 }
 
 int	here_doc(char	*delim)

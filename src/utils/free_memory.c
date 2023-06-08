@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/07 15:37:29 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:43:30 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,27 +63,24 @@ void	free_env(t_env **env)
 		free(tmp->key);
 	if (tmp->value)
 		free(tmp->value);
-	free(*env);
 	*env = NULL;
 }
 
-void	ft_clear_everything(t_info g_info)
+void	ft_clear_everything(t_info *g_info)
 {
-	if (g_info.tokens)
-		free_tokens(&g_info.tokens);
-	g_info.tokens = NULL;
-	if (g_info.commands)
-		free_command(&g_info.commands);
-	g_info.commands = NULL;
-	if (g_info.line)
-		free(g_info.line);
-	g_info.line = NULL;
-	ft_printf("about to free fds %p\n", g_info.fds);
-	if (g_info.fds)
-		ft_free_int_array(&g_info.fds, g_info.n_cmd + 1);
-	g_info.fds = NULL;
-	ft_printf("feed pids %p\n", g_info.pids);
-	if (g_info.pids)
-		free(g_info.pids);
-	g_info.pids = NULL;
+	if ((*g_info).tokens)
+		free_tokens(&((*g_info).tokens));
+	(*g_info).tokens = NULL;
+	if ((*g_info).commands)
+		free_command(&((*g_info).commands));
+	(*g_info).commands = NULL;
+	if ((*g_info).line)
+		free((*g_info).line);
+	(*g_info).line = NULL;
+	if ((*g_info).fds)
+		ft_free_int_array(&((*g_info).fds), (*g_info).n_cmd);
+	(*g_info).fds = NULL;
+	if ((*g_info).pids)
+		free((*g_info).pids);
+	(*g_info).pids = NULL;
 }

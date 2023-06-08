@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:56:51 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 09:08:50 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:47:22 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ int	extract_command(t_token *token, t_command *command, int id)
 	params_flag = 0;
 	while (tmp)
 	{
-		if (handle_strings(command, tmp, &params_flag, id) < 0)
-			return (-1);
+		handle_strings(command, tmp, &params_flag, id);
 		if (tmp->token_type == pipe_sym)
 		{
 			command->next = init_command(tmp->next, id);

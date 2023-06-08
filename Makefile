@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/06/07 15:16:31 by djagusch         ###   ########.fr        #
+#    Updated: 2023/06/08 13:59:42 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,18 +55,19 @@ FILES = main \
 	parser_print \
 	token_print \
 	exe_child \
-	execute \
 	find_command \
 	redirect \
-	pipes \
+	execute \
 	syntax_check \
 	syntax_utils \
 	check_utils \
-	here_doc	\
+	here_doc \
 	signals \
 	exit_utils \
 	print_greeting \
-	child_signal
+	child_signal \
+	ft_export_print_utils
+
 
 HEADER = minishell.h libft.h parser.h lexer.h ft_error.h syntax.h
 HEADER := $(addprefix $I/,$(HEADER))

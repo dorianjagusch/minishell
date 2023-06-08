@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 12:55:42 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 09:06:29 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 12:46:59 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	get_params(t_token *token, t_command *command)
 	}
 }
 
-int	handle_strings(t_command *command, t_token *token, int *params_flag,
+void	handle_strings(t_command *command, t_token *token, int *params_flag,
 	int id)
 {
 	if ((token->token_type == string || token->token_type == command_type)
@@ -87,5 +87,4 @@ int	handle_strings(t_command *command, t_token *token, int *params_flag,
 		if (!command->command)
 			ft_error(ENOMEM, "");
 	}
-	return (0);
 }

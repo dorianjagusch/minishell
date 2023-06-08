@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:49:46 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 14:31:57 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:23:26 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_env
 {
 	char			*key;
 	char			*value;
+	int				print;
 	struct s_env	*next;
 }				t_env;
 
