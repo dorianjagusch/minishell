@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 14:56:30 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:07:36 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void		heredoc_signal(void);
 void		switch_echoctl(struct termios *t, int toggle);
 void		global_signal(int toggle);
 void		child_signal(void);
+void		parent_signal(void);
 
 int			redirect_exe(t_command *command, t_env *env);
 

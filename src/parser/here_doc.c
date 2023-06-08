@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:12:53 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/06 14:36:54 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:04:27 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static	void	process_hrdc(char	*delim, int fd[2])
 
 	while (1)
 	{
-		global_signal(OFF);
 		heredoc_signal();
+		global_signal(OFF);
 		line = readline("> ");
 		if (!line)
 			exit(0);

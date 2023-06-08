@@ -16,23 +16,21 @@
 void	ft_wait(void)
 {
 	int				status;
-	struct termios	t;
 
 	status = 0;
 	if (g_info.exit_value == 0)
 	{
 		while (wait(&status) > 0)
 			;
-		if (status == CTRL_EXIT || status == BSLASH_EXIT)
-			g_info.exit_value = status;
-		if (status > 0 && !g_info.exit_value)
+		ft_printf("\n\n%d\n\n",status);
+		if (status == NOCMMD && !g_info.exit_value)
 			g_info.exit_value = NOCMMD;
-		else if (status < 0 && !g_info.exit_value)
+		else if (status > 0 && !g_info.exit_value)
 			g_info.exit_value = WEXITSTATUS(status);
+		ft_printf("\n\n%d\n\n",g_info.exit_value);
 		while (wait(&status) > 0)
 			;
 		global_signal(ON);
-		switch_echoctl(&t, ON);
 	}
 	return ;
 }
@@ -61,8 +59,9 @@ static int	**set_up_exe(t_command *command, t_env *env)
 
 int	redirect_exe(t_command *command, t_env *env)
 {
-	t_command	*tmp;	
-	int			i;
+	t_command		*tmp;	
+	int				i;
+	struct termios	t;
 
 	if (!command || !env)
 		return (-1);
@@ -70,6 +69,8 @@ int	redirect_exe(t_command *command, t_env *env)
 	g_info.pids = ft_calloc(g_info.n_cmd, sizeof(int));
 	i = -1;
 	tmp = command;
+	switch_echoctl(&t, OFF);
+	parent_signal();
 	while (++i < g_info.n_cmd)
 	{
 		//	scan_fds(tmp);
@@ -84,5 +85,6 @@ int	redirect_exe(t_command *command, t_env *env)
 		tmp = tmp->next;
 	}
 	close_fds(g_info.fds, g_info.n_cmd, g_info.n_cmd);
+	switch_echoctl(&t, ON);
 	return (0);
 }

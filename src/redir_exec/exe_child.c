@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 14:59:27 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:42:31 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ void	exe_child(t_command *command, int **fds, int cur, t_env *env)
 {
 	char			**env_arr;
 	t_command		*tmp;
-	struct termios	t;
 
-	global_signal(OFF);
-	switch_echoctl(&t, OFF);
 	child_signal();
 	close_fds(fds, cur, g_info.n_cmd);
 	dup_fds(fds, cur);
@@ -72,5 +69,5 @@ void	exe_child(t_command *command, int **fds, int cur, t_env *env)
 	env_arr = ft_env_to_array(env);
 	execve(tmp->command, tmp->params, env_arr);
 	ft_error(NOCMMD, tmp->command);
-	exit (1);
+	exit (NOCMMD);
 }
