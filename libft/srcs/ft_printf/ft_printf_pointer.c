@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_pointer.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:27:30 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/06 14:52:34 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:43:47 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_putptr_c(unsigned long long ptr)
 {
 	char	*hex_add;
-	int				length;
+	int		length;
 
 	ft_putstr("0x");
 	if (!ptr)

@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:12:53 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 14:17:05 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:54:53 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ static void	write_to_pipe(char *line, int *fd)
 
 static	void	process_hrdc(char	*delim, int fd[2])
 {
-	char		*line;
+	char			*line;
+	struct termios	t;
 
 	while (1)
 	{
+		switch_echoctl(&t, OFF);
 		heredoc_signal();
-		global_signal(OFF);
 		line = readline("> ");
 		if (!line)
 			exit(0);
@@ -47,14 +48,14 @@ static	void	process_hrdc(char	*delim, int fd[2])
 
 int	here_doc(char	*delim)
 {
-	struct termios	t;
 	int				ret;
 	int				fd[2];
 	int				pid;
+	struct termios	t;
 
 	if (pipe(fd) < 0)
 		ft_error(EPIPE, "");
-	switch_echoctl(&t, OFF);
+	global_signal(OFF);
 	pid = fork();
 	if (pid < 0)
 		ft_error(EPIPE, "");

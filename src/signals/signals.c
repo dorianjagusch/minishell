@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:14:02 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/08 14:09:27 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:50:05 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ void	global_signal(int toggle)
 	}
 	if (toggle == OFF)
 	{
+		s_act.sa_handler = SIG_IGN;
+		sigemptyset(&s_act.sa_mask);
+		s_act.sa_flags = SA_RESTART;
+		sigaction(SIGINT, &s_act, NULL);
 		sigemptyset(&s_quit.sa_mask);
 		s_quit.sa_handler = SIG_IGN;
 		sigaction(SIGQUIT, &s_quit, NULL);
@@ -56,9 +60,12 @@ static	void	heredoc_handler(int sig)
 void	heredoc_signal(void)
 {
 	struct sigaction	s_act;
+	struct sigaction	s_quit;
 
 	s_act.sa_handler = heredoc_handler;
 	sigemptyset(&s_act.sa_mask);
+	s_quit.sa_handler = SIG_IGN;
 	sigaction(SIGINT, &s_act, NULL);
 	sigaction(SIGTSTP, &s_act, NULL);
+	sigaction(SIGQUIT, &s_quit, NULL);
 }
