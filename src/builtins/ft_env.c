@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:13 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 14:44:58 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 13:24:05 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_env(t_env **env, t_command *cmd, int out_fd)
 	cmd = NULL;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->key, "?") && tmp->value)
+		if (ft_strcmp(tmp->key, "?") && tmp->value && tmp->print)
 			ft_printf_fd(out_fd, "%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}

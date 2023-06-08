@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:12:53 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 14:04:27 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:17:05 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static	void	process_hrdc(char	*delim, int fd[2])
 	}
 	close (fd[1]);
 	close (fd[0]);
-	ft_clear_everything(g_info);
 }
 
 int	here_doc(char	*delim)

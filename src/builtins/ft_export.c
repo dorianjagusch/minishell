@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 15:09:06 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:07:57 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ static int	print_export(t_env **env, t_command *cmd, int out_fd)
 	tmp = *env;
 	while (tmp)
 	{
-		if (tmp->key[0] != '?')
+		if (tmp->key[0] != '?' && tmp->print)
 		{
 			ft_printf_fd(out_fd, "declare -x %s", tmp->key);
-			if (tmp->value)
+			if (tmp->value && tmp->value[0])
 				ft_printf_fd(out_fd, "=\"%s\"", tmp->value);
+			if (tmp->value && !tmp->value[0])
+				ft_printf_fd(out_fd, "=\"\"", tmp->value);
 			ft_printf_fd(2, "\n");
 		}
 		tmp = tmp->next;

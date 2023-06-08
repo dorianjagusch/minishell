@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 14:07:36 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:17:43 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,13 @@ t_info		g_info;
 
 void		rl_replace_line(const char *text, int clear_undo);
 void		print_greeting(void);
-void		print_greeting_2(void);
 void		init_env(char *envp[], t_env **env);
 t_env		*find_env(t_env **env, char *variable, int predecessor);
 char		**split_env(char *envp);
 t_env		*new_env(char *key, char *value);
 void		add_env(t_env **env, t_env *new);
+void		sort_env(t_env **env);
+t_env		*copy_env(t_env **env);
 char		**ft_env_to_array(t_env *env);
 char		*find_value(t_env **env, char *key);
 int			replace_env(t_env **env, char *key, char *value);
@@ -79,7 +80,7 @@ BOOL		syntax_check(char *line);
 int			handle_exit_arg(char *line, size_t i, t_env **env);
 
 //free
-void		ft_clear_everything(t_info g_info);
+void		ft_clear_everything(t_info *g_info);
 void		free_tokens(t_token **tokens);
 void		free_env(t_env **env);
 

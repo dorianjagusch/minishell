@@ -6,7 +6,7 @@
 /*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 13:42:31 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:17:26 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static int	dup_fds(int **fds, int current)
 {
-	if (fds[current][0] != 0)
+	if (fds[current][0] > 0)
 	{
 		if (dup2(fds[current][0], STDIN_FILENO) < 0)
 		{
@@ -24,7 +24,7 @@ static int	dup_fds(int **fds, int current)
 			return (EPIPE);
 		}
 	}
-	if (fds[current + 1][1] != 1)
+	if (fds[current + 1][1] > 1)
 	{
 		if (dup2(fds[current + 1][1], STDOUT_FILENO) < 0)
 		{
