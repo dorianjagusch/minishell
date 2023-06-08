@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/08 13:43:30 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:28:11 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ void	free_env(t_env **env)
 	if (!env || !*env)
 		return ;
 	tmp = *env;
-	while (tmp->next != NULL)
+	while (tmp && tmp->next)
 		free_env(&(tmp->next));
-	if (tmp->key)
+	if (tmp && tmp->key)
 		free(tmp->key);
-	if (tmp->value)
+	if (tmp && tmp->value)
 		free(tmp->value);
 	*env = NULL;
 }
