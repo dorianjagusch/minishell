@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:22 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/09 09:40:59 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:54:32 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,23 @@ int	ft_unset(t_env **env, t_command *cmd, int out_fd)
 
 	if (!env || !*env || out_fd < 0)
 		return (EXIT_FAILURE);
-	i = 1;
+	i = 0;
 	elements = ft_count_elements(cmd->params);
-	while (i < elements && elements > 1)
+	while (++i < elements && elements > 1)
 	{
+		if (valid_env(cmd->params[i]) < 0)
+		{
+			ft_error(ARGERR2, cmd->params[i]);
+			return (1);
+		}
 		remove = find_env(env, cmd->params[i], 0);
 		if (remove)
 		{
 			if (remove->value)
 				ft_free(remove->value);
 			remove->value = NULL;
+			remove->print = 0;
 		}
-		remove->print = 0;
-		i++;
 	}
 	return (0);
 }

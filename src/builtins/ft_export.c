@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/09 15:25:06 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:41:53 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	print_export(t_env **env, t_command *cmd, int out_fd)
 	return (EXIT_SUCCESS);
 }
 
-static int	valid_env(char *arg)
+int	valid_env(char *arg)
 {
 	int	i;
 	int	eq_pos;
@@ -53,6 +53,22 @@ static int	valid_env(char *arg)
 	if (i == eq_pos)
 		return (i);
 	return (-1);
+}
+
+int	replace_value(t_env *env, char *value)
+{
+	if (value)
+	{
+		if (env->value)
+			free(env->value);
+		env->value = ft_strdup(value);
+		if (!env->value && value)
+		{
+			ft_clear_everything(&g_info);
+			return (1);
+		}
+	}
+	return (0);
 }
 
 int	replace_env(t_env **env, char *key, char *value)
@@ -71,15 +87,8 @@ int	replace_env(t_env **env, char *key, char *value)
 		add_env(env, tmp);
 	}
 	else
-	{
-		if (tmp->value && value)
-		{
-			free(tmp->value);
-			tmp->value = ft_strdup(value);
-			if (!tmp->value && value)
-				return (ft_clear_everything(&g_info), 1);
-		}
-	}
+		if (replace_value(tmp, value))
+			return (1);
 	tmp->print = 1;
 	return (0);
 }

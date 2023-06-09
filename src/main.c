@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/09 14:46:22 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:15:00 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static void	init_shell(t_env **env)
 		{
 			add_history(g_info.line);
 			set_exit_value(env);
+			free(g_info.line);
 			continue ;
 		}
 		switch_echoctl(&t, ON);

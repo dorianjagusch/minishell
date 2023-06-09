@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/09 12:43:03 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/09 15:42:02 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ t_env		*find_env(t_env **env, char *variable, int predecessor);
 char		**split_env(char *envp, int init);
 t_env		*new_env(char *key, char *value);
 void		add_env(t_env **env, t_env *new);
+int			valid_env(char *arg);
 char		**ft_env_to_array(t_env *env);
 char		*find_value(t_env **env, char *key);
 int			replace_env(t_env **env, char *key, char *value);
