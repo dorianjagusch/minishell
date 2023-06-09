@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 14:51:35 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/09 09:04:19 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include "syntax.h"
 # include "redirect.h"
 # include "lexer.h"
-# include "ft_error.h"
 # include "parser.h"
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -63,7 +62,7 @@ void		rl_replace_line(const char *text, int clear_undo);
 void		print_greeting(void);
 void		init_env(char *envp[], t_env **env);
 t_env		*find_env(t_env **env, char *variable, int predecessor);
-char		**split_env(char *envp);
+char		**split_env(char *envp, int init);
 t_env		*new_env(char *key, char *value);
 void		add_env(t_env **env, t_env *new);
 char		**ft_env_to_array(t_env *env);

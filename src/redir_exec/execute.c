@@ -67,7 +67,7 @@ int	redirect_exe(t_command *command, t_env *env)
 	global_signal(OFF);
 	while (++i < g_info.n_cmd)
 	{
-		if (command->success >= 0
+		if (tmp->success >= 0
 			&& exec_builtin(&env, tmp, g_info.fds[i + 1][1]) < 0)
 		{
 			g_info.pids[i] = fork();

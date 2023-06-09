@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:17 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 16:20:43 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/09 09:48:17 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	print_export(t_env **env, t_command *cmd, int out_fd)
 	return (EXIT_SUCCESS);
 }
 
-static int	invalid_env(char *arg)
+static int	valid_env(char *arg)
 {
 	int	i;
 	int	eq_pos;
@@ -50,7 +50,9 @@ static int	invalid_env(char *arg)
 		eq_pos++;
 	while (i < eq_pos && (ft_isalnum(arg[i]) || arg[i] == '_'))
 		i++;
-	return (i);
+	if (i == eq_pos)
+		return (i);
+	return (0);
 }
 
 int	replace_env(t_env **env, char *key, char *value)
@@ -70,13 +72,15 @@ int	replace_env(t_env **env, char *key, char *value)
 	}
 	else
 	{
-		if (value)
+		if (tmp->value && value)
 		{
-			if (tmp->value)
-				free(tmp->value);
-			tmp->value = value;
+			free(tmp->value);
+			tmp->value = ft_strdup(value);
+			if (!tmp->value && value)
+				return (ft_clear_everything(&g_info), 1);
 		}
 	}
+	tmp->print = 1;
 	return (0);
 }
 
@@ -84,7 +88,6 @@ int	ft_export(t_env **env, t_command *cmd, int out_fd)
 {
 	size_t	i;
 	size_t	elems;
-	int		eq_pos;
 	char	**env_str;
 	int		ret;
 
@@ -96,12 +99,14 @@ int	ft_export(t_env **env, t_command *cmd, int out_fd)
 		return (print_export(env, cmd, out_fd));
 	while (++i < elems)
 	{
-		eq_pos = invalid_env(cmd->params[i]);
-		env_str = split_env(cmd->params[i]);
-		if (!env_str)
-			return (1);
-		ret = replace_env(env, env_str[0], env_str[1]);
-		ft_free_array(&env_str, 2);
+		if (valid_env(cmd->params[i]))
+		{
+			env_str = split_env(cmd->params[i], 0);
+			if (!env_str)
+				return (1);
+			ret = replace_env(env, env_str[0], env_str[1]);
+			ft_free_array(&env_str, 2);
+		}
 	}
 	return (ret);
 }

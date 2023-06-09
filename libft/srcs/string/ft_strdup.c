@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 18:32:39 by djagusch          #+#    #+#             */
-/*   Updated: 2023/01/13 07:34:31 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/09 08:37:15 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strdup(const char *s1)
 	size_t	i;
 	char	*s2;
 
+	if (!s1)
+		return (NULL);
 	s2 = malloc(sizeof(char) * (ft_strlen(s1) + 1));
 	if (!s2)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:22 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 13:42:17 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/09 09:40:59 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int	ft_unset(t_env **env, t_command *cmd, int out_fd)
 		remove = find_env(env, cmd->params[i], 0);
 		if (remove)
 		{
-			ft_free(remove->value);
-			remove->value = ft_calloc(1, sizeof(char));
+			if (remove->value)
+				ft_free(remove->value);
+			remove->value = NULL;
 		}
 		remove->print = 0;
 		i++;

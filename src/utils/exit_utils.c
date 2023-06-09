@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 14:13:43 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/07 14:02:01 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/09 09:43:24 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	set_exit_value(t_env **env)
 		exit(1);
 	}
 	replace_env(env, "?", exit_str);
+	free(exit_str);
 	g_info.exit_value = 0;
 }
 
