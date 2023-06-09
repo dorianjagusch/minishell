@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:05 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 15:50:20 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:23:27 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,15 @@ void	manage_wd_vars(t_env **env, t_env *pwd, t_env *oldpwd, char *cur_dir)
 	{
 		if (oldpwd->value)
 			free(oldpwd->value);
-		oldpwd->value = ft_strdup(cur_dir);
+		if (pwd->value)
+			oldpwd->value = pwd->value;
+		else
+			oldpwd->value = ft_strdup("");
 	}
 	else
-		add_env(env, new_env("OLDPWD", cur_dir));
+		add_env(env, new_env("OLDPWD", pwd->value));
 	if (pwd)
-	{
-		if (pwd->value)
-			free(pwd->value);
 		pwd->value = ft_strdup(getcwd(cur_dir, PATH_MAX));
-	}
 }
 
 int	ft_cd(t_env **env, t_command *cmd, int out_fd)

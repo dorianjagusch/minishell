@@ -60,7 +60,8 @@ t_token	*get_fds(t_command *command, t_token *token)
 		command->fds[0] = open(command->infile, O_RDONLY);
 	else if (token->token_type == less_less && command->fds[0] >= 0)
 	{
-		command->fds[0] = here_doc(token->next->content);
+		if (g_info.exit_value != SIGINT)
+			command->fds[0] = here_doc(token->next->content);
 		heredoc = 1;
 	}
 	else if (token->token_type == greater_than && command->fds[1] >= 0)
