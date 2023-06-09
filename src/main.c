@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/09 09:44:09 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:22:02 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,6 @@ static void	run_line(char *line, t_env **env)
 		exit(1);
 }
 
-static	int	handle_exit(char *line, t_env **env)
-{
-	size_t		i;
-	char		str[5];
-
-	i = 0;
-	ft_strlcpy(str, "exit", 5);
-	if (!line)
-	{
-		free_env(&g_info.env);
-		ft_printf_fd(2, "\e[38;2;255;105;180mSashay away 💃\x1b[m \n");
-		exit(0);
-	}
-	while (line[i] == str[i] && line[i] != '\0' && str[i] != '\0' && i < 4)
-		i++;
-	if (i == 4 && line[i] != '\0')
-		return (handle_exit_arg(line, i, env));
-	free(line);
-	free_env(&g_info.env);
-	ft_printf_fd(2, "\e[38;2;255;105;180mSashay away 💃\x1b[m \n");
-	exit(0);
-	return (0);
-}
-
 void	switch_echoctl(struct termios *t, int toggle)
 {
 	tcgetattr(STDIN_FILENO, t);
@@ -71,6 +47,19 @@ void	switch_echoctl(struct termios *t, int toggle)
 	}
 }
 
+static void	init_run(t_env **env)
+{
+	int	empty_line;
+
+	add_history(g_info.line);
+	empty_line = ft_empty_str(g_info.line);
+	if (syntax_check(g_info.line))
+		run_line(g_info.line, env);
+	if (empty_line != 1)
+		set_exit_value(env);
+}
+
+
 static void	init_shell(t_env **env)
 {
 	struct termios	t;
@@ -84,19 +73,14 @@ static void	init_shell(t_env **env)
 			&& (handle_exit(g_info.line, env) == 1))
 		{
 			add_history(g_info.line);
+			set_exit_value(env);
 			continue ;
 		}
 		switch_echoctl(&t, ON);
-		if (ft_strlen(g_info.line) > 0)
-		{
-			if (g_info.line && *g_info.line)
-				add_history(g_info.line);
-			if (syntax_check(g_info.line))
-				run_line(g_info.line, env);
-			else if (g_info.exit_value == SYN_ERR)
-				free(g_info.line);
-		}
-		set_exit_value(env);
+		if (ft_strlen(g_info.line) > 0 && g_info.line[0])
+			init_run(env);
+		if (g_info.line)
+			free(g_info.line);
 	}
 }
 

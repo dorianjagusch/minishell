@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_child.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 15:56:09 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:14:30 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,13 @@ void	exe_child(t_command *command, int **fds, int cur, t_env *env)
 	close_fds(fds, cur, g_info.n_cmd);
 	dup_fds(fds, cur);
 	tmp = get_command(command, cur);
-	if (!tmp->command)
-		ft_error(NOCMMD, "");
+	if (!tmp->command || !tmp->command[0] || !ft_strchr(tmp->command, '/'))
+	{
+		ft_error(NOCMMD, command->command);
+		exit(NOCMMD);
+	}
 	env_arr = ft_env_to_array(env);
 	execve(tmp->command, tmp->params, env_arr);
-	ft_error(NOCMMD, tmp->command);
-	exit (NOCMMD);
+	ft_error(ENOENT, command->command);
+	exit(NOCMMD);
 }

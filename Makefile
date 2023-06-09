@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/06/09 08:54:44 by djagusch         ###   ########.fr        #
+#    Updated: 2023/06/09 09:57:05 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,7 @@ COLOUR_END=\033[0m
 
 ### SET UP ###
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$I \
-#	-Wno-unused-but-set-parameter
-#	Wno-unused-result
-
+CFLAGS = -Wall -Wextra -Werror -I$I
 
 RM = /bin/rm -f
 RMDIR = /bin/rmdir -p
@@ -69,7 +66,7 @@ FILES = main \
 	ft_export_print_utils
 
 
-HEADER = minishell.h libft.h parser.h lexer.h ft_error.h syntax.h
+HEADER = minishell.h libft.h parser.h lexer.h ft_error.h syntax.h redirect.h
 HEADER := $(addprefix $I/,$(HEADER))
 
 SRCS := $(foreach FILE,$(FILES),$(shell find $S -type f -name '$(FILE).c'))
@@ -82,9 +79,6 @@ NAME = minishell
 
 ### RULES ###
 all: $(NAME)
-
-print:
-	@echo $(PARSER_F)
 
 $(NAME): $(OBJS) $(LIBFT)
 	@$(CC) $(CFLAGS) $(OBJS) $(READLINE) -Llibft -lft -o $(NAME)
@@ -103,11 +97,6 @@ libft: $(LIBFT)
 $(LIBFT):
 	@$(MAKE) -C libft
 	@echo "$(COLOUR_GREEN) $(LIBFT) created$(COLOUR_END)"
-
-ENV_FILES := $(foreach FILE,$(FILES),$(shell find $S/env -type f -name '$(FILE).c'))
-
-env_test:
-	$(CC) $(CFLAGS) $(ENV_FILES) src/builtins/ft_env.c test.c $(HEADER) -Llibft -lft -g
 
 ### CLEANING
 

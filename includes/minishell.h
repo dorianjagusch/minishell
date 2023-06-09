@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/09 09:04:19 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/09 12:43:03 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ char		**ft_env_to_array(t_env *env);
 char		*find_value(t_env **env, char *key);
 int			replace_env(t_env **env, char *key, char *value);
 void		set_exit_value(t_env **env);
+int			handle_exit(char *line, t_env **env);
+int			redirect_exe(t_command *command, t_env *env);
 
 //SYNTAX_CHECK AND TOKENIZE
 int			init_lexer(char *line, t_token	**tokens);
@@ -89,8 +91,6 @@ void		heredoc_signal(void);
 void		switch_echoctl(struct termios *t, int toggle);
 void		global_signal(int toggle);
 void		child_signal(void);
-
-int			redirect_exe(t_command *command, t_env *env);
 
 // BUILTINS
 int			is_builtin(t_command *cmd);

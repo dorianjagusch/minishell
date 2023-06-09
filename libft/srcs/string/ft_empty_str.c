@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.h                                         :+:      :+:    :+:   */
+/*   ft_empty_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/15 15:29:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/09 12:20:37 by djagusch         ###   ########.fr       */
+/*   Created: 2023/06/09 12:48:29 by djagusch          #+#    #+#             */
+/*   Updated: 2023/06/09 13:17:05 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_ERROR_H
-# define FT_ERROR_H
+#include "libft.h"
 
-# include "minishell.h"
+int	ft_empty_str(char *str)
+{
+	int	i;
 
-# define NOCMMD 127
-# define CTRL_EXIT 130
-# define BSLASH_EXIT 131
-# define SYN_ERR 258
-
-void	ft_error(int error, char *str);
-
-#endif
+	if (!str)
+		return (-1);
+	i = 0;
+	while (ft_isspace(str[i]))
+		i++;
+	return (str[i] == '\0');
+}

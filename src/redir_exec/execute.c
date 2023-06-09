@@ -23,9 +23,9 @@ void	ft_wait(void)
 		while (wait(&status) > 0)
 			;
 		if (status > 0 && !g_info.exit_value)
-			g_info.exit_value = NOCMMD;
-		else if (status < 0 && !g_info.exit_value)
 			g_info.exit_value = WEXITSTATUS(status);
+		if (status == NOCMMD)
+			g_info.exit_value = NOCMMD;
 		if (WIFSIGNALED(status) == 1)
 		{
 			g_info.exit_value = 130;
