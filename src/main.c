@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/09 13:22:02 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:46:22 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ static void	run_line(char *line, t_env **env)
 	if (g_info.exit_value == 0)
 	{
 		g_info.commands = init_command(g_info.tokens, 0);
-		redirect_exe(g_info.commands, *env);
+		if (g_info.exit_value != SIGINT)
+			redirect_exe(g_info.commands, *env);
+		else
+			g_info.exit_value = 1;
 	}
 	ft_clear_everything(&g_info);
 	if (g_info.exit_value == ENOMEM)
@@ -58,7 +61,6 @@ static void	init_run(t_env **env)
 	if (empty_line != 1)
 		set_exit_value(env);
 }
-
 
 static void	init_shell(t_env **env)
 {

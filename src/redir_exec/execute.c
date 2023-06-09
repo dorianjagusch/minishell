@@ -78,6 +78,6 @@ int	redirect_exe(t_command *command, t_env *env)
 		}
 		tmp = tmp->next;
 	}
-	close_fds(g_info.fds, g_info.n_cmd, g_info.n_cmd);
+	close_fds(g_info.fds, g_info.n_cmd, g_info.n_cmd, 1);
 	return (0);
 }

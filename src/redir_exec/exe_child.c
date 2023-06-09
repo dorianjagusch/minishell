@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/09 13:14:30 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:08:51 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	exe_child(t_command *command, int **fds, int cur, t_env *env)
 	t_command		*tmp;
 
 	child_signal();
-	close_fds(fds, cur, g_info.n_cmd);
+	close_fds(fds, cur, g_info.n_cmd, 0);
 	dup_fds(fds, cur);
 	tmp = get_command(command, cur);
 	if (!tmp->command || !tmp->command[0] || !ft_strchr(tmp->command, '/'))

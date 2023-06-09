@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:14:02 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/08 14:50:05 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:16:57 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ void	global_signal(int toggle)
 static	void	heredoc_handler(int sig)
 {
 	if (sig == SIGINT)
-		exit (1);
+	{
+		write(1, "\n", 1);
+		exit (SIGINT);
+	}
 }
 
 void	heredoc_signal(void)

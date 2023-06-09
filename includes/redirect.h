@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:49:46 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/09 10:00:45 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:08:01 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ size_t		count_commands(t_command *commands);
 int			get_exe_path(t_env **env, t_command *command);
 void		exe_child(t_command *current, int **fds, int n_cmd, t_env *env);
 int			**set_up_pipes(t_command *command, int n_cmd);
-void		close_fds(int **fds, int cur, int n_cmd);
+void		close_fds(int **fds, int cur, int n_cmd, int exe);
 void		ft_wait(void);
 
 #endif

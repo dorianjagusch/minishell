@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:12:53 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 15:54:53 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:47:13 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ static	void	process_hrdc(char	*delim, int fd[2])
 		}
 		free(line);
 	}
-	close (fd[1]);
 	close (fd[0]);
+	close (fd[1]);
 }
 
 int	here_doc(char	*delim)

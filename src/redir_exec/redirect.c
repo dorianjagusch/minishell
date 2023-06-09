@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asarikha <asarikha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 15:47:58 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 15:41:40 by asarikha         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:07:25 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	**set_up_pipes(t_command *command, int n_cmd)
 	return (pipes);
 }
 
-void	close_fds(int **fds, int cur, int n_cmd)
+void	close_fds(int **fds, int cur, int n_cmd, int exe)
 {
 	int				pipe;
 	struct termios	t;
@@ -105,7 +105,7 @@ void	close_fds(int **fds, int cur, int n_cmd)
 			close(fds[pipe][1]);
 		pipe++;
 	}
-	if (cur == n_cmd)
+	if (cur == n_cmd && exe)
 		ft_wait();
 	switch_echoctl(&t, ON);
 }
