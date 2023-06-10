@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/09 16:44:17 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/10 11:23:50 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,25 @@ t_command	*get_command(t_command *command, int cur)
 
 void	exe_child(t_command *command, int **fds, int cur, t_env *env)
 {
-	char			**env_arr;
-	t_command		*tmp;
+	char		**env_arr;
+	t_command	*tmp;
 
 	child_signal();
 	close_fds(fds, cur, g_info.n_cmd, 0);
 	dup_fds(fds, cur);
 	tmp = get_command(command, cur);
-	if (!tmp->command || !tmp->command[0] || !ft_strchr(tmp->command, '/'))
+	if (!tmp->command || !tmp->command[0] || tmp->success == 2 
+		|| !ft_strchr(tmp->command, '/'))
 	{
-		ft_error(NOCMMD, tmp->command);
+		if (tmp->success == 2)
+		{
+			ft_error(EISDIR, tmp->command);
+			exit(126);
+		}
+		else if (!find_value(&env, "PATH"))
+			ft_error(ENOENT, tmp->command);
+		else
+			ft_error(NOCMMD, tmp->command);
 		exit(NOCMMD);
 	}
 	env_arr = ft_env_to_array(env);

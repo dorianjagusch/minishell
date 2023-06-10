@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 12:55:42 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/08 12:46:59 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/10 10:00:53 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,7 @@ void	handle_strings(t_command *command, t_token *token, int *params_flag,
 		command->id = id++;
 		if (!command->command)
 			ft_error(ENOMEM, "");
+		if (chdir(command->command) == 0)
+			command->success = 2;
 	}
 }

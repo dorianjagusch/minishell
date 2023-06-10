@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/09 15:46:42 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/10 11:23:21 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	ft_error(int error, char *str)
 		ft_printf_fd(2, "export: `%s': not a valid identifier", str);
 	else if (error == ARGERR2)
 		ft_printf_fd(2, "unset: `%s': not a valid identifier", str);
+	else if (error == DEFERR)
+		ft_printf_fd(2, "%s", str);
 	else
 		ft_printf_fd(STDERR_FILENO, "%s: %s",
 			str, strerror(error));

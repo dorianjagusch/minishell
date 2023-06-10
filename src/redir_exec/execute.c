@@ -28,13 +28,10 @@ void	ft_wait(void)
 			g_info.exit_value = NOCMMD;
 		if (WIFSIGNALED(status) == 1)
 		{
-			g_info.exit_value = 130;
 			if (WTERMSIG(status) == 3)
-			{
-				write(1, "Quit: 3", 8);
-				g_info.exit_value = 131;
-			}
-			write(1, "\n", 1);
+				write(2, "Quit: 3", 7);
+			g_info.exit_value = 128 + WTERMSIG(status);
+			write(2, "\n", 1);
 		}
 		global_signal(ON);
 	}

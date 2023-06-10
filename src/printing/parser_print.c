@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 21:07:32 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/02 16:36:55 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/10 08:44:56 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	print_parser(t_command *command)
 	ft_printf("outfile:\t%s\n", command->outfile);
 	ft_printf("outfile fd:\t%d\n", command->fds[1]);
 	ft_printf("redirect:\t%d\n", command->out_redirect);
+	ft_printf("success:\t%d\n", command->success);
 	ft_printf("=======================\n");
 	print_parser(command->next);
 }
