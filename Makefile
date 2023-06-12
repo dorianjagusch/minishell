@@ -6,7 +6,7 @@
 #    By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/14 11:46:33 by djagusch          #+#    #+#              #
-#    Updated: 2023/06/12 11:53:29 by djagusch         ###   ########.fr        #
+#    Updated: 2023/06/12 16:42:42 by djagusch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,8 +49,6 @@ FILES = main \
 	open_files \
 	parser \
 	parser_utils \
-	parser_print \
-	token_print \
 	exe_child \
 	find_command \
 	redirect \
@@ -63,7 +61,9 @@ FILES = main \
 	exit_utils \
 	print_greeting \
 	child_signal \
-	ft_export_print_utils
+	ft_export_print_utils \
+	parser_print \
+	token_print
 
 
 HEADER = minishell.h libft.h parser.h lexer.h ft_error.h syntax.h redirect.h
@@ -81,7 +81,7 @@ NAME = minishell
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJS) $(READLINE) -Llibft -lft -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(READLINE) -Llibft -lft -o $(NAME) -g -fsanitize=address -static-libsan
 	@echo "$(COLOUR_GREEN) $(NAME) created$(COLOUR_END)"
 
 $O:

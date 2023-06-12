@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:50:57 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/12 11:23:08 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/12 16:40:13 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,8 @@ int			ft_pwd(t_env **env, t_command *cmd, int out_fd);
 int			ft_cd(t_env **env, t_command *cmd, int out_fd);
 int			ft_export(t_env **env, t_command *cmd, int out_fd);
 int			ft_unset(t_env **env, t_command *cmd, int out_fd);
+
+void	print_parser(t_command *command);
+void	print_token(t_token *token);
 
 #endif
