@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 18:26:59 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/12 10:00:35 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/12 11:20:51 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-long	ft_atol(const char *str)
+long long	ft_atoll(const char *str)
 {
 	int			i;
 	int			sign;
@@ -30,13 +30,13 @@ long	ft_atol(const char *str)
 			sign = -1;
 	}
 	while ('0' <= str[i] && str[i] <= '9' && str[i] != '\0')
-	{	
+	{
 		result = (result * 10) + (str[i++] - '0');
-		if ((long long)result * sign < (long long)LONG_MIN)
-			return (0);
-		if ((long long)result * sign > (long long)LONG_MAX)
+		if (((unsigned long long)result > (unsigned long long) LLONG_MIN
+				&& sign == -1) || ((sign == 1)
+				&& (unsigned long long)result > (unsigned long long) LLONG_MAX))
 			return (-1);
 	}
 	result *= sign;
-	return ((long) result);
+	return ((long long) result);
 }

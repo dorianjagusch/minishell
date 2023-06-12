@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/10 08:43:59 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/12 11:21:14 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	run_line(char *line, t_env **env)
 	if (g_info.exit_value == 0)
 	{
 		g_info.commands = init_command(g_info.tokens, 0);
-		if (g_info.exit_value != SIGINT )
+		if (g_info.exit_value != SIGINT)
 			redirect_exe(g_info.commands, *env);
 		else
 			g_info.exit_value = 1;

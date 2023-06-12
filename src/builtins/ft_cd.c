@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 14:53:05 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/10 08:30:36 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/12 11:24:21 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void	cd_error(t_command *cmd, int home_exists)
 	error_msg = ft_strjoin("cd: ", cmd->params[1]);
 	if (!error_msg)
 	{
-		ft_printf("hello\n");
 		ft_error(ENOMEM, "");
 		ft_clear_everything(&g_info);
 		exit(ENOMEM);

@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 14:13:43 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/09 16:09:39 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/12 11:24:57 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,33 @@ void	set_exit_value(t_env **env)
 	g_info.exit_value = 0;
 }
 
+static int	num_invalid(char *line, size_t i, t_env **env)
+{
+	if (line[i] == '-' && line[i + 1] == '1' && (line[i + 2] == '\0'
+			|| !ft_isdigit(line[2])))
+		return (0);
+	if (line[i] == '-' || line[i] == '+')
+		i++;
+	while (ft_isdigit(line[i]))
+		i++;
+	if ((i > 19 && (line[i] != '+' && line[i] != '-' ))
+		|| (i > 20 && (line[i] == '+' || line[i] == '-' ))
+		|| ft_atoll(&line[i]) == -1)
+	{
+		ft_printf_fd(STDERR_FILENO, "\033[1m\e[31mGayAsHell\x1b[m: ");
+		ft_printf_fd(2, "exit: numeric argument required, sis 💅\n");
+		free(line);
+		free_env(env);
+		ft_printf_fd(2, "\e[38;2;255;105;180mSashay away \x1b[m \n");
+		return (1);
+	}
+	return (0);
+}
+
 int	handle_exit_num_arg(char *line, size_t i, t_env **env)
 {
+	if (num_invalid(line, i, env))
+		exit (255);
 	g_info.exit_value = ft_atoi(&line[i]);
 	if (line[i] == '-' || line[i] == '+')
 		i++;
@@ -40,7 +65,7 @@ int	handle_exit_num_arg(char *line, size_t i, t_env **env)
 	if (line[i])
 	{
 		ft_printf_fd(STDERR_FILENO, "\033[1m\e[31mGayAsHell\x1b[m: ");
-		ft_printf_fd(2, "exit: : too many arguments, sis 💅\n");
+		ft_printf_fd(2, "exit: numeric argument required, sis 💅\n");
 		g_info.exit_value = 1;
 		return (1);
 	}
