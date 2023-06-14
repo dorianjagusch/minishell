@@ -6,7 +6,7 @@
 /*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:31:11 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/12 16:49:51 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/06/14 10:41:29 by djagusch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static void	run_line(char *line, t_env **env)
 	if (g_info.exit_value == ENOMEM
 		|| retokenize(&g_info.tokens, env) == EXIT_FAILURE)
 		g_info.exit_value = ENOMEM;
-	print_token(g_info.tokens);
 	if (g_info.exit_value == 0)
 	{
 		g_info.commands = init_command(g_info.tokens, 0);

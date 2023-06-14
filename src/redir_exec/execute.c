@@ -62,7 +62,6 @@ int	redirect_exe(t_command *command, t_env *env)
 	i = -1;
 	tmp = command;
 	global_signal(OFF);
-	print_parser(g_info.commands);
 	while (++i < g_info.n_cmd)
 	{
 		if (tmp->success >= 0
