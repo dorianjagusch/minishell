@@ -50,6 +50,13 @@ static int	**set_up_exe(t_command *command, t_env *env)
 	return (pipes);
 }
 
+static int	test_fds(int fd)
+{
+	if (write(fd, 0, 0) < 0)
+		return (0);
+	return (1);
+}
+
 int	redirect_exe(t_command *command, t_env *env)
 {
 	t_command	*tmp;	
@@ -64,7 +71,7 @@ int	redirect_exe(t_command *command, t_env *env)
 	global_signal(OFF);
 	while (++i < g_info.n_cmd)
 	{
-		if (tmp->success >= 0
+		if (tmp->success >= 0 && test_fds(g_info.fds[i + 1][1])
 			&& exec_builtin(&env, tmp, g_info.fds[i + 1][1]) < 0)
 		{
 			g_info.pids[i] = fork();

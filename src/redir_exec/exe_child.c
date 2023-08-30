@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_child.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:22:29 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/14 10:41:42 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:00:31 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ size_t	count_commands( t_command *command)
 }
 
 t_command	*get_command(t_command *command, int cur)
-{	
+{
 	while (cur--)
 		command = command->next;
 	return (command);

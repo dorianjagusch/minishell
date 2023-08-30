@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 15:47:58 by djagusch          #+#    #+#             */
-/*   Updated: 2023/06/14 10:40:26 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/08/30 16:43:02 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static void	enter_file_fds(t_command *command, int **pipes, int i)
 		if (command->fds[0] < 0)
 			command->success = -1;
 		pipes[i][0] = command->fds[0];
+		if (i != 0)
+			close(pipes[i][1]);
 	}
 	if (command->outfile && (pipes[i + 1][1] != 0 || i == g_info.n_cmd - 1))
 	{
@@ -32,9 +34,7 @@ static void	enter_file_fds(t_command *command, int **pipes, int i)
 		pipes[i + 1][1] = command->fds[1];
 	}
 	else if (pipes[i + 1][1] == 0)
-		pipes[i + 1][1] = 1;
-	else if (pipes[i][0] + 1 != pipes[i + 1][1])
-		close(pipes[i + 1][1]);
+		pipes[i + 1][1] = STDOUT_FILENO;
 }
 
 static void	set_pipes(int **pipes, int n_cmd)

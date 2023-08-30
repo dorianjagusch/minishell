@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: djagusch <djagusch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: asarikha <asarikha@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 11:11:43 by asarikha          #+#    #+#             */
-/*   Updated: 2023/06/02 12:44:03 by djagusch         ###   ########.fr       */
+/*   Updated: 2023/08/30 16:50:55 by asarikha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,22 @@ void	remove_space(t_token **token)
 			{
 				free(temp->content);
 				*token = temp->next;
+				temp = temp->next;
 				free(previous);
 			}
 			else
 			{
 				free(temp->content);
-				previous->next = temp->next;
-				free (temp);
+				temp = temp->next;
+				free(previous->next);
+				previous->next = temp;
 			}
 		}
-		previous = temp;
-		temp = temp->next;
+		else
+		{
+			previous = temp;
+			temp = temp->next;
+		}
 	}
 }
 
