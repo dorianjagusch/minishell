@@ -79,14 +79,14 @@ You will be greeted with a very colourful welcome message upon running the shell
 All parts have been done in collaboration, yet each of us focused on different aspects of the project.
 
  [Azär](https://github.com/azarSarikhani):
-   - Parsing and tokenisation of the input
-   - Signal Handling
-   - `exit`command
+  - Parsing and tokenisation of the input
+  - Signal Handling
+  - `exit`command
 
   Dorian:
-    - Execution and finding of commands
-    - Redirections and piping
-    - Built-in commands
+  - Execution and finding of commands
+  - Redirections and piping
+  - Built-in commands
 
 ## Roadmap for improvements
 
