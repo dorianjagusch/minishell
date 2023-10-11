@@ -80,11 +80,11 @@ All parts have been done in collaboration, yet each of us focused on different a
 
  [Azär](https://github.com/azarSarikhani):
   - Parsing and tokenisation of the input
-  - Signal Handling
+  - Signal handling
   - `exit`command
 
   Dorian:
-  - Execution and finding of commands
+  - Search for and execute commands
   - Redirections and piping
   - Built-in commands
 
