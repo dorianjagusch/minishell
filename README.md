@@ -13,17 +13,25 @@
 
 ## Introduction
 
-This is the Minishell project for 42 School. Minishell is a simple shell implementation that provides a basic command-line interface, offering various features and functionalities while adhering to the Unix shell standards.
+This is the Minishell project for Hive Helsinki (42 School). Minishell is a shell implementation that provides a basic command-line interface, offering various features and functionalities while adhering to most Unix shell standards.
+This project was done in collaboration with [Azzar Sarikhani Aghmioun](https://github.com/azarSarikhani) 
 
 ## Features
 
-- **Command Execution:** Run various shell commands and programs.
+- **Command Execution:** Run various shell commands and programmes found in user's PATH environment variable.
 - **Environment Variables:** Support for manipulating environment variables.
-- **Redirection:** Implement basic input and output redirection.
+- **Redirection:** Implement input and output redirection.
 - **Pipes:** Allow for the use of pipes to connect commands.
 - **Signal Handling:** Handle signals such as Ctrl-C and Ctrl-\.
-- **Built-in Commands:** Implement a set of built-in shell commands (e.g., `cd`, `echo`, `pwd`, `export`, `unset`, `env`, `exit`).
-- **Error Handling:** Display meaningful error messages when necessary.
+- **Built-in Commands:** Implement a set of built-in shell commands:
+    - `cd`: Change the current directory.
+    - `echo`: Print arguments to the standard output.
+    - `pwd`: Print the current working directory.
+    - `export`: Set or modify environment variables.
+    - `unset`: Remove environment variables.
+    - `env`: Display the environment.
+    - `exit`: Terminate the shell.
+- **Error Handling:** Display meaningful error messages and codes when necessary.
 - **Line Editing:** Implement line editing and history using the GNU Readline library.
 - **Custom Prompt:** Set a custom prompt for the shell.
 - **Command Line Parsing:** Parse and tokenize the command line input.
@@ -47,4 +55,40 @@ Before you begin, make sure you have the following installed:
    ```bash
    git clone https://github.com/yourusername/minishell.git
    cd minishell
-  ```
+   ```
+
+2. Build the project using the provided Makefile:
+
+   ```bash
+   make
+   ```
+
+3. Run Minishell:
+
+   ```bash
+   ./minishell
+   ```
+
+## Usage
+
+Minishell works similarly to other Unix shells. You can run various shell commands, utilise built-in commands, set environment variables, and perform other shell-related tasks.
+You will be greeted with a very colourful welcome message upon running the shell. Overall, the projects visual design is inspired by [Azär's](https://github.com/azarSarikhani) and my shared identity as members of the LGBTQ community.
+
+## Devision of labour
+
+All parts have been done in collaboration, yet each of us focused on different aspects of the project
+
+ [Azär](https://github.com/azarSarikhani):
+   -Parsing and tokenisation of the input
+   -Signal Handling
+   -`exit`command
+
+  Dorian:
+    -Execution and finding of commands
+    -Redirections and piping
+    -Built-in commands
+
+## Roadmap for improvements
+
+- Support for wildcards
+- Support for `&&` and `||`
