@@ -1,5 +1,8 @@
 # Minishell - 42 School Project
 
+<img src="imgs/minishell_banner.png" width="585px" align="center">
+
+
 ## Table of Contents
 
 - [Introduction](#introduction)
