@@ -20,7 +20,7 @@ This project was done in collaboration with [Azär Sarikhani Aghmioun](https://g
 
 ## Features
 
-- **Command Execution:** Run various shell commands and programmes found in user's PATH environment variable.
+- **Command Execution:** Run various shell commands and programmes found via users' PATH environment variable.
 - **Environment Variables:** Support for manipulating environment variables.
 - **Redirection:** Implement input and output redirection.
 - **Pipes:** Allow for the use of pipes to connect commands.
