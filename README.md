@@ -79,9 +79,10 @@ You will be greeted with a very colourful welcome message upon running the shell
 All parts have been done in collaboration, yet each of us focused on different aspects of the project.
 
  [Azär](https://github.com/azarSarikhani):
-  - Parsing and tokenisation of the input
+  - Parsing, checking and tokenisation of the input
   - Signal handling
   - `exit`command
+  - `heredoc`
 
   Dorian:
   - Search for and execute commands
